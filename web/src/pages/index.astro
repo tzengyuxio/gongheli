@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="首頁">
+<Base title="共和曆 — 以共和元年為起點的現代太陽曆" description="共和曆以西周共和元年（前 841 年）為紀元，採用 31/128 閏法精確追蹤回歸年，包含零年設計消除紀年斷層，是一套融合歷史錨點與現代精度的通用太陽曆。">
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
+      <h1 class="hero-brand" data-i18n="index.hero_brand">共和曆</h1>
       <div class="today-badge" data-i18n="index.today_badge">今日</div>
       <div class="today-gonghe" id="today-gonghe">
         <span class="today-loading">計算中…</span>
@@ -80,6 +81,15 @@ import Base from '../layouts/Base.astro';
     text-align: center;
   }
   .hero .container { padding-top: 3rem; padding-bottom: 3rem; }
+
+  .hero-brand {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
 
   .today-badge {
     display: inline-block;

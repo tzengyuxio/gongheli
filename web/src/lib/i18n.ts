@@ -34,6 +34,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'footer.quote':   '聖人慎守日月之數，以察星辰之行，以序四時之順逆，謂之厤 ——《大戴禮記·曾子天圓》',
 
     // index page
+    'index.hero_brand':            '共和曆',
     'index.today_badge':          '今日',
     'index.hero_tagline':         '一套以人類最古老連續紀年為錨點的通用曆法',
     'index.birthday_title':       '輸入你的生日',
@@ -224,6 +225,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'nav.about': '关于',
     'footer.tagline': '共和历 (Gonghe Calendar) · 以西周共和元年（前 841 年）为纪元',
     'footer.quote': '圣人慎守日月之数，以察星辰之行，以序四时之顺逆，谓之历 ——《大戴礼记·曾子天圆》',
+    'index.hero_brand': '共和历',
     'index.today_badge': '今日',
     'index.hero_tagline': '一套以人类最古老连续纪年为锚点的通用历法',
     'index.birthday_title': '输入你的生日',
@@ -402,6 +404,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'nav.about': 'このプロジェクトについて',
     'footer.tagline': '共和暦（Gonghe Calendar）・西周の共和元年（前 841 年）を紀元とする',
     'footer.quote': '聖人は日月の数を慎んで守り、星辰の運行を観察し、四時の順逆を整える。これを暦という ——『大戴礼記・曾子天円』',
+    'index.hero_brand': '共和暦',
     'index.today_badge': '今日',
     'index.hero_tagline': '人類最古の連続紀年をアンカーとする汎用暦法',
     'index.birthday_title': 'あなたの誕生日を入力',
@@ -581,6 +584,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'nav.about': 'About',
     'footer.tagline': 'Gonghe Calendar · Epoch set at the first year of the Gonghe Regency in Western Zhou (841 BC)',
     'footer.quote': 'The sage carefully keeps the numbers of the sun and moon, observes the movement of the stars, and orders the sequence of the four seasons. This is called calendar-making. — Dadai Liji, "Zengzi Tianyuan"',
+    'index.hero_brand': 'Gonghe Calendar',
     'index.today_badge': 'Today',
     'index.hero_tagline': 'A universal calendar anchored to the oldest continuous year count in human history',
     'index.birthday_title': 'Enter your birthday',

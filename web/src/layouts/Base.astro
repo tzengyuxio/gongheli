@@ -4,9 +4,23 @@ import { LANGUAGES, DEFAULT_LANG } from '../lib/i18n.ts';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonicalUrl?: string;
 }
-const { title, description = '共和曆 — 以西周共和元年為紀元的純太陽曆' } = Astro.props;
+const {
+  title,
+  description = '共和曆 — 以西周共和元年為紀元的純太陽曆',
+  ogImage,
+  ogType = 'website',
+  canonicalUrl,
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
+const siteOrigin = new URL(Astro.site ?? 'https://tzengyuxio.github.io').origin;
+const siteUrl = `${siteOrigin}${base}`;
+const canonical = canonicalUrl ?? `${siteOrigin}${Astro.url.pathname}`;
+const ogImg = ogImage ?? `${siteUrl}og-image.png`;
+const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 ---
 
 <!doctype html>
@@ -16,7 +30,34 @@ const base = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
-    <title>{title} | 共和曆</title>
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImg} />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:site_name" content="共和曆" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImg} />
+
+    <title>{pageTitle}</title>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "共和曆",
+      "alternateName": "Gonghe Calendar",
+      "url": siteUrl,
+      "description": description,
+    })} />
     <style>
       :root {
         --color-bg: #0f0f13;
@@ -53,6 +94,11 @@ const base = import.meta.env.BASE_URL;
         background: rgba(15, 15, 19, 0.92);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--color-border);
+      }
+
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
         padding: 0.75rem 2rem;
         display: flex;
         align-items: center;
@@ -110,14 +156,14 @@ const base = import.meta.env.BASE_URL;
 
       footer {
         border-top: 1px solid var(--color-border);
-        padding: 2rem;
+        padding: 2rem 0;
         text-align: center;
         color: var(--color-muted);
         font-size: 0.85rem;
       }
 
       .container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
         padding: 0 2rem;
       }
@@ -207,16 +253,18 @@ const base = import.meta.env.BASE_URL;
   </head>
   <body>
     <nav>
-      <a class="nav-logo" href={`${base}/`}>共和曆</a>
-      <ul class="nav-links">
-        <li><a href={`${base}/`}       data-i18n="nav.home">首頁</a></li>
-        <li><a href={`${base}/calendar`} data-i18n="nav.calendar">日曆工具</a></li>
-        <li><a href={`${base}/rules`}  data-i18n="nav.rules">曆法規則</a></li>
-        <li><a href={`${base}/about`}  data-i18n="nav.about">關於</a></li>
-      </ul>
-      <select id="lang-select" class="lang-select" aria-label="Select language">
-        {LANGUAGES.map(l => <option value={l.code}>{l.label}</option>)}
-      </select>
+      <div class="nav-inner">
+        <a class="nav-logo" href={`${base}/`}>共和曆</a>
+        <ul class="nav-links">
+          <li><a href={`${base}/`}       data-i18n="nav.home">首頁</a></li>
+          <li><a href={`${base}/calendar`} data-i18n="nav.calendar">日曆工具</a></li>
+          <li><a href={`${base}/rules`}  data-i18n="nav.rules">曆法規則</a></li>
+          <li><a href={`${base}/about`}  data-i18n="nav.about">關於</a></li>
+        </ul>
+        <select id="lang-select" class="lang-select" aria-label="Select language">
+          {LANGUAGES.map(l => <option value={l.code}>{l.label}</option>)}
+        </select>
+      </div>
     </nav>
     <main>
       <slot />
