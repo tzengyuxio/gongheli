@@ -1,5 +1,5 @@
 ---
-import { LANGUAGES, DEFAULT_LANG } from '../lib/i18n.ts';
+import { LANGUAGES, DEFAULT_LANG } from '../lib/i18n';
 
 interface Props {
   title: string;
@@ -97,9 +97,9 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
       }
 
       .nav-inner {
-        max-width: 1100px;
+        max-width: 800px;
         margin: 0 auto;
-        padding: 0.75rem 2rem;
+        padding: 0.75rem 1.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -156,20 +156,20 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 
       footer {
         border-top: 1px solid var(--color-border);
-        padding: 2rem 0;
+        padding: 1.5rem 0;
         text-align: center;
         color: var(--color-muted);
         font-size: 0.85rem;
       }
 
       .container {
-        max-width: 1000px;
+        max-width: 800px;
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 0 1.5rem;
       }
 
       .section {
-        padding: 5rem 0;
+        padding: 3rem 0;
       }
 
       h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
@@ -279,8 +279,8 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 </html>
 
 <script>
-  import { LANGUAGES, DEFAULT_LANG, LANG_KEY, t } from '../lib/i18n.ts';
-  import type { Lang } from '../lib/i18n.ts';
+  import { LANGUAGES, DEFAULT_LANG, LANG_KEY, detectLang, t } from '../lib/i18n';
+  import type { Lang } from '../lib/i18n';
 
   function applyLang(lang: Lang) {
     const cfg = LANGUAGES.find(l => l.code === lang);
@@ -300,9 +300,15 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
     window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
   }
 
+  // Determine initial language:
+  // 1. User's explicit choice saved in localStorage
+  // 2. Browser/OS locale auto-detection
+  // 3. Default language
+  const saved = localStorage.getItem(LANG_KEY) as Lang | null;
+  const initLang: Lang = saved ?? detectLang() ?? DEFAULT_LANG;
+
   // Language switcher
   const langSelect = document.getElementById('lang-select') as HTMLSelectElement;
-  const initLang = (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
   if (langSelect) {
     langSelect.value = initLang;
     langSelect.addEventListener('change', () => {

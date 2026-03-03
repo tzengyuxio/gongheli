@@ -73,14 +73,13 @@ import Base from '../layouts/Base.astro';
 <style>
   /* Hero */
   .hero {
-    min-height: 85vh;
     display: flex;
     align-items: center;
     background: radial-gradient(ellipse at 50% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
     border-bottom: 1px solid var(--color-border);
     text-align: center;
   }
-  .hero .container { padding-top: 3rem; padding-bottom: 3rem; }
+  .hero .container { padding-top: 4rem; padding-bottom: 3rem; }
 
   .hero-brand {
     font-size: 1rem;
@@ -101,30 +100,30 @@ import Base from '../layouts/Base.astro';
     color: var(--color-accent);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .today-gonghe {
-    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 700;
     color: var(--color-highlight);
     letter-spacing: 0.02em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     line-height: 1.2;
   }
 
   .today-sub {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--color-accent);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     letter-spacing: 0.05em;
   }
 
   .hero-tagline {
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: clamp(0.88rem, 2vw, 1rem);
     color: var(--color-muted);
     max-width: 520px;
-    margin: 0 auto 1rem;
+    margin: 0 auto;
     font-style: italic;
   }
 
@@ -135,7 +134,7 @@ import Base from '../layouts/Base.astro';
   .section-title {
     text-align: center;
     color: var(--color-text);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   /* Converter */
@@ -147,7 +146,7 @@ import Base from '../layouts/Base.astro';
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    padding: 2.5rem;
+    padding: 2rem;
   }
   @media (max-width: 600px) {
     .converter-box { grid-template-columns: 1fr; }
@@ -250,7 +249,7 @@ import Base from '../layouts/Base.astro';
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1.5rem;
     transition: border-color 0.2s, transform 0.2s;
   }
   .feature-card:hover {
@@ -296,8 +295,8 @@ import Base from '../layouts/Base.astro';
 
 <script>
   import { getTodayGonghe, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
-  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n.ts';
-  import type { Lang } from '../lib/i18n.ts';
+  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n';
+  import type { Lang } from '../lib/i18n';
 
   const getLang = (): Lang => (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
 
