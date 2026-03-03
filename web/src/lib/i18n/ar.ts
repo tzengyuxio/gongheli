@@ -19,7 +19,7 @@ const ar: Record<string, string> = {
   'index.result_placeholder': 'أدخل تاريخاً لعرض النتائج',
   'index.why_title': 'لماذا تقويم قونغ خه؟',
   'index.feature1_title': 'دقة أعلى بـ 150 مرة',
-  'index.feature1_desc': 'بفضل قاعدة الكبس 31/128، لا يتجاوز الخطأ السنوي 0.2 ثانية. وهذا يعني دقة أعلى بـ 150 مرة مقارنة بالتقويم الميلادي (قاعدة 97/400، 26 ثانية/سنة). يستغرق تراكم فارق يوم واحد نحو 400,000 سنة.',
+  'index.feature1_desc': '31 سنة كبيسة كل 128 سنة — الخطأ السنوي لا يتجاوز 0.2 ثانية، أدق بـ 150 مرة من التقويم الميلادي (97 من 400، 26 ثانية/سنة). يستغرق تراكم فارق يوم واحد نحو 400,000 سنة.',
   'index.feature2_title': 'تصميم يتضمن السنة صفر',
   'index.feature2_desc': 'تقويم قونغ خه يتضمن السنة 0، مما يجعل النظام مكتملاً رياضياً. ويُزيل المشكلة الحسابية في نظام ق.م./م. حيث تنتقل مباشرةً من 1 ق.م. إلى 1 م. دون سنة صفر.',
   'index.feature3_title_suffix': ' سنة من العدّ',
@@ -50,6 +50,8 @@ const ar: Record<string, string> = {
 
   // fmt
   'fmt.gonghe_date': 'قونغ خه {day}/{month}/{year}',
+  'fmt.gonghe_year': 'قونغ خه {year}',
+  'fmt.gonghe_md':   '{day}/{month}',
   'fmt.gregorian_ce': 'م. {day}/{month}/{year}',
   'fmt.gregorian_bce': 'ق.م. {day}/{month}/{year}',
   'fmt.ganzhi_idx': '{ganzhi} (رقم {idx}/60)',
@@ -69,7 +71,7 @@ const ar: Record<string, string> = {
   'rules.toc_accuracy': 'مقارنة الدقة',
   'rules.h_epoch': 'نقطة الانطلاق',
   'rules.h_months': 'بنية الأشهر',
-  'rules.h_leap': 'قاعدة الكبس (31/128)',
+  'rules.h_leap': 'قاعدة الكبس (31 من 128 سنة)',
   'rules.h_ji': 'جي الواحدة (4418 سنة)',
   'rules.h_ziyu': 'يوم زيوي (Ziyu Day Number) (ZDN)',
   'rules.h_accuracy': 'مقارنة الدقة',

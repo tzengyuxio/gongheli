@@ -19,7 +19,7 @@ const de: Record<string, string> = {
   'index.result_placeholder': 'Datum eingeben, um Ergebnisse anzuzeigen',
   'index.why_title': 'Warum der Gonghe-Kalender?',
   'index.feature1_title': '150× genauer',
-  'index.feature1_desc': 'Mit der Schaltregel 31/128 beträgt der jährliche Fehler nur 0,2 Sekunden. Das ist 150× genauer als der Gregorianische Kalender (97/400-Regel, 26 s/Jahr). Es dauert etwa 400.000 Jahre, bis sich eine Abweichung von einem Tag ansammelt.',
+  'index.feature1_desc': '31 Schaltjahre in 128 Jahren — der jährliche Fehler beträgt nur 0,2 Sekunden. Das ist 150× genauer als der Gregorianische Kalender (97 in 400, 26 s/Jahr). Es dauert etwa 400.000 Jahre, bis sich eine Abweichung von einem Tag ansammelt.',
   'index.feature2_title': 'Jahr-Null-Design',
   'index.feature2_desc': 'Das Gonghe-Jahr 0 existiert, was das System mathematisch vollständig macht. Es beseitigt die Berechnungsfalle im v. Chr./n. Chr.-System, bei dem auf 1 v. Chr. direkt das Jahr 1 n. Chr. folgt, ohne ein Jahr 0.',
   'index.feature3_title_suffix': ' Jahre Zählung',
@@ -50,6 +50,8 @@ const de: Record<string, string> = {
 
   // fmt
   'fmt.gonghe_date': 'Gonghe {year}/{month}/{day}',
+  'fmt.gonghe_year': 'Gonghe {year}',
+  'fmt.gonghe_md':   '{day}.{month}.',
   'fmt.gregorian_ce': 'n. Chr. {day}.{month}.{year}',
   'fmt.gregorian_bce': 'v. Chr. {day}.{month}.{year}',
   'fmt.ganzhi_idx': '{ganzhi} (Nr. {idx}/60)',
@@ -69,7 +71,7 @@ const de: Record<string, string> = {
   'rules.toc_accuracy': 'Genauigkeitsvergleich',
   'rules.h_epoch': 'Epoche',
   'rules.h_months': 'Monatsstruktur',
-  'rules.h_leap': 'Schaltregel (31/128)',
+  'rules.h_leap': 'Schaltregel (31 in 128 Jahren)',
   'rules.h_ji': 'Ein Ji (4418 Jahre)',
   'rules.h_ziyu': 'Ziyu-Tag (ZDN)',
   'rules.h_accuracy': 'Genauigkeitsvergleich',

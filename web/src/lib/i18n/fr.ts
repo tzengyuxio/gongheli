@@ -19,7 +19,7 @@ const fr: Record<string, string> = {
   'index.result_placeholder': 'Entrez une date pour voir les résultats',
   'index.why_title': 'Pourquoi le calendrier Gonghe ?',
   'index.feature1_title': '150× plus précis',
-  'index.feature1_desc': 'Avec la règle bissextile 31/128, l\'erreur annuelle n\'est que de 0,2 seconde — 150 fois plus précis que le calendrier grégorien (règle 97/400, 26 s/an). Il faut environ 400 000 ans pour accumuler un jour de décalage.',
+  'index.feature1_desc': '31 années bissextiles tous les 128 ans — l\'erreur annuelle n\'est que de 0,2 seconde, 150 fois plus précis que le calendrier grégorien (97 en 400, 26 s/an). Il faut environ 400 000 ans pour accumuler un jour de décalage.',
   'index.feature2_title': 'Année zéro',
   'index.feature2_desc': 'L\'an 0 Gonghe existe, rendant le système mathématiquement complet. Cela élimine le piège du système av. J.-C. / apr. J.-C. où 1 av. J.-C. est suivi directement de l\'an 1 apr. J.-C. sans année 0.',
   'index.feature3_title_suffix': ' ans de décompte',
@@ -50,6 +50,8 @@ const fr: Record<string, string> = {
 
   // date format strings
   'fmt.gonghe_date': 'Gonghe {year}/{month}/{day}',
+  'fmt.gonghe_year': 'Gonghe {year}',
+  'fmt.gonghe_md':   '{day}/{month}',
   'fmt.gregorian_ce': '{day}/{month}/{year} apr. J.-C.',
   'fmt.gregorian_bce': '{day}/{month}/{year} av. J.-C.',
   'fmt.ganzhi_idx': '{ganzhi} (n° {idx}/60)',
@@ -69,7 +71,7 @@ const fr: Record<string, string> = {
   'rules.toc_accuracy': 'Comparaison de précision',
   'rules.h_epoch': 'Époque',
   'rules.h_months': 'Structure des mois',
-  'rules.h_leap': 'Règle bissextile (31/128)',
+  'rules.h_leap': 'Règle bissextile (31 en 128 ans)',
   'rules.h_ji': 'Un Ji (4418 ans)',
   'rules.h_ziyu': 'Jour Ziyu (ZDN)',
   'rules.h_accuracy': 'Comparaison de précision',

@@ -19,7 +19,7 @@ const ru: Record<string, string> = {
   'index.result_placeholder': 'Введите дату для просмотра результатов',
   'index.why_title': 'Почему календарь Гунхэ?',
   'index.feature1_title': 'В 150 раз точнее',
-  'index.feature1_desc': 'Правило високоса 31/128 даёт годовую погрешность всего 0,2 секунды — в 150 раз точнее григорианского календаря (правило 97/400, 26 с/год). Для накопления отклонения в один день потребуется около 400 000 лет.',
+  'index.feature1_desc': '31 високосный год из 128 лет — годовая погрешность всего 0,2 секунды, в 150 раз точнее григорианского календаря (97 из 400, 26 с/год). Для накопления отклонения в один день потребуется около 400 000 лет.',
   'index.feature2_title': 'Нулевой год',
   'index.feature2_desc': 'Нулевой год Гунхэ существует, что делает систему математически полной. Это устраняет ловушку в системе до н.э./н.э., где за 1 г. до н.э. сразу следует 1 г. н.э. без нулевого года.',
   'index.feature3_title_suffix': ' лет летосчисления',
@@ -50,6 +50,8 @@ const ru: Record<string, string> = {
 
   // date format strings
   'fmt.gonghe_date': 'Гунхэ {year}/{month}/{day}',
+  'fmt.gonghe_year': 'Гунхэ {year}',
+  'fmt.gonghe_md':   '{day}.{month}.',
   'fmt.gregorian_ce': '{day}.{month}.{year} н.э.',
   'fmt.gregorian_bce': '{day}.{month}.{year} до н.э.',
   'fmt.ganzhi_idx': '{ganzhi} (№ {idx}/60)',
@@ -69,7 +71,7 @@ const ru: Record<string, string> = {
   'rules.toc_accuracy': 'Сравнение точности',
   'rules.h_epoch': 'Эпоха',
   'rules.h_months': 'Структура месяцев',
-  'rules.h_leap': 'Правило високоса (31/128)',
+  'rules.h_leap': 'Правило високоса (31 из 128 лет)',
   'rules.h_ji': 'Один цзи (4418 лет)',
   'rules.h_ziyu': 'День Цзыюй (ZDN)',
   'rules.h_accuracy': 'Сравнение точности',

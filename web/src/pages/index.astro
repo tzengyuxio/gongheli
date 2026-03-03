@@ -9,8 +9,9 @@ import Base from '../layouts/Base.astro';
       <div class="hero-left">
         <h1 class="hero-brand" data-i18n="index.hero_brand">共和曆</h1>
         <div class="today-badge" data-i18n="index.today_badge">今日</div>
-        <div class="today-gonghe" id="today-gonghe">
-          <span class="today-loading">計算中…</span>
+        <div class="today-gonghe">
+          <div class="today-year" id="today-year"><span class="today-loading">計算中…</span></div>
+          <div class="today-date" id="today-date"></div>
         </div>
         <div class="today-sub" id="today-sub">
           <span class="today-loading-sub">—</span>
@@ -21,10 +22,7 @@ import Base from '../layouts/Base.astro';
         <h2 class="converter-title" data-i18n="index.birthday_title">看看我的共和曆生日</h2>
         <div class="converter-input">
           <label for="date-input" data-i18n="index.label_gregorian">格里曆日期</label>
-          <div class="converter-row">
-            <input type="date" id="date-input" value="2000-01-01" />
-            <button id="convert-btn" data-i18n="index.btn_convert">換算 →</button>
-          </div>
+          <input type="date" id="date-input" value="2000-01-01" />
         </div>
         <div class="converter-result" id="converter-result">
           <div class="result-placeholder" data-i18n="index.result_placeholder">輸入日期查看結果</div>
@@ -111,12 +109,20 @@ import Base from '../layouts/Base.astro';
   }
 
   .today-gonghe {
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+  }
+  .today-year {
     font-size: clamp(1.6rem, 4vw, 2.4rem);
     font-weight: 700;
     color: var(--color-highlight);
     letter-spacing: 0.02em;
-    margin-bottom: 0.35rem;
-    line-height: 1.2;
+  }
+  .today-date {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    color: var(--color-highlight);
+    letter-spacing: 0.02em;
   }
 
   .today-sub {
@@ -159,14 +165,8 @@ import Base from '../layouts/Base.astro';
     letter-spacing: 0.08em;
   }
 
-  .converter-row {
-    display: flex;
-    gap: 0.5rem;
-  }
-
   .converter-input input[type="date"] {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 6px;
@@ -179,24 +179,6 @@ import Base from '../layouts/Base.astro';
   }
   .converter-input input[type="date"]:focus {
     border-color: var(--color-accent-dim);
-  }
-
-  .converter-input button {
-    flex-shrink: 0;
-    background: var(--color-accent-dim);
-    border: 1px solid var(--color-accent);
-    border-radius: 6px;
-    padding: 0.45rem 1rem;
-    color: var(--color-highlight);
-    font-size: 0.88rem;
-    font-family: var(--font-sans);
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .converter-input button:hover {
-    background: var(--color-accent);
-    color: #1a1a24;
   }
 
   .converter-result {
@@ -329,12 +311,14 @@ import Base from '../layouts/Base.astro';
   }));
 
   // --- Today widget ---
-  const ghEl = document.getElementById('today-gonghe')!;
+  const yearEl = document.getElementById('today-year')!;
+  const dateEl = document.getElementById('today-date')!;
   const subEl = document.getElementById('today-sub')!;
 
   function renderToday() {
     const lang = getLang();
-    ghEl.innerHTML = fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day });
+    yearEl.textContent = fmt('fmt.gonghe_year', lang, { year: today.year });
+    dateEl.textContent = fmt('fmt.gonghe_md', lang, { month: today.month, day: today.day });
     subEl.innerHTML = fmt('fmt.today_sub', lang, {
       ganzhi: today.ganzhiStr, weekday: today.weekdayStr,
       year: today.year, month: today.month, day: today.day,
@@ -345,7 +329,6 @@ import Base from '../layouts/Base.astro';
   // --- Converter ---
   const inputEl = document.getElementById('date-input') as HTMLInputElement;
   const resultEl = document.getElementById('converter-result')!;
-  const btnEl = document.getElementById('convert-btn')!;
 
   function convertDate() {
     const val = inputEl.value;
@@ -365,8 +348,7 @@ import Base from '../layouts/Base.astro';
     `;
   }
 
-  btnEl.addEventListener('click', convertDate);
-  inputEl.addEventListener('change', convertDate);
+  inputEl.addEventListener('input', convertDate);
   convertDate();
 
   // --- Feature 3 dynamic year ---
