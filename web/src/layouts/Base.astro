@@ -197,6 +197,11 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
         font-size: 0.85rem;
       }
 
+
+    </style>
+
+    <style is:global>
+      /* Global styles that must reach slotted page content */
       .container {
         max-width: 800px;
         margin: 0 auto;
@@ -250,11 +255,6 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
         border: none;
         padding: 0;
       }
-
-    </style>
-
-    <style is:global>
-      /* Shared utility classes used across content pages (must be global to reach slotted content) */
       .callout {
         background: rgba(200, 169, 110, 0.08);
         border-left: 3px solid var(--color-accent-dim);
