@@ -124,8 +124,8 @@ import Base from '../layouts/Base.astro';
 
     <section id="ziyu" class="rule-section">
       <h2 data-i18n="rules.h_ziyu">子輿日（ZDN）</h2>
-      <p data-i18n-html="rules.ziyu_p1">子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
-      <p data-i18n-html="rules.ziyu_p2">與儒略日（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
+      <p data-i18n-html="rules.ziyu_p1">子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<a href="https://zh.wikipedia.org/wiki/%E6%9B%BE%E5%AD%90" target="_blank"><strong>曾子</strong></a>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
+      <p data-i18n-html="rules.ziyu_p2">與<a href="https://zh.wikipedia.org/wiki/%E5%84%92%E7%95%A5%E6%97%A5" target="_blank">儒略日</a>（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
       <table>
         <thead>
           <tr>
@@ -203,17 +203,19 @@ import Base from '../layouts/Base.astro';
   }
   .rule-section table { margin: 1rem 0; }
 
-  /* Right-align numeric columns */
-  .rule-section td:last-child,
-  .rule-section th:last-child {
+  /* Right-align and mono font for numeric columns in specific tables */
+  #months td:nth-child(2),
+  #months th:nth-child(2),
+  #ji td:last-child,
+  #ji th:last-child,
+  #ziyu td:last-child,
+  #ziyu th:last-child,
+  #leap td:nth-child(3),
+  #leap th:nth-child(3),
+  #accuracy td:nth-child(4),
+  #accuracy th:nth-child(4) {
     text-align: right;
     font-variant-numeric: tabular-nums;
-  }
-  /* Numeric data cells use mono font */
-  #ji td:last-child,
-  #ziyu td:last-child,
-  #leap td:nth-child(3),
-  #accuracy td:nth-child(4) {
     font-family: var(--font-mono);
     font-size: 0.85rem;
   }

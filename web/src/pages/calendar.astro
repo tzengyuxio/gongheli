@@ -99,7 +99,7 @@ import Base from '../layouts/Base.astro';
 
   .field-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 5rem 3.5rem 3.5rem;
     gap: 0.5rem;
   }
 
@@ -129,25 +129,33 @@ import Base from '../layouts/Base.astro';
     justify-content: center;
   }
 
-  .result-content { width: 100%; }
-  .result-main {
-    font-size: 1.2rem;
+  /* Unified result card used in both converter panels and today-ref */
+  .result-card {
+    text-align: center;
+    width: 100%;
+  }
+  .result-date {
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--color-highlight);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.25rem 0;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.82rem;
+  .result-details {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    line-height: 1.6;
   }
-  .result-row:last-child { border-bottom: none; }
-  .result-label { color: var(--color-muted); }
-  .result-val { color: var(--color-text); font-family: var(--font-mono); }
-  .result-empty { color: var(--color-muted); font-size: 0.85rem; }
+  .result-details .sep,
+  .today-ref .sep {
+    margin: 0 0.25rem;
+    opacity: 0.4;
+  }
+  .result-zdn {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    margin-top: 0.3rem;
+  }
 
   .today-ref {
     background: var(--color-surface);
@@ -156,28 +164,12 @@ import Base from '../layouts/Base.astro';
     padding: 1rem 1.25rem;
     text-align: center;
   }
-  .today-ref-header {
+  .today-ref-label {
     font-size: 0.72rem;
     color: var(--color-accent);
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    margin-bottom: 0.4rem;
-  }
-  .today-ref-date {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--color-highlight);
-    margin-bottom: 0.4rem;
-  }
-  .today-ref-details {
-    font-size: 0.8rem;
-    color: var(--color-muted);
-    font-family: var(--font-mono);
-    line-height: 1.6;
-  }
-  .today-ref-details .sep {
-    margin: 0 0.3rem;
-    opacity: 0.4;
+    margin-bottom: 0.5rem;
   }
 </style>
 
@@ -212,12 +204,16 @@ import Base from '../layouts/Base.astro';
     const r = getGongheDateFromGregorian(y, m, d);
     const leapMark = isLeapYear(r.year) ? t('result.leap', lang) : t('result.common', lang);
     g2ghResult.innerHTML = `
-      <div class="result-content">
-        <div class="result-main">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
-        <div class="result-row"><span class="result-label">${t('result.year', lang)}</span><span class="result-val">${r.year} ${leapMark}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.ganzhi', lang)}</span><span class="result-val">${fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 })}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.weekday', lang)}</span><span class="result-val">${r.weekdayStr}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.zdn', lang)}</span><span class="result-val">${r.zdn.toLocaleString()}</span></div>
+      <div class="result-card">
+        <div class="result-date">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
+        <div class="result-details">
+          <span>${r.year} ${leapMark}</span>
+          <span class="sep">·</span>
+          <span>${fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 })}</span>
+          <span class="sep">·</span>
+          <span>${r.weekdayStr}</span>
+        </div>
+        <div class="result-zdn">ZDN ${r.zdn.toLocaleString()}</div>
       </div>
     `;
   }
@@ -248,12 +244,14 @@ import Base from '../layouts/Base.astro';
       ? fmt('fmt.gregorian_ce', lang, { year: gy, month: gm, day: gd })
       : fmt('fmt.gregorian_bce', lang, { year: -gy, month: gm, day: gd });
     gh2gResult.innerHTML = `
-      <div class="result-content">
-        <div class="result-main">${gStr}</div>
-        <div class="result-row"><span class="result-label">${t('result.gregorian', lang)}</span><span class="result-val">${gregFmt}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.ganzhi', lang)}</span><span class="result-val">${fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 })}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.weekday', lang)}</span><span class="result-val">${wd}</span></div>
-        <div class="result-row"><span class="result-label">${t('result.zdn', lang)}</span><span class="result-val">${zdn.toLocaleString()}</span></div>
+      <div class="result-card">
+        <div class="result-date">${gregFmt}</div>
+        <div class="result-details">
+          <span>${fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 })}</span>
+          <span class="sep">·</span>
+          <span>${wd}</span>
+        </div>
+        <div class="result-zdn">ZDN ${zdn.toLocaleString()}</div>
       </div>
     `;
   }
@@ -269,16 +267,17 @@ import Base from '../layouts/Base.astro';
   function renderTodayRef() {
     const lang = getLang();
     todayRef.innerHTML = `
-      <div class="today-ref-header">${t('calendar.today_title', lang)}</div>
-      <div class="today-ref-date">${fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day })}</div>
-      <div class="today-ref-details">
-        <span>${gregStr}</span>
-        <span class="sep">·</span>
-        <span>${today.ganzhiStr}日</span>
-        <span class="sep">·</span>
-        <span>${today.weekdayStr}</span>
-        <span class="sep">·</span>
-        <span>ZDN ${today.zdn.toLocaleString()}</span>
+      <div class="today-ref-label">${t('calendar.today_title', lang)}</div>
+      <div class="result-card">
+        <div class="result-date">${fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day })}</div>
+        <div class="result-details">
+          <span>${gregStr}</span>
+          <span class="sep">·</span>
+          <span>${today.ganzhiStr}日</span>
+          <span class="sep">·</span>
+          <span>${today.weekdayStr}</span>
+        </div>
+        <div class="result-zdn">ZDN ${today.zdn.toLocaleString()}</div>
       </div>
     `;
   }

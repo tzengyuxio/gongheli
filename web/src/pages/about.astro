@@ -35,12 +35,12 @@ import Base from '../layouts/Base.astro';
             <td data-i18n="about.epoch_row1_note">《史記·十二諸侯年表》，中國最早連續紀年</td>
           </tr>
           <tr>
-            <td data-i18n="about.epoch_row2_name">奧林匹亞紀年</td>
+            <td data-i18n-html="about.epoch_row2_name"><a href="https://zh.wikipedia.org/wiki/%E5%A5%A5%E6%9E%97%E5%8C%B9%E5%85%8B%E7%BA%AA%E5%B9%B4" target="_blank">奧林匹亞紀年</a></td>
             <td data-i18n="about.epoch_row2_year">前 776 年</td>
             <td data-i18n="about.epoch_row2_note">古希臘，以奧運會週期（4 年）為基礎</td>
           </tr>
           <tr>
-            <td data-i18n="about.epoch_row3_name">羅馬建城紀年（AUC）</td>
+            <td data-i18n-html="about.epoch_row3_name"><a href="https://zh.wikipedia.org/wiki/%E7%BD%97%E9%A9%AC%E5%BB%BA%E5%9F%8E%E7%BA%AA%E5%B9%B4" target="_blank">羅馬建城紀年</a>（AUC）</td>
             <td data-i18n="about.epoch_row3_year">前 753 年</td>
             <td data-i18n="about.epoch_row3_note">傳說中羅馬城建立年份</td>
           </tr>
@@ -111,7 +111,7 @@ import Base from '../layouts/Base.astro';
     <section class="about-section">
       <h2 data-i18n="about.h_ziyu">子輿日的命名</h2>
       <p data-i18n-html="about.ziyu_p1">連續紀日系統以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》——子輿日的思想脈絡正源於此。</p>
-      <p data-i18n="about.ziyu_p2">子輿日以午夜起算（有別於儒略日以正午起算），與現代日常習慣一致。</p>
+      <p data-i18n-html="about.ziyu_p2">子輿日以午夜起算（有別於<a href="https://zh.wikipedia.org/wiki/%E5%84%92%E7%95%A5%E6%97%A5" target="_blank">儒略日</a>以正午起算），與現代日常習慣一致。</p>
     </section>
 
     <section class="about-section">
@@ -168,10 +168,4 @@ import Base from '../layouts/Base.astro';
   .about-section ul li { margin-bottom: 0.4rem; }
   .about-section table { margin: 1rem 0; }
 
-  /* Right-align numeric column */
-  .about-section td:nth-child(2),
-  .about-section th:nth-child(2) {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
 </style>

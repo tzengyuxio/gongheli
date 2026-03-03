@@ -3,26 +3,22 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="共和曆 — 以共和元年為起點的現代太陽曆" description="共和曆以西周共和元年（前 841 年）為紀元，採用 31/128 閏法精確追蹤回歸年，包含零年設計消除紀年斷層，是一套融合歷史錨點與現代精度的通用太陽曆。">
-  <!-- Hero Section -->
+  <!-- Hero + Converter -->
   <section class="hero">
-    <div class="container">
-      <h1 class="hero-brand" data-i18n="index.hero_brand">共和曆</h1>
-      <div class="today-badge" data-i18n="index.today_badge">今日</div>
-      <div class="today-gonghe" id="today-gonghe">
-        <span class="today-loading">計算中…</span>
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <h1 class="hero-brand" data-i18n="index.hero_brand">共和曆</h1>
+        <div class="today-badge" data-i18n="index.today_badge">今日</div>
+        <div class="today-gonghe" id="today-gonghe">
+          <span class="today-loading">計算中…</span>
+        </div>
+        <div class="today-sub" id="today-sub">
+          <span class="today-loading-sub">—</span>
+        </div>
+        <p class="hero-tagline" data-i18n="index.hero_tagline">一套以人類最古老連續紀年為錨點的通用曆法</p>
       </div>
-      <div class="today-sub" id="today-sub">
-        <span class="today-loading-sub">—</span>
-      </div>
-      <p class="hero-tagline" data-i18n="index.hero_tagline">一套以人類最古老連續紀年為錨點的通用曆法</p>
-    </div>
-  </section>
-
-  <!-- Birthday Converter -->
-  <section class="section converter-section">
-    <div class="container">
-      <h2 class="section-title" data-i18n="index.birthday_title">輸入你的生日</h2>
-      <div class="converter-box">
+      <div class="hero-right">
+        <h2 class="converter-title" data-i18n="index.birthday_title">看看我的共和曆生日</h2>
         <div class="converter-input">
           <label for="date-input" data-i18n="index.label_gregorian">格里曆日期</label>
           <div class="converter-row">
@@ -31,7 +27,7 @@ import Base from '../layouts/Base.astro';
           </div>
         </div>
         <div class="converter-result" id="converter-result">
-          <div class="result-placeholder" data-i18n="index.result_placeholder">← 輸入日期後查看結果</div>
+          <div class="result-placeholder" data-i18n="index.result_placeholder">輸入日期查看結果</div>
         </div>
       </div>
     </div>
@@ -73,16 +69,24 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  /* Hero */
+  /* Hero + Converter side by side */
   .hero {
-    background: radial-gradient(ellipse at 50% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at 30% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
     border-bottom: 1px solid var(--color-border);
-    text-align: center;
     padding: 3rem 1.5rem 2.5rem;
   }
-  .hero .container {
-    max-width: 520px;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
   }
+  @media (max-width: 700px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-left { text-align: center; }
+  }
+
+  .hero-left { text-align: left; }
 
   .hero-brand {
     font-size: 0.85rem;
@@ -107,7 +111,7 @@ import Base from '../layouts/Base.astro';
   }
 
   .today-gonghe {
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
     font-weight: 700;
     color: var(--color-highlight);
     letter-spacing: 0.02em;
@@ -116,46 +120,41 @@ import Base from '../layouts/Base.astro';
   }
 
   .today-sub {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-accent);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     letter-spacing: 0.03em;
   }
 
   .hero-tagline {
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-size: 0.88rem;
     color: var(--color-muted);
-    margin: 0 auto;
     font-style: italic;
   }
 
   .today-loading { color: var(--color-muted); font-size: 1.2rem; font-weight: 400; }
   .today-loading-sub { color: var(--color-muted); }
 
-  /* Section common */
-  .section-title {
-    text-align: center;
-    color: var(--color-text);
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-  }
-
-  /* Converter */
-  .converter-section { background: var(--color-surface); }
-  .converter-box {
-    max-width: 440px;
-    margin: 0 auto;
-    background: var(--color-bg);
+  /* Converter (right side of hero) */
+  .hero-right {
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 1.25rem 1.5rem;
   }
 
+  .converter-title {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
   .converter-input label {
     display: block;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--color-muted);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.35rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -168,7 +167,7 @@ import Base from '../layouts/Base.astro';
   .converter-input input[type="date"] {
     flex: 1;
     min-width: 0;
-    background: var(--color-surface);
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 0.45rem 0.75rem;
@@ -211,30 +210,38 @@ import Base from '../layouts/Base.astro';
   }
   .result-date { text-align: center; }
   .result-year {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-highlight);
     line-height: 1.3;
   }
   .result-meta {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--color-muted);
-    margin-top: 0.4rem;
+    margin-top: 0.35rem;
   }
   .result-meta span {
     display: inline-block;
-    margin: 0.15rem 0.25rem;
+    margin: 0.1rem 0.2rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 20px;
-    padding: 0.05rem 0.6rem;
-    font-size: 0.78rem;
+    padding: 0.05rem 0.5rem;
+    font-size: 0.75rem;
   }
   .result-zdn {
     font-size: 0.75rem;
     color: var(--color-muted);
     margin-top: 0.3rem;
     font-family: var(--font-mono);
+  }
+
+  /* Section common */
+  .section-title {
+    text-align: center;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
   }
 
   /* Features */
