@@ -19,6 +19,10 @@ Month lengths: 30, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30, 31(+1 on leap year)
 # ---------------------------------------------------------------------------
 
 JDN_ZD0 = 613271        # JDN corresponding to ZDN 0 (Ziyu Day 0)
+# Anchor: December solstice of astronomical year -841 (842 BC Dec 21).
+# Verified with Skyfield + de422.bsp: solstice JDE = 1414245.1287 TT,
+# which rounds to JDN 1,414,245 — matches exactly (diff = 0 days).
+# Derivation: JDN 1,414,245 → ZDN = 1,414,245 - 613,271 = 800,974
 ZD_GH_Y1_M1_D1 = 800974  # ZDN of Gonghe year 1, month 1, day 1
 
 _LARGE_LEAP_CYCLE = 128 * 365 + 31   # 46751 days = 128 years
