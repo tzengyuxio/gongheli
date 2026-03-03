@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="曆法規則" description="共和曆完整曆法規則說明：月制、閏法、一紀、子輿日">
+  <div class="container section">
+    <h1>曆法規則</h1>
+    <p class="page-sub">Calendar Rules &amp; Design</p>
+
+    <nav class="toc">
+      <a href="#epoch">紀元</a>
+      <a href="#months">月制</a>
+      <a href="#leap">閏法</a>
+      <a href="#ji">一紀</a>
+      <a href="#ziyu">子輿日</a>
+      <a href="#accuracy">精確度對比</a>
+    </nav>
+
+    <section id="epoch" class="rule-section">
+      <h2>紀元</h2>
+      <p>以<strong>西周共和元年</strong>為共和 0 年（約西元前 841 年）。這是人類已知最早的連續紀年起點，出自《史記·十二諸侯年表》。</p>
+      <p>曆法採<strong>零年設計</strong>——共和 0 年存在，消除了公元紀年的零年問題。</p>
+      <div class="highlight-box">
+        <div class="highlight-row">
+          <span>共和 0 年 = 西元前 841 年</span>
+          <span>共和 1 年 = 西元前 840 年</span>
+        </div>
+        <div class="highlight-row">
+          <span>公元 2025 年 = 共和 <strong id="current-year-rule">2865</strong> 年</span>
+          <span class="muted">（2025 + 841 − 1 = 2865）</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="months" class="rule-section">
+      <h2>月制</h2>
+      <p>共和曆一年 12 個月，月長分配如下：</p>
+      <table>
+        <thead>
+          <tr><th>月份</th><th>天數</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>單數月（1、3、5、7、9、11）</td><td>30 天</td><td>小月</td></tr>
+          <tr><td>偶數月（2、4、6、8、10）</td><td>31 天</td><td>大月</td></tr>
+          <tr><td>12 月</td><td>平年 30 天 / 閏年 31 天</td><td>閏日置年末</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>優點：</strong>閏日置於年末（12 月），因此每年 1～11 月的日期與星期的相對位置固定不變。
+        格里曆將閏日放在 2 月，導致 3 月以後的日期在閏年與平年間有一天位移——共和曆沒有這個問題。
+      </div>
+    </section>
+
+    <section id="leap" class="rule-section">
+      <h2>閏法（31/128 規則）</h2>
+      <p>閏年規則：</p>
+      <pre><code>Y % 4 === 0  AND  Y % 128 !== 0</code></pre>
+      <p>四年一閏，但 128 的倍數年不閏（共和 0 年、128 年、256 年…不閏）。</p>
+      <p>每 128 年含 31 個閏年，平均年長：</p>
+      <pre><code>46751 / 128 ≈ 365.242188 天</code></pre>
+      <p>推導方式：尋找最接近回歸年小數部分（0.242190）的最佳有理數近似。</p>
+      <table>
+        <thead>
+          <tr><th>曆法</th><th>閏法</th><th>平均年長（天）</th><th>年誤差</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>格里曆</td><td>97/400</td><td>365.2425</td><td>約 26 秒</td></tr>
+          <tr><td class="highlight-cell">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">365.242188</td><td class="highlight-cell">約 0.2 秒 ✓</td></tr>
+          <tr><td>回歸年</td><td>—</td><td>365.24219</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        共和曆閏法精確度約為格里曆的 <strong>150 倍</strong>，約 400,000 年才累積一天的偏差。
+      </div>
+    </section>
+
+    <section id="ji" class="rule-section">
+      <h2>一紀（4418 年）</h2>
+      <p>4418 年為「一紀」，是回歸年、朔望月、干支甲子（60 日）、七曜週（7 日）的近似最小公倍數週期。</p>
+      <table>
+        <thead>
+          <tr><th>單位</th><th>數量</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>年</td><td>4,418</td></tr>
+          <tr><td>朔望月</td><td>54,643</td></tr>
+          <tr><td>日</td><td>1,613,640</td></tr>
+          <tr><td>甲子（60 日）</td><td>26,894</td></tr>
+          <tr><td>七曜週</td><td>230,520</td></tr>
+        </tbody>
+      </table>
+      <p>第一紀的錨點為西元 1384 年 12 月 13 日（明洪武十七年），天文計算確認該日為朔旦冬至甲子日——即朔望月、冬至、干支甲子三者起點重合。</p>
+    </section>
+
+    <section id="ziyu" class="rule-section">
+      <h2>子輿日（ZDN）</h2>
+      <p>子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
+      <p>與儒略日（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
+      <table>
+        <thead>
+          <tr><th>對應關係</th><th>數值</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>子輿日 0 = 儒略日</td><td>613,270.5</td></tr>
+          <tr><td>共和 0 年 1 月 1 日</td><td>子輿日 800,609</td></tr>
+          <tr><td>共和 1 年 1 月 1 日</td><td>子輿日 800,974</td></tr>
+          <tr><td>第一紀首日（西元 1384/12/13）</td><td>子輿日 1,613,640</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="accuracy" class="rule-section">
+      <h2>精確度對比</h2>
+      <p>以天文回歸年（365.24219 天）為基準：</p>
+      <table>
+        <thead>
+          <tr><th>曆法</th><th>閏規則</th><th>誤差/年</th><th>累積 1 天所需年數</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>儒略曆</td><td>1/4</td><td>約 674 秒（11 分）</td><td>約 128 年</td></tr>
+          <tr><td>格里曆</td><td>97/400</td><td>約 26 秒</td><td>約 3,323 年</td></tr>
+          <tr><td class="highlight-cell">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">約 0.2 秒</td><td class="highlight-cell">約 400,000 年</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 3rem;
+    padding: 1rem 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .toc a { color: var(--color-accent); }
+  .toc a:hover { color: var(--color-highlight); }
+
+  .rule-section {
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .rule-section:last-child { border-bottom: none; }
+  .rule-section h2 {
+    color: var(--color-highlight);
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+  }
+  .rule-section p {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  .rule-section table { margin: 1.5rem 0; }
+
+  /* epoch section uses accent border on highlight-box */
+  #epoch .highlight-box { border-color: var(--color-accent-dim); }
+  /* epoch highlight-row uses mono font and no border-bottom */
+  #epoch .highlight-row {
+    gap: 2rem;
+    padding: 0.4rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    border-bottom: none;
+  }
+
+  .muted { color: var(--color-muted); }
+
+  .highlight-cell {
+    color: var(--color-highlight);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  import { getTodayGonghe } from '../lib/gonghe.ts';
+  const today = getTodayGonghe();
+  const el = document.getElementById('current-year-rule');
+  if (el) el.textContent = String(today.year);
+</script>

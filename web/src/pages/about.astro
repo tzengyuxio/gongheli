@@ -1,0 +1,168 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="關於共和曆" description="共和曆的設計理念、歷史背景與天文錨點說明">
+  <div class="container section">
+    <h1>關於共和曆</h1>
+    <p class="page-sub">About the Gonghe Calendar</p>
+
+    <blockquote>
+      聖人慎守日月之數，以察星辰之行，以序四時之順逆，謂之厤<br/>
+      <cite>——《大戴禮記·曾子天圓》</cite>
+    </blockquote>
+
+    <section class="about-section">
+      <h2>設計理念</h2>
+      <p>共和曆的目標是一套<strong>跨越空間與時間的通用曆法</strong>——不偏向任何單一文化或歷史起點，為所有人建立一套公平、精確的時間座標系。</p>
+      <p>此理念類似世界語（Esperanto）的精神：以人工設計消弭隔閡。本專案前身 <code>kalendaro</code> 正是取自世界語中「曆法」一詞。</p>
+      <p class="en-note">
+        The Gonghe Calendar aims to be a universal time coordinate system — unbiased toward any single culture,
+        accurate enough to last geological ages. Like Esperanto bridges language gaps, Gonghe Calendar bridges
+        temporal and cultural divides.
+      </p>
+    </section>
+
+    <section class="about-section">
+      <h2>為什麼選擇共和紀年？</h2>
+      <p>制定一套「通用曆法」的首要問題是：以什麼為紀元？理想的紀元應該是人類歷史上有據可查、時間最早的連續紀年起點。</p>
+      <table>
+        <thead>
+          <tr><th>候選</th><th>起始年（西元）</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>史記共和紀年</strong> ✓</td>
+            <td>前 841 年</td>
+            <td>《史記·十二諸侯年表》，中國最早連續紀年</td>
+          </tr>
+          <tr>
+            <td>奧林匹亞紀年</td>
+            <td>前 776 年</td>
+            <td>古希臘，以奧運會週期（4 年）為基礎</td>
+          </tr>
+          <tr>
+            <td>羅馬建城紀年（AUC）</td>
+            <td>前 753 年</td>
+            <td>傳說中羅馬城建立年份</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>選擇共和紀年的理由：<strong>發生時間最早</strong>、後續年表連續完整、名字簡單。</p>
+      <div class="callout">
+        注意：共和元年（前 841 年）是後世推算的歷史座標，未必是「共和行政」事件精確發生的時間。
+        共和曆採用此紀元的標準是「人們習以為常的歷史參考座標」，而非對歷史事件的政治宣示。
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2>天文錨點</h2>
+      <p>共和曆的起算點（共和 1 年 1 月 1 日）對應天文事件：<strong>西元前 842 年 12 月 21 日冬至</strong>（天文年 −841）。</p>
+      <div class="highlight-box">
+        <div class="highlight-row">
+          <span class="label">冬至時刻（TT）</span>
+          <span class="value">天文年 −841 年 12 月 21 日 15:05:23</span>
+        </div>
+        <div class="highlight-row">
+          <span class="label">儒略日（JDN）</span>
+          <span class="value">1,414,245</span>
+        </div>
+        <div class="highlight-row">
+          <span class="label">子輿日（ZDN）</span>
+          <span class="value">800,974</span>
+        </div>
+        <div class="highlight-row">
+          <span class="label">驗算方式</span>
+          <span class="value">Skyfield + de422.bsp 精確計算，誤差 0 天</span>
+        </div>
+      </div>
+      <p>由於冬至是純天文定義的時間點，全球統一、精確可計算，且與曆法的週期計算（第一紀錨點為冬至朔旦甲子日）完全一致。</p>
+    </section>
+
+    <section class="about-section">
+      <h2>歲首：為何是冬至？</h2>
+      <p>共和曆以冬至對齊為算術歲首：創曆時以天文冬至定位 1 月 1 日，之後嚴格依閏法推算，不再每年重新觀測。</p>
+      <table>
+        <thead>
+          <tr><th>候選歲首</th><th>優點</th><th>缺點</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>冬至</strong> ✓</td>
+            <td>天文意義明確，全球可計算；農耕文化重要節點</td>
+            <td>與現代習慣（元旦/農曆年）不同</td>
+          </tr>
+          <tr>
+            <td>春分</td>
+            <td>晝夜等長，對稱；古波斯曆使用</td>
+            <td>距冬至計算週期有偏移</td>
+          </tr>
+          <tr>
+            <td>立春</td>
+            <td>接近農曆新年</td>
+            <td>非天文精確點</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="about-section">
+      <h2>子輿日的命名</h2>
+      <p>連續紀日系統以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》——子輿日的思想脈絡正源於此。</p>
+      <p>子輿日以午夜起算（有別於儒略日以正午起算），與現代日常習慣一致。</p>
+    </section>
+
+    <section class="about-section">
+      <h2>專案資訊</h2>
+      <p>共和曆是一個開源專案，核心轉換庫以 Python 與 TypeScript 實作。</p>
+      <ul>
+        <li><a href="https://github.com/tzengyuxio/gongheli">GitHub: tzengyuxio/gongheli</a></li>
+        <li>語言：Python 核心庫 + TypeScript（網站）</li>
+        <li>測試：已驗算 2000-01-01 → 共和 2841 年 1 月 12 日 等多個已知日期</li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  blockquote {
+    border-left: 3px solid var(--color-accent-dim);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .about-section {
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .about-section:last-child { border-bottom: none; }
+  .about-section h2 {
+    color: var(--color-highlight);
+    margin-bottom: 1rem;
+  }
+  .about-section p { margin-bottom: 1rem; }
+  .about-section ul {
+    padding-left: 1.5rem;
+    color: var(--color-text);
+  }
+  .about-section ul li { margin-bottom: 0.5rem; }
+  .about-section table { margin: 1.5rem 0; }
+
+  .en-note {
+    color: var(--color-muted) !important;
+    font-style: italic;
+    font-size: 0.88rem !important;
+    border-left: 2px solid var(--color-border);
+    padding-left: 1rem;
+  }
+
+</style>

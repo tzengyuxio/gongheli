@@ -1,0 +1,266 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="日曆工具" description="共和曆與格里曆雙向轉換工具">
+  <div class="container section">
+    <h1>日曆工具</h1>
+    <p class="page-sub">Gonghe ↔ Gregorian Calendar Converter</p>
+
+    <div class="converter-grid">
+      <!-- Gregorian to Gonghe -->
+      <div class="conv-panel">
+        <h2>格里曆 → 共和曆</h2>
+        <p class="panel-sub">Gregorian to Gonghe</p>
+        <div class="field-group">
+          <label>格里曆日期</label>
+          <input type="date" id="g2gh-input" value="2000-01-01" />
+        </div>
+        <button id="g2gh-btn">轉換 →</button>
+        <div class="result-panel" id="g2gh-result"></div>
+      </div>
+
+      <!-- Gonghe to Gregorian -->
+      <div class="conv-panel">
+        <h2>共和曆 → 格里曆</h2>
+        <p class="panel-sub">Gonghe to Gregorian</p>
+        <div class="field-row">
+          <div class="field-group">
+            <label>年</label>
+            <input type="number" id="gh2g-year" value="2841" min="-9999" max="9999" />
+          </div>
+          <div class="field-group">
+            <label>月</label>
+            <input type="number" id="gh2g-month" value="1" min="1" max="12" />
+          </div>
+          <div class="field-group">
+            <label>日</label>
+            <input type="number" id="gh2g-day" value="12" min="1" max="31" />
+          </div>
+        </div>
+        <button id="gh2g-btn">轉換 →</button>
+        <div class="result-panel" id="gh2g-result"></div>
+      </div>
+    </div>
+
+    <!-- Today quick reference -->
+    <div class="today-ref" id="today-ref"></div>
+  </div>
+</Base>
+
+<style>
+  .converter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 700px) {
+    .converter-grid { grid-template-columns: 1fr; }
+  }
+
+  .conv-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+  .conv-panel h2 {
+    font-size: 1.2rem;
+    color: var(--color-highlight);
+    margin-bottom: 0.25rem;
+  }
+  .panel-sub {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .field-group {
+    margin-bottom: 1rem;
+  }
+  .field-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  .field-group input {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-group input:focus { border-color: var(--color-accent-dim); }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  button {
+    width: 100%;
+    background: var(--color-accent-dim);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 0.7rem;
+    color: var(--color-highlight);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-bottom: 1.5rem;
+  }
+  button:hover { background: var(--color-accent); color: #1a1a24; transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+
+  .result-panel {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .result-content { width: 100%; }
+  .result-main {
+    font-size: 1.4rem;
+    color: var(--color-highlight);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.88rem;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { color: var(--color-muted); }
+  .result-val { color: var(--color-text); font-family: var(--font-mono); }
+  .result-empty { color: var(--color-muted); font-size: 0.9rem; }
+
+  .today-ref {
+    background: var(--color-surface);
+    border: 1px solid var(--color-accent-dim);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+  }
+  .today-ref-title {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .today-ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem 1.5rem;
+  }
+  .today-ref-item { font-size: 0.9rem; }
+  .today-ref-item .label { color: var(--color-muted); font-size: 0.78rem; margin-bottom: 0.2rem; }
+  .today-ref-item .value { color: var(--color-text); font-family: var(--font-mono); }
+</style>
+
+<script>
+  import {
+    formatGregorianDate,
+    getGongheDateFromGregorian,
+    getTodayGonghe,
+    getTodayGregorianString,
+    gongheToGregorian,
+    gongheToZiyu,
+    ganzhiIndex,
+    ganzhiName,
+    weekdayName,
+    isLeapYear,
+  } from '../lib/gonghe.ts';
+
+  // --- G2GH ---
+  const g2ghInput = document.getElementById('g2gh-input') as HTMLInputElement;
+  const g2ghResult = document.getElementById('g2gh-result')!;
+  const g2ghBtn = document.getElementById('g2gh-btn')!;
+
+  function doG2GH() {
+    const val = g2ghInput.value;
+    if (!val) return;
+    const [y, m, d] = val.split('-').map(Number);
+    const r = getGongheDateFromGregorian(y, m, d);
+    const leapMark = isLeapYear(r.year) ? '（閏年）' : '（平年）';
+    g2ghResult.innerHTML = `
+      <div class="result-content">
+        <div class="result-main">共和 ${r.year} 年 ${r.month} 月 ${r.day} 日</div>
+        <div class="result-row"><span class="result-label">年份</span><span class="result-val">${r.year} ${leapMark}</span></div>
+        <div class="result-row"><span class="result-label">干支日</span><span class="result-val">${r.ganzhiStr}（第 ${r.ganzhiIdx + 1} / 60）</span></div>
+        <div class="result-row"><span class="result-label">曜日</span><span class="result-val">${r.weekdayStr}</span></div>
+        <div class="result-row"><span class="result-label">子輿日 ZDN</span><span class="result-val">${r.zdn.toLocaleString()}</span></div>
+      </div>
+    `;
+  }
+
+  g2ghBtn.addEventListener('click', doG2GH);
+  g2ghInput.addEventListener('change', doG2GH);
+  doG2GH();
+
+  // --- GH2G ---
+  const gh2gYear = document.getElementById('gh2g-year') as HTMLInputElement;
+  const gh2gMonth = document.getElementById('gh2g-month') as HTMLInputElement;
+  const gh2gDay = document.getElementById('gh2g-day') as HTMLInputElement;
+  const gh2gResult = document.getElementById('gh2g-result')!;
+  const gh2gBtn = document.getElementById('gh2g-btn')!;
+
+  function doGH2G() {
+    const y = parseInt(gh2gYear.value);
+    const m = parseInt(gh2gMonth.value);
+    const d = parseInt(gh2gDay.value);
+    if (isNaN(y) || isNaN(m) || isNaN(d)) return;
+    const [gy, gm, gd] = gongheToGregorian(y, m, d);
+    const zdn = gongheToZiyu(y, m, d);
+    const gzIdx = ganzhiIndex(zdn);
+    const wd = weekdayName(zdn);
+    const gStr = formatGregorianDate(gy, gm, gd);
+    gh2gResult.innerHTML = `
+      <div class="result-content">
+        <div class="result-main">${gStr}</div>
+        <div class="result-row"><span class="result-label">格里曆</span><span class="result-val">${gy >= 1 ? `西元 ${gy} 年 ${gm} 月 ${gd} 日` : `西元前 ${-gy} 年 ${gm} 月 ${gd} 日`}</span></div>
+        <div class="result-row"><span class="result-label">干支日</span><span class="result-val">${ganzhiName(gzIdx)}（第 ${gzIdx + 1} / 60）</span></div>
+        <div class="result-row"><span class="result-label">曜日</span><span class="result-val">${wd}</span></div>
+        <div class="result-row"><span class="result-label">子輿日 ZDN</span><span class="result-val">${zdn.toLocaleString()}</span></div>
+      </div>
+    `;
+  }
+
+  gh2gBtn.addEventListener('click', doGH2G);
+  doGH2G();
+
+  // --- Today reference ---
+  const today = getTodayGonghe();
+  const gregStr = getTodayGregorianString();
+  const todayRef = document.getElementById('today-ref')!;
+  todayRef.innerHTML = `
+    <div class="today-ref-title">今日 Today</div>
+    <div class="today-ref-grid">
+      <div class="today-ref-item"><div class="label">共和曆</div><div class="value">${today.year}/${today.month}/${today.day}</div></div>
+      <div class="today-ref-item"><div class="label">格里曆</div><div class="value">${gregStr}</div></div>
+      <div class="today-ref-item"><div class="label">干支日</div><div class="value">${today.ganzhiStr}</div></div>
+      <div class="today-ref-item"><div class="label">曜日</div><div class="value">${today.weekdayStr}</div></div>
+      <div class="today-ref-item"><div class="label">子輿日 ZDN</div><div class="value">${today.zdn.toLocaleString()}</div></div>
+    </div>
+  `;
+</script>

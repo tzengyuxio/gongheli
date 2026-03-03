@@ -1,0 +1,378 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="首頁">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="today-badge">今日</div>
+      <div class="today-gonghe" id="today-gonghe">
+        <span class="today-loading">計算中…</span>
+      </div>
+      <div class="today-sub" id="today-sub">
+        <span class="today-loading-sub">—</span>
+      </div>
+      <p class="hero-tagline">A universal calendar anchored to humanity's oldest continuous era</p>
+      <div class="hero-en" id="today-en"></div>
+    </div>
+  </section>
+
+  <!-- Birthday Converter -->
+  <section class="section converter-section">
+    <div class="container">
+      <h2 class="section-title">輸入你的生日</h2>
+      <p class="section-sub">Enter your birthday — discover your Gonghe date</p>
+      <div class="converter-box">
+        <div class="converter-input">
+          <label for="date-input">格里曆日期</label>
+          <input type="date" id="date-input" value="2000-01-01" />
+          <button id="convert-btn">換算 →</button>
+        </div>
+        <div class="converter-result" id="converter-result">
+          <div class="result-placeholder">← 輸入日期後查看結果</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three Features -->
+  <section class="section features-section">
+    <div class="container">
+      <h2 class="section-title">為何選擇共和曆？</h2>
+      <p class="section-sub">Why Gonghe?</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>精確 150 倍</h3>
+          <p>31/128 閏法，每年誤差僅 0.2 秒，比格里曆（97/400 規則，26 秒/年）精確 150 倍。約 400,000 年才累積一天的偏差。</p>
+          <p class="feature-en">31/128 leap rule — 150× more accurate than the Gregorian calendar</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">∅</div>
+          <h3>零年設計</h3>
+          <p>共和 0 年存在，數學上完整無缺。消除了公元紀年「西元 1 年之前是西元前 1 年，沒有西元 0 年」的計算陷阱。</p>
+          <p class="feature-en">Year Zero exists — no astronomical calculation pitfalls</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏛</div>
+          <h3><span id="current-year-feature">2866</span> 年紀年</h3>
+          <p>以西周共和元年（西元前 841 年）為紀元——人類歷史上最早有連續年份記載的紀年。今年是共和 <span id="current-year-feature2">2866</span> 年。</p>
+          <p class="feature-en">Rooted in humanity's oldest continuous year-count since 841 BC</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Historical Events -->
+  <section class="section events-section">
+    <div class="container">
+      <h2 class="section-title">歷史在共和曆中</h2>
+      <p class="section-sub">Famous dates in the Gonghe Calendar</p>
+      <div class="events-grid" id="events-grid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+  }
+  .hero .container { padding-top: 3rem; padding-bottom: 3rem; }
+
+  .today-badge {
+    display: inline-block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-accent-dim);
+    border-radius: 20px;
+    padding: 0.25rem 1rem;
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .today-gonghe {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 700;
+    color: var(--color-highlight);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .today-sub {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-tagline {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--color-muted);
+    max-width: 520px;
+    margin: 0 auto 1rem;
+    font-style: italic;
+  }
+
+  .hero-en {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .today-loading { color: var(--color-muted); font-size: 1.5rem; font-weight: 400; }
+  .today-loading-sub { color: var(--color-muted); }
+
+  /* Section common */
+  .section-title {
+    text-align: center;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--color-muted);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+  }
+
+  /* Converter */
+  .converter-section { background: var(--color-surface); }
+  .converter-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2.5rem;
+  }
+  @media (max-width: 600px) {
+    .converter-box { grid-template-columns: 1fr; }
+  }
+
+  .converter-input label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .converter-input input[type="date"] {
+    width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--color-text);
+    font-size: 1.05rem;
+    font-family: var(--font-mono);
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .converter-input input[type="date"]:focus {
+    border-color: var(--color-accent-dim);
+  }
+
+  .converter-input button {
+    width: 100%;
+    background: var(--color-accent-dim);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: var(--color-highlight);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .converter-input button:hover {
+    background: var(--color-accent);
+    color: #1a1a24;
+    transform: translateY(-1px);
+  }
+  .converter-input button:active { transform: translateY(0); }
+
+  .converter-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .result-placeholder {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  .result-date { text-align: center; }
+  .result-year {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-highlight);
+    line-height: 1;
+  }
+  .result-month-day {
+    font-size: 1.4rem;
+    color: var(--color-accent);
+    margin: 0.3rem 0;
+  }
+  .result-meta {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    margin-top: 0.75rem;
+  }
+  .result-meta span {
+    display: inline-block;
+    margin: 0.2rem 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 0.1rem 0.75rem;
+  }
+  .result-zdn {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+  }
+
+  /* Features */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--color-accent-dim);
+    transform: translateY(-2px);
+  }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+  .feature-card h3 {
+    color: var(--color-highlight);
+    margin-bottom: 0.75rem;
+  }
+  .feature-card p {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .feature-en {
+    color: var(--color-muted) !important;
+    font-style: italic;
+    font-size: 0.82rem !important;
+  }
+
+  /* Events */
+  .events-section { background: var(--color-surface); }
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .event-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .event-name { font-weight: 600; color: var(--color-text); font-size: 0.95rem; }
+  .event-gregorian { color: var(--color-muted); font-size: 0.82rem; font-family: var(--font-mono); }
+  .event-gonghe { color: var(--color-accent); font-size: 1rem; font-family: var(--font-mono); }
+  .event-meta { color: var(--color-muted); font-size: 0.78rem; }
+</style>
+
+<script>
+  import { getTodayGonghe, getTodayGregorianString, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
+
+  // --- Today widget ---
+  const today = getTodayGonghe();
+  const ghEl = document.getElementById('today-gonghe')!;
+  const subEl = document.getElementById('today-sub')!;
+  const enEl = document.getElementById('today-en')!;
+
+  ghEl.innerHTML = `共和 ${today.year} 年 ${today.month} 月 ${today.day} 日`;
+  subEl.innerHTML = `${today.ganzhiStr}日 &nbsp;·&nbsp; ${today.weekdayStr} &nbsp;·&nbsp; Gonghe ${today.year}/${today.month}/${today.day}`;
+  enEl.textContent = `Today in Gregorian: ${getTodayGregorianString()}`;
+
+  // --- Converter ---
+  const inputEl = document.getElementById('date-input') as HTMLInputElement;
+  const resultEl = document.getElementById('converter-result')!;
+  const btnEl = document.getElementById('convert-btn')!;
+
+  function convertDate() {
+    const val = inputEl.value;
+    if (!val) return;
+    const [y, m, d] = val.split('-').map(Number);
+    const r = getGongheDateFromGregorian(y, m, d);
+    resultEl.innerHTML = `
+      <div class="result-date">
+        <div class="result-year">共和 ${r.year} 年</div>
+        <div class="result-month-day">${r.month} 月 ${r.day} 日</div>
+        <div class="result-meta">
+          <span>${r.ganzhiStr}日</span>
+          <span>${r.weekdayStr}</span>
+        </div>
+        <div class="result-zdn">子輿日 ZDN ${r.zdn.toLocaleString()}</div>
+      </div>
+    `;
+  }
+
+  btnEl.addEventListener('click', convertDate);
+  inputEl.addEventListener('change', convertDate);
+  convertDate();
+
+  // Update dynamic year in feature card
+  const yearEls = [document.getElementById('current-year-feature'), document.getElementById('current-year-feature2')];
+  yearEls.forEach(el => { if (el) el.textContent = String(today.year); });
+
+  // --- Historical events ---
+  const EVENTS = [
+    { name: '阿波羅 11 號登月', year: 1969, month: 7, day: 20 },
+    { name: '法國大革命爆發', year: 1789, month: 7, day: 14 },
+    { name: '牛頓誕生（儒略曆）', year: 1643, month: 1, day: 4 },
+    { name: '第一次世界大戰結束', year: 1918, month: 11, day: 11 },
+    { name: '聯合國成立', year: 1945, month: 10, day: 24 },
+    { name: '人類基因組計畫完成', year: 2003, month: 4, day: 14 },
+  ];
+
+  const eventsEl = document.getElementById('events-grid')!;
+  eventsEl.innerHTML = EVENTS.map(ev => {
+    const r = getGongheDateFromGregorian(ev.year, ev.month, ev.day);
+    const gStr = formatGregorianDate(ev.year, ev.month, ev.day);
+    return `
+      <div class="event-card">
+        <div class="event-name">${ev.name}</div>
+        <div class="event-gregorian">格里 ${gStr}</div>
+        <div class="event-gonghe">共和 ${r.year} 年 ${r.month} 月 ${r.day} 日</div>
+        <div class="event-meta">${r.ganzhiStr}日 · ${r.weekdayStr}</div>
+      </div>
+    `;
+  }).join('');
+</script>

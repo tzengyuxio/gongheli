@@ -1,0 +1,212 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = '共和曆 — 以西周共和元年為紀元的純太陽曆' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <title>{title} | 共和曆</title>
+    <style>
+      :root {
+        --color-bg: #0f0f13;
+        --color-surface: #1a1a24;
+        --color-border: #2a2a38;
+        --color-text: #e8e4d9;
+        --color-muted: #8a8070;
+        --color-accent: #c8a96e;
+        --color-accent-dim: #8a7040;
+        --color-highlight: #e8c87a;
+        --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+        --font-mono: 'Noto Sans Mono', 'Courier New', monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-sans);
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+
+      a { color: var(--color-accent); text-decoration: none; }
+      a:hover { color: var(--color-highlight); text-decoration: underline; }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(15, 15, 19, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--color-border);
+        padding: 0.75rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .nav-logo {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-accent);
+        letter-spacing: 0.05em;
+        text-decoration: none;
+      }
+      .nav-logo:hover { color: var(--color-highlight); text-decoration: none; }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--color-muted);
+        font-size: 0.9rem;
+        letter-spacing: 0.03em;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        color: var(--color-text);
+        text-decoration: none;
+      }
+
+      main { min-height: calc(100vh - 120px); }
+
+      footer {
+        border-top: 1px solid var(--color-border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section {
+        padding: 5rem 0;
+      }
+
+      h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
+      h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.3; }
+      h3 { font-size: 1.25rem; }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th, td {
+        border: 1px solid var(--color-border);
+        padding: 0.6rem 1rem;
+        text-align: left;
+      }
+      th {
+        background: var(--color-surface);
+        color: var(--color-accent);
+        font-weight: 600;
+      }
+      tr:nth-child(even) td { background: rgba(26, 26, 36, 0.5); }
+
+      code {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 0.1em 0.4em;
+        font-family: var(--font-mono);
+        font-size: 0.88em;
+        color: var(--color-highlight);
+      }
+
+      pre {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        overflow-x: auto;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+      }
+
+    </style>
+
+    <style is:global>
+      /* Shared utility classes used across content pages (must be global to reach slotted content) */
+      .page-sub {
+        color: var(--color-muted);
+        font-style: italic;
+        margin-bottom: 2rem;
+      }
+
+      .callout {
+        background: rgba(200, 169, 110, 0.08);
+        border-left: 3px solid var(--color-accent-dim);
+        border-radius: 0 8px 8px 0;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        font-size: 0.92rem;
+        color: var(--color-text);
+      }
+
+      .highlight-box {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .highlight-row {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--color-border);
+        font-size: 0.9rem;
+      }
+      .highlight-row:last-child { border-bottom: none; }
+      .highlight-row .label { color: var(--color-muted); min-width: 140px; }
+      .highlight-row .value { color: var(--color-text); font-family: var(--font-mono); }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a class="nav-logo" href={`${base}/`}>共和曆</a>
+      <ul class="nav-links">
+        <li><a href={`${base}/`}>首頁</a></li>
+        <li><a href={`${base}/calendar`}>日曆工具</a></li>
+        <li><a href={`${base}/rules`}>曆法規則</a></li>
+        <li><a href={`${base}/about`}>關於</a></li>
+      </ul>
+    </nav>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <div class="container">
+        <p>共和曆 (Gonghe Calendar) · 以西周共和元年（前 841 年）為紀元 · <a href="https://github.com/tzengyuxio/gongheli">GitHub</a></p>
+        <p style="margin-top:0.5rem; font-size:0.8rem;">聖人慎守日月之數，以察星辰之行，以序四時之順逆，謂之厤 ——《大戴禮記·曾子天圓》</p>
+      </div>
+    </footer>
+  </body>
+</html>
