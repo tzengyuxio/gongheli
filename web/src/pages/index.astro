@@ -6,31 +6,29 @@ import Base from '../layouts/Base.astro';
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
-      <div class="today-badge">今日</div>
+      <div class="today-badge" data-i18n="index.today_badge">今日</div>
       <div class="today-gonghe" id="today-gonghe">
         <span class="today-loading">計算中…</span>
       </div>
       <div class="today-sub" id="today-sub">
         <span class="today-loading-sub">—</span>
       </div>
-      <p class="hero-tagline">A universal calendar anchored to humanity's oldest continuous era</p>
-      <div class="hero-en" id="today-en"></div>
+      <p class="hero-tagline" data-i18n="index.hero_tagline">一套以人類最古老連續紀年為錨點的通用曆法</p>
     </div>
   </section>
 
   <!-- Birthday Converter -->
   <section class="section converter-section">
     <div class="container">
-      <h2 class="section-title">輸入你的生日</h2>
-      <p class="section-sub">Enter your birthday — discover your Gonghe date</p>
+      <h2 class="section-title" data-i18n="index.birthday_title">輸入你的生日</h2>
       <div class="converter-box">
         <div class="converter-input">
-          <label for="date-input">格里曆日期</label>
+          <label for="date-input" data-i18n="index.label_gregorian">格里曆日期</label>
           <input type="date" id="date-input" value="2000-01-01" />
-          <button id="convert-btn">換算 →</button>
+          <button id="convert-btn" data-i18n="index.btn_convert">換算 →</button>
         </div>
         <div class="converter-result" id="converter-result">
-          <div class="result-placeholder">← 輸入日期後查看結果</div>
+          <div class="result-placeholder" data-i18n="index.result_placeholder">← 輸入日期後查看結果</div>
         </div>
       </div>
     </div>
@@ -39,26 +37,22 @@ import Base from '../layouts/Base.astro';
   <!-- Three Features -->
   <section class="section features-section">
     <div class="container">
-      <h2 class="section-title">為何選擇共和曆？</h2>
-      <p class="section-sub">Why Gonghe?</p>
+      <h2 class="section-title" data-i18n="index.why_title">為何選擇共和曆？</h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">⚡</div>
-          <h3>精確 150 倍</h3>
-          <p>31/128 閏法，每年誤差僅 0.2 秒，比格里曆（97/400 規則，26 秒/年）精確 150 倍。約 400,000 年才累積一天的偏差。</p>
-          <p class="feature-en">31/128 leap rule — 150× more accurate than the Gregorian calendar</p>
+          <h3 data-i18n="index.feature1_title">精確 150 倍</h3>
+          <p data-i18n="index.feature1_desc">31/128 閏法，每年誤差僅 0.2 秒，比格里曆（97/400 規則，26 秒/年）精確 150 倍。約 400,000 年才累積一天的偏差。</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">∅</div>
-          <h3>零年設計</h3>
-          <p>共和 0 年存在，數學上完整無缺。消除了公元紀年「西元 1 年之前是西元前 1 年，沒有西元 0 年」的計算陷阱。</p>
-          <p class="feature-en">Year Zero exists — no astronomical calculation pitfalls</p>
+          <h3 data-i18n="index.feature2_title">零年設計</h3>
+          <p data-i18n="index.feature2_desc">共和 0 年存在，數學上完整無缺。消除了公元紀年「西元 1 年之前是西元前 1 年，沒有西元 0 年」的計算陷阱。</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🏛</div>
-          <h3><span id="current-year-feature">2866</span> 年紀年</h3>
-          <p>以西周共和元年（西元前 841 年）為紀元——人類歷史上最早有連續年份記載的紀年。今年是共和 <span id="current-year-feature2">2866</span> 年。</p>
-          <p class="feature-en">Rooted in humanity's oldest continuous year-count since 841 BC</p>
+          <h3><span id="current-year-feature">2866</span><span data-i18n="index.feature3_title_suffix"> 年紀年</span></h3>
+          <p id="feature3-desc">以西周共和元年（西元前 841 年）為紀元——人類歷史上最早有連續年份記載的紀年。今年是共和 <span id="current-year-feature2">2866</span> 年。</p>
         </div>
       </div>
     </div>
@@ -67,8 +61,7 @@ import Base from '../layouts/Base.astro';
   <!-- Historical Events -->
   <section class="section events-section">
     <div class="container">
-      <h2 class="section-title">歷史在共和曆中</h2>
-      <p class="section-sub">Famous dates in the Gonghe Calendar</p>
+      <h2 class="section-title" data-i18n="index.events_title">歷史在共和曆中</h2>
       <div class="events-grid" id="events-grid">
         <!-- filled by JS -->
       </div>
@@ -125,11 +118,6 @@ import Base from '../layouts/Base.astro';
     font-style: italic;
   }
 
-  .hero-en {
-    font-size: 0.85rem;
-    color: var(--color-muted);
-  }
-
   .today-loading { color: var(--color-muted); font-size: 1.5rem; font-weight: 400; }
   .today-loading-sub { color: var(--color-muted); }
 
@@ -137,14 +125,7 @@ import Base from '../layouts/Base.astro';
   .section-title {
     text-align: center;
     color: var(--color-text);
-    margin-bottom: 0.5rem;
-  }
-  .section-sub {
-    text-align: center;
-    color: var(--color-muted);
-    font-style: italic;
     margin-bottom: 3rem;
-    font-size: 0.95rem;
   }
 
   /* Converter */
@@ -280,11 +261,6 @@ import Base from '../layouts/Base.astro';
     font-size: 0.9rem;
     margin-bottom: 0.75rem;
   }
-  .feature-en {
-    color: var(--color-muted) !important;
-    font-style: italic;
-    font-size: 0.82rem !important;
-  }
 
   /* Events */
   .events-section { background: var(--color-surface); }
@@ -309,17 +285,42 @@ import Base from '../layouts/Base.astro';
 </style>
 
 <script>
-  import { getTodayGonghe, getTodayGregorianString, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
+  import { getTodayGonghe, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
+  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n.ts';
+  import type { Lang } from '../lib/i18n.ts';
+
+  const getLang = (): Lang => (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
+
+  const today = getTodayGonghe();
+
+  // Pre-compute Gonghe dates for events (pure math, values never change)
+  const EVENTS = [
+    { key: 'event.apollo',     year: 1969, month: 7,  day: 20 },
+    { key: 'event.french_rev', year: 1789, month: 7,  day: 14 },
+    { key: 'event.newton',     year: 1643, month: 1,  day: 4  },
+    { key: 'event.ww1_end',    year: 1918, month: 11, day: 11 },
+    { key: 'event.un',         year: 1945, month: 10, day: 24 },
+    { key: 'event.genome',     year: 2003, month: 4,  day: 14 },
+  ] as const;
+  const EVENTS_COMPUTED = EVENTS.map(ev => ({
+    ...ev,
+    gonghe:    getGongheDateFromGregorian(ev.year, ev.month, ev.day),
+    gregorian: formatGregorianDate(ev.year, ev.month, ev.day),
+  }));
 
   // --- Today widget ---
-  const today = getTodayGonghe();
   const ghEl = document.getElementById('today-gonghe')!;
   const subEl = document.getElementById('today-sub')!;
-  const enEl = document.getElementById('today-en')!;
 
-  ghEl.innerHTML = `共和 ${today.year} 年 ${today.month} 月 ${today.day} 日`;
-  subEl.innerHTML = `${today.ganzhiStr}日 &nbsp;·&nbsp; ${today.weekdayStr} &nbsp;·&nbsp; Gonghe ${today.year}/${today.month}/${today.day}`;
-  enEl.textContent = `Today in Gregorian: ${getTodayGregorianString()}`;
+  function renderToday() {
+    const lang = getLang();
+    ghEl.innerHTML = fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day });
+    subEl.innerHTML = fmt('fmt.today_sub', lang, {
+      ganzhi: today.ganzhiStr, weekday: today.weekdayStr,
+      year: today.year, month: today.month, day: today.day,
+    });
+  }
+  renderToday();
 
   // --- Converter ---
   const inputEl = document.getElementById('date-input') as HTMLInputElement;
@@ -329,12 +330,12 @@ import Base from '../layouts/Base.astro';
   function convertDate() {
     const val = inputEl.value;
     if (!val) return;
+    const lang = getLang();
     const [y, m, d] = val.split('-').map(Number);
     const r = getGongheDateFromGregorian(y, m, d);
     resultEl.innerHTML = `
       <div class="result-date">
-        <div class="result-year">共和 ${r.year} 年</div>
-        <div class="result-month-day">${r.month} 月 ${r.day} 日</div>
+        <div class="result-year">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
         <div class="result-meta">
           <span>${r.ganzhiStr}日</span>
           <span>${r.weekdayStr}</span>
@@ -348,31 +349,38 @@ import Base from '../layouts/Base.astro';
   inputEl.addEventListener('change', convertDate);
   convertDate();
 
-  // Update dynamic year in feature card
-  const yearEls = [document.getElementById('current-year-feature'), document.getElementById('current-year-feature2')];
-  yearEls.forEach(el => { if (el) el.textContent = String(today.year); });
+  // --- Feature 3 dynamic year ---
+  function renderFeature3() {
+    const lang = getLang();
+    const yearEl = document.getElementById('current-year-feature');
+    const yearEl2 = document.getElementById('current-year-feature2');
+    const descEl = document.getElementById('feature3-desc');
+    if (yearEl) yearEl.textContent = String(today.year);
+    if (yearEl2) yearEl2.textContent = String(today.year);
+    if (descEl) descEl.textContent = fmt('index.feature3_desc', lang, { year: today.year });
+  }
+  renderFeature3();
 
   // --- Historical events ---
-  const EVENTS = [
-    { name: '阿波羅 11 號登月', year: 1969, month: 7, day: 20 },
-    { name: '法國大革命爆發', year: 1789, month: 7, day: 14 },
-    { name: '牛頓誕生（儒略曆）', year: 1643, month: 1, day: 4 },
-    { name: '第一次世界大戰結束', year: 1918, month: 11, day: 11 },
-    { name: '聯合國成立', year: 1945, month: 10, day: 24 },
-    { name: '人類基因組計畫完成', year: 2003, month: 4, day: 14 },
-  ];
-
   const eventsEl = document.getElementById('events-grid')!;
-  eventsEl.innerHTML = EVENTS.map(ev => {
-    const r = getGongheDateFromGregorian(ev.year, ev.month, ev.day);
-    const gStr = formatGregorianDate(ev.year, ev.month, ev.day);
-    return `
+
+  function renderEvents() {
+    const lang = getLang();
+    eventsEl.innerHTML = EVENTS_COMPUTED.map(ev => `
       <div class="event-card">
-        <div class="event-name">${ev.name}</div>
-        <div class="event-gregorian">格里 ${gStr}</div>
-        <div class="event-gonghe">共和 ${r.year} 年 ${r.month} 月 ${r.day} 日</div>
-        <div class="event-meta">${r.ganzhiStr}日 · ${r.weekdayStr}</div>
+        <div class="event-name">${t(ev.key, lang)}</div>
+        <div class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</div>
+        <div class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</div>
+        <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${ev.gonghe.weekdayStr}</div>
       </div>
-    `;
-  }).join('');
+    `).join('');
+  }
+  renderEvents();
+
+  window.addEventListener('langchange', () => {
+    renderToday();
+    convertDate();
+    renderFeature3();
+    renderEvents();
+  });
 </script>

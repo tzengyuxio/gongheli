@@ -4,41 +4,38 @@ import Base from '../layouts/Base.astro';
 
 <Base title="日曆工具" description="共和曆與格里曆雙向轉換工具">
   <div class="container section">
-    <h1>日曆工具</h1>
-    <p class="page-sub">Gonghe ↔ Gregorian Calendar Converter</p>
+    <h1 data-i18n="calendar.title">日曆工具</h1>
 
     <div class="converter-grid">
       <!-- Gregorian to Gonghe -->
       <div class="conv-panel">
-        <h2>格里曆 → 共和曆</h2>
-        <p class="panel-sub">Gregorian to Gonghe</p>
+        <h2 data-i18n="calendar.panel1_title">格里曆 → 共和曆</h2>
         <div class="field-group">
-          <label>格里曆日期</label>
+          <label data-i18n="calendar.label_gregorian">格里曆日期</label>
           <input type="date" id="g2gh-input" value="2000-01-01" />
         </div>
-        <button id="g2gh-btn">轉換 →</button>
+        <button id="g2gh-btn" data-i18n="calendar.btn_convert">轉換 →</button>
         <div class="result-panel" id="g2gh-result"></div>
       </div>
 
       <!-- Gonghe to Gregorian -->
       <div class="conv-panel">
-        <h2>共和曆 → 格里曆</h2>
-        <p class="panel-sub">Gonghe to Gregorian</p>
+        <h2 data-i18n="calendar.panel2_title">共和曆 → 格里曆</h2>
         <div class="field-row">
           <div class="field-group">
-            <label>年</label>
+            <label data-i18n="calendar.label_year">年</label>
             <input type="number" id="gh2g-year" value="2841" min="-9999" max="9999" />
           </div>
           <div class="field-group">
-            <label>月</label>
+            <label data-i18n="calendar.label_month">月</label>
             <input type="number" id="gh2g-month" value="1" min="1" max="12" />
           </div>
           <div class="field-group">
-            <label>日</label>
-            <input type="number" id="gh2g-day" value="12" min="1" max="31" />
+            <label data-i18n="calendar.label_day">日</label>
+            <input type="number" id="gh2g-day" value="13" min="1" max="31" />
           </div>
         </div>
-        <button id="gh2g-btn">轉換 →</button>
+        <button id="gh2g-btn" data-i18n="calendar.btn_convert">轉換 →</button>
         <div class="result-panel" id="gh2g-result"></div>
       </div>
     </div>
@@ -68,12 +65,6 @@ import Base from '../layouts/Base.astro';
   .conv-panel h2 {
     font-size: 1.2rem;
     color: var(--color-highlight);
-    margin-bottom: 0.25rem;
-  }
-  .panel-sub {
-    color: var(--color-muted);
-    font-size: 0.85rem;
-    font-style: italic;
     margin-bottom: 1.5rem;
   }
 
@@ -191,6 +182,10 @@ import Base from '../layouts/Base.astro';
     weekdayName,
     isLeapYear,
   } from '../lib/gonghe.ts';
+  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n.ts';
+  import type { Lang } from '../lib/i18n.ts';
+
+  const getLang = (): Lang => (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
 
   // --- G2GH ---
   const g2ghInput = document.getElementById('g2gh-input') as HTMLInputElement;
@@ -200,16 +195,17 @@ import Base from '../layouts/Base.astro';
   function doG2GH() {
     const val = g2ghInput.value;
     if (!val) return;
+    const lang = getLang();
     const [y, m, d] = val.split('-').map(Number);
     const r = getGongheDateFromGregorian(y, m, d);
-    const leapMark = isLeapYear(r.year) ? '（閏年）' : '（平年）';
+    const leapMark = isLeapYear(r.year) ? t('result.leap', lang) : t('result.common', lang);
     g2ghResult.innerHTML = `
       <div class="result-content">
-        <div class="result-main">共和 ${r.year} 年 ${r.month} 月 ${r.day} 日</div>
-        <div class="result-row"><span class="result-label">年份</span><span class="result-val">${r.year} ${leapMark}</span></div>
-        <div class="result-row"><span class="result-label">干支日</span><span class="result-val">${r.ganzhiStr}（第 ${r.ganzhiIdx + 1} / 60）</span></div>
-        <div class="result-row"><span class="result-label">曜日</span><span class="result-val">${r.weekdayStr}</span></div>
-        <div class="result-row"><span class="result-label">子輿日 ZDN</span><span class="result-val">${r.zdn.toLocaleString()}</span></div>
+        <div class="result-main">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
+        <div class="result-row"><span class="result-label">${t('result.year', lang)}</span><span class="result-val">${r.year} ${leapMark}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.ganzhi', lang)}</span><span class="result-val">${fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 })}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.weekday', lang)}</span><span class="result-val">${r.weekdayStr}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.zdn', lang)}</span><span class="result-val">${r.zdn.toLocaleString()}</span></div>
       </div>
     `;
   }
@@ -230,18 +226,22 @@ import Base from '../layouts/Base.astro';
     const m = parseInt(gh2gMonth.value);
     const d = parseInt(gh2gDay.value);
     if (isNaN(y) || isNaN(m) || isNaN(d)) return;
+    const lang = getLang();
     const [gy, gm, gd] = gongheToGregorian(y, m, d);
     const zdn = gongheToZiyu(y, m, d);
     const gzIdx = ganzhiIndex(zdn);
     const wd = weekdayName(zdn);
     const gStr = formatGregorianDate(gy, gm, gd);
+    const gregFmt = gy >= 1
+      ? fmt('fmt.gregorian_ce', lang, { year: gy, month: gm, day: gd })
+      : fmt('fmt.gregorian_bce', lang, { year: -gy, month: gm, day: gd });
     gh2gResult.innerHTML = `
       <div class="result-content">
         <div class="result-main">${gStr}</div>
-        <div class="result-row"><span class="result-label">格里曆</span><span class="result-val">${gy >= 1 ? `西元 ${gy} 年 ${gm} 月 ${gd} 日` : `西元前 ${-gy} 年 ${gm} 月 ${gd} 日`}</span></div>
-        <div class="result-row"><span class="result-label">干支日</span><span class="result-val">${ganzhiName(gzIdx)}（第 ${gzIdx + 1} / 60）</span></div>
-        <div class="result-row"><span class="result-label">曜日</span><span class="result-val">${wd}</span></div>
-        <div class="result-row"><span class="result-label">子輿日 ZDN</span><span class="result-val">${zdn.toLocaleString()}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.gregorian', lang)}</span><span class="result-val">${gregFmt}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.ganzhi', lang)}</span><span class="result-val">${fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 })}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.weekday', lang)}</span><span class="result-val">${wd}</span></div>
+        <div class="result-row"><span class="result-label">${t('result.zdn', lang)}</span><span class="result-val">${zdn.toLocaleString()}</span></div>
       </div>
     `;
   }
@@ -253,14 +253,25 @@ import Base from '../layouts/Base.astro';
   const today = getTodayGonghe();
   const gregStr = getTodayGregorianString();
   const todayRef = document.getElementById('today-ref')!;
-  todayRef.innerHTML = `
-    <div class="today-ref-title">今日 Today</div>
-    <div class="today-ref-grid">
-      <div class="today-ref-item"><div class="label">共和曆</div><div class="value">${today.year}/${today.month}/${today.day}</div></div>
-      <div class="today-ref-item"><div class="label">格里曆</div><div class="value">${gregStr}</div></div>
-      <div class="today-ref-item"><div class="label">干支日</div><div class="value">${today.ganzhiStr}</div></div>
-      <div class="today-ref-item"><div class="label">曜日</div><div class="value">${today.weekdayStr}</div></div>
-      <div class="today-ref-item"><div class="label">子輿日 ZDN</div><div class="value">${today.zdn.toLocaleString()}</div></div>
-    </div>
-  `;
+
+  function renderTodayRef() {
+    const lang = getLang();
+    todayRef.innerHTML = `
+      <div class="today-ref-title">${t('calendar.today_title', lang)}</div>
+      <div class="today-ref-grid">
+        <div class="today-ref-item"><div class="label">${t('calendar.label_gonghe', lang)}</div><div class="value">${today.year}/${today.month}/${today.day}</div></div>
+        <div class="today-ref-item"><div class="label">${t('result.gregorian', lang)}</div><div class="value">${gregStr}</div></div>
+        <div class="today-ref-item"><div class="label">${t('result.ganzhi', lang)}</div><div class="value">${today.ganzhiStr}</div></div>
+        <div class="today-ref-item"><div class="label">${t('result.weekday', lang)}</div><div class="value">${today.weekdayStr}</div></div>
+        <div class="today-ref-item"><div class="label">${t('result.zdn', lang)}</div><div class="value">${today.zdn.toLocaleString()}</div></div>
+      </div>
+    `;
+  }
+  renderTodayRef();
+
+  window.addEventListener('langchange', () => {
+    doG2GH();
+    doGH2G();
+    renderTodayRef();
+  });
 </script>

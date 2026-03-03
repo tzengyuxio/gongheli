@@ -4,122 +4,160 @@ import Base from '../layouts/Base.astro';
 
 <Base title="曆法規則" description="共和曆完整曆法規則說明：月制、閏法、一紀、子輿日">
   <div class="container section">
-    <h1>曆法規則</h1>
-    <p class="page-sub">Calendar Rules &amp; Design</p>
+    <h1 data-i18n="rules.title">曆法規則</h1>
 
     <nav class="toc">
-      <a href="#epoch">紀元</a>
-      <a href="#months">月制</a>
-      <a href="#leap">閏法</a>
-      <a href="#ji">一紀</a>
-      <a href="#ziyu">子輿日</a>
-      <a href="#accuracy">精確度對比</a>
+      <a href="#epoch" data-i18n="rules.toc_epoch">紀元</a>
+      <a href="#months" data-i18n="rules.toc_months">月制</a>
+      <a href="#leap" data-i18n="rules.toc_leap">閏法</a>
+      <a href="#ji" data-i18n="rules.toc_ji">一紀</a>
+      <a href="#ziyu" data-i18n="rules.toc_ziyu">子輿日</a>
+      <a href="#accuracy" data-i18n="rules.toc_accuracy">精確度對比</a>
     </nav>
 
     <section id="epoch" class="rule-section">
-      <h2>紀元</h2>
-      <p>以<strong>西周共和元年</strong>為共和 0 年（約西元前 841 年）。這是人類已知最早的連續紀年起點，出自《史記·十二諸侯年表》。</p>
-      <p>曆法採<strong>零年設計</strong>——共和 0 年存在，消除了公元紀年的零年問題。</p>
+      <h2 data-i18n="rules.h_epoch">紀元</h2>
+      <p data-i18n-html="rules.epoch_p1">以<strong>西周共和元年</strong>（西元前 841 年）為共和 <strong>1 年</strong>——曆年始於西元前 842 年 12 月 21 日冬至，大致涵蓋歷史上的共和元年。出自《史記·十二諸侯年表》，是人類已知最早的連續紀年起點。</p>
+      <p data-i18n-html="rules.epoch_p2">曆法採<strong>零年設計</strong>——共和 0 年（約西元前 843 年）存在，消除了公元紀年「1 BC → 1 AD 跨越零」的問題。</p>
       <div class="highlight-box">
         <div class="highlight-row">
-          <span>共和 0 年 = 西元前 841 年</span>
-          <span>共和 1 年 = 西元前 840 年</span>
+          <span data-i18n="rules.epoch_box1">共和 1 年 ≈ 西元前 841 年（曆年自 842 BC 12 月起）</span>
+          <span data-i18n="rules.epoch_box2">共和 2 年 ≈ 西元前 840 年</span>
         </div>
         <div class="highlight-row">
-          <span>公元 2025 年 = 共和 <strong id="current-year-rule">2865</strong> 年</span>
-          <span class="muted">（2025 + 841 − 1 = 2865）</span>
+          <span id="epoch-box3-span">公元 2025 年 ≈ 共和 <strong id="current-year-rule">2866</strong> 年</span>
+          <span class="muted" data-i18n="rules.epoch_box4">（西元年 + 841 ≈ 共和年）</span>
         </div>
       </div>
     </section>
 
     <section id="months" class="rule-section">
-      <h2>月制</h2>
-      <p>共和曆一年 12 個月，月長分配如下：</p>
+      <h2 data-i18n="rules.h_months">月制</h2>
+      <p data-i18n="rules.months_p1">共和曆一年 12 個月，月長分配如下：</p>
       <table>
         <thead>
-          <tr><th>月份</th><th>天數</th><th>說明</th></tr>
+          <tr>
+            <th data-i18n="rules.months_th_month">月份</th>
+            <th data-i18n="rules.months_th_days">天數</th>
+            <th data-i18n="rules.months_th_note">說明</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>單數月（1、3、5、7、9、11）</td><td>30 天</td><td>小月</td></tr>
-          <tr><td>偶數月（2、4、6、8、10）</td><td>31 天</td><td>大月</td></tr>
-          <tr><td>12 月</td><td>平年 30 天 / 閏年 31 天</td><td>閏日置年末</td></tr>
+          <tr>
+            <td data-i18n="rules.months_odd">單數月（1、3、5、7、9、11）</td>
+            <td data-i18n="rules.months_odd_days">30 天</td>
+            <td data-i18n="rules.months_odd_note">小月</td>
+          </tr>
+          <tr>
+            <td data-i18n="rules.months_even">偶數月（2、4、6、8、10）</td>
+            <td data-i18n="rules.months_even_days">31 天</td>
+            <td data-i18n="rules.months_even_note">大月</td>
+          </tr>
+          <tr>
+            <td data-i18n="rules.months_12">12 月</td>
+            <td data-i18n="rules.months_12_days">平年 30 天 / 閏年 31 天</td>
+            <td data-i18n="rules.months_12_note">閏日置年末</td>
+          </tr>
         </tbody>
       </table>
-      <div class="callout">
+      <div class="callout" data-i18n-html="rules.months_callout">
         <strong>優點：</strong>閏日置於年末（12 月），因此每年 1～11 月的日期與星期的相對位置固定不變。
         格里曆將閏日放在 2 月，導致 3 月以後的日期在閏年與平年間有一天位移——共和曆沒有這個問題。
       </div>
     </section>
 
     <section id="leap" class="rule-section">
-      <h2>閏法（31/128 規則）</h2>
-      <p>閏年規則：</p>
+      <h2 data-i18n="rules.h_leap">閏法（31/128 規則）</h2>
+      <p data-i18n="rules.leap_p1">閏年規則：</p>
       <pre><code>Y % 4 === 0  AND  Y % 128 !== 0</code></pre>
-      <p>四年一閏，但 128 的倍數年不閏（共和 0 年、128 年、256 年…不閏）。</p>
-      <p>每 128 年含 31 個閏年，平均年長：</p>
+      <p data-i18n="rules.leap_p2">四年一閏，但 128 的倍數年不閏（共和 0 年、128 年、256 年…不閏）。</p>
+      <p data-i18n="rules.leap_p3">每 128 年含 31 個閏年，平均年長：</p>
       <pre><code>46751 / 128 ≈ 365.242188 天</code></pre>
-      <p>推導方式：尋找最接近回歸年小數部分（0.242190）的最佳有理數近似。</p>
+      <p data-i18n="rules.leap_p4">推導方式：尋找最接近回歸年小數部分（0.242190）的最佳有理數近似。</p>
       <table>
         <thead>
-          <tr><th>曆法</th><th>閏法</th><th>平均年長（天）</th><th>年誤差</th></tr>
+          <tr>
+            <th data-i18n="rules.leap_th_calendar">曆法</th>
+            <th data-i18n="rules.leap_th_rule">閏法</th>
+            <th data-i18n="rules.leap_th_avg">平均年長（天）</th>
+            <th data-i18n="rules.leap_th_error">年誤差</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>格里曆</td><td>97/400</td><td>365.2425</td><td>約 26 秒</td></tr>
-          <tr><td class="highlight-cell">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">365.242188</td><td class="highlight-cell">約 0.2 秒 ✓</td></tr>
-          <tr><td>回歸年</td><td>—</td><td>365.24219</td><td>0</td></tr>
+          <tr><td data-i18n="rules.leap_gregorian">格里曆</td><td>97/400</td><td>365.2425</td><td>約 26 秒</td></tr>
+          <tr><td class="highlight-cell" data-i18n="rules.leap_gonghe">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">365.242188</td><td class="highlight-cell">約 0.2 秒 ✓</td></tr>
+          <tr><td data-i18n="rules.leap_tropical">回歸年</td><td>—</td><td>365.24219</td><td>0</td></tr>
         </tbody>
       </table>
-      <div class="callout">
+      <div class="callout" data-i18n-html="rules.leap_callout">
         共和曆閏法精確度約為格里曆的 <strong>150 倍</strong>，約 400,000 年才累積一天的偏差。
       </div>
     </section>
 
     <section id="ji" class="rule-section">
-      <h2>一紀（4418 年）</h2>
-      <p>4418 年為「一紀」，是回歸年、朔望月、干支甲子（60 日）、七曜週（7 日）的近似最小公倍數週期。</p>
+      <h2 data-i18n="rules.h_ji">一紀（4418 年）</h2>
+      <p data-i18n="rules.ji_p1">4418 年為「一紀」，是回歸年、朔望月、干支甲子（60 日）、七曜週（7 日）的近似最小公倍數週期。</p>
       <table>
         <thead>
-          <tr><th>單位</th><th>數量</th></tr>
+          <tr>
+            <th data-i18n="rules.ji_th_unit">單位</th>
+            <th data-i18n="rules.ji_th_count">數量</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>年</td><td>4,418</td></tr>
-          <tr><td>朔望月</td><td>54,643</td></tr>
-          <tr><td>日</td><td>1,613,640</td></tr>
-          <tr><td>甲子（60 日）</td><td>26,894</td></tr>
-          <tr><td>七曜週</td><td>230,520</td></tr>
+          <tr><td data-i18n="rules.ji_year">年</td><td>4,418</td></tr>
+          <tr><td data-i18n="rules.ji_month">朔望月</td><td>54,643</td></tr>
+          <tr><td data-i18n="rules.ji_day">日</td><td>1,613,640</td></tr>
+          <tr><td data-i18n="rules.ji_jiazi">甲子（60 日）</td><td>26,894</td></tr>
+          <tr><td data-i18n="rules.ji_week">七曜週</td><td>230,520</td></tr>
         </tbody>
       </table>
-      <p>第一紀的錨點為西元 1384 年 12 月 13 日（明洪武十七年），天文計算確認該日為朔旦冬至甲子日——即朔望月、冬至、干支甲子三者起點重合。</p>
+      <p data-i18n-html="rules.ji_p2">第一紀的錨點為西元 1384 年 12 月 13 日（明洪武十七年），天文計算確認該日為<strong>朔旦冬至甲子日</strong>——即朔望月、冬至、干支甲子三者起點重合。</p>
+      <div class="callout" data-i18n-html="rules.ji_callout">
+        <strong>朔旦冬至甲子</strong>是三個曆法週期同時歸零的時刻：
+        <strong>朔旦</strong>（新月當日）是朔望月的起點；
+        <strong>冬至</strong>是回歸年的起點；
+        <strong>甲子</strong>是干支六十循環的第一天。
+        三者同時重合極為罕見，構成「一紀」4418 年週期的天文依據，也是整個曆法時間系統最堅固的錨點。
+      </div>
     </section>
 
     <section id="ziyu" class="rule-section">
-      <h2>子輿日（ZDN）</h2>
-      <p>子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
-      <p>與儒略日（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
+      <h2 data-i18n="rules.h_ziyu">子輿日（ZDN）</h2>
+      <p data-i18n-html="rules.ziyu_p1">子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
+      <p data-i18n-html="rules.ziyu_p2">與儒略日（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
       <table>
         <thead>
-          <tr><th>對應關係</th><th>數值</th></tr>
+          <tr>
+            <th data-i18n="rules.ziyu_th_relation">對應關係</th>
+            <th data-i18n="rules.ziyu_th_value">數值</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>子輿日 0 = 儒略日</td><td>613,270.5</td></tr>
-          <tr><td>共和 0 年 1 月 1 日</td><td>子輿日 800,609</td></tr>
-          <tr><td>共和 1 年 1 月 1 日</td><td>子輿日 800,974</td></tr>
-          <tr><td>第一紀首日（西元 1384/12/13）</td><td>子輿日 1,613,640</td></tr>
+          <tr><td data-i18n="rules.ziyu_row1_label">子輿日 0 = 儒略日</td><td>613,270.5</td></tr>
+          <tr><td data-i18n="rules.ziyu_row2_label">共和 0 年 1 月 1 日</td><td>子輿日 800,609</td></tr>
+          <tr><td data-i18n="rules.ziyu_row3_label">共和 1 年 1 月 1 日</td><td>子輿日 800,974</td></tr>
+          <tr><td data-i18n="rules.ziyu_row4_label">第一紀首日（西元 1384/12/13）</td><td>子輿日 1,613,640</td></tr>
         </tbody>
       </table>
     </section>
 
     <section id="accuracy" class="rule-section">
-      <h2>精確度對比</h2>
-      <p>以天文回歸年（365.24219 天）為基準：</p>
+      <h2 data-i18n="rules.h_accuracy">精確度對比</h2>
+      <p data-i18n="rules.accuracy_p1">以天文回歸年（365.24219 天）為基準：</p>
       <table>
         <thead>
-          <tr><th>曆法</th><th>閏規則</th><th>誤差/年</th><th>累積 1 天所需年數</th></tr>
+          <tr>
+            <th data-i18n="rules.accuracy_th_calendar">曆法</th>
+            <th data-i18n="rules.accuracy_th_rule">閏規則</th>
+            <th data-i18n="rules.accuracy_th_error">誤差/年</th>
+            <th data-i18n="rules.accuracy_th_accum">累積 1 天所需年數</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>儒略曆</td><td>1/4</td><td>約 674 秒（11 分）</td><td>約 128 年</td></tr>
-          <tr><td>格里曆</td><td>97/400</td><td>約 26 秒</td><td>約 3,323 年</td></tr>
-          <tr><td class="highlight-cell">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">約 0.2 秒</td><td class="highlight-cell">約 400,000 年</td></tr>
+          <tr><td data-i18n="rules.accuracy_julian">儒略曆</td><td>1/4</td><td>約 674 秒（11 分）</td><td>約 128 年</td></tr>
+          <tr><td data-i18n="rules.accuracy_gregorian">格里曆</td><td>97/400</td><td>約 26 秒</td><td>約 3,323 年</td></tr>
+          <tr><td class="highlight-cell" data-i18n="rules.accuracy_gonghe">共和曆</td><td class="highlight-cell">31/128</td><td class="highlight-cell">約 0.2 秒</td><td class="highlight-cell">約 400,000 年</td></tr>
         </tbody>
       </table>
     </section>
@@ -179,7 +217,15 @@ import Base from '../layouts/Base.astro';
 
 <script>
   import { getTodayGonghe } from '../lib/gonghe.ts';
+
   const today = getTodayGonghe();
-  const el = document.getElementById('current-year-rule');
-  if (el) el.textContent = String(today.year);
+
+  function updateCurrentYear() {
+    const el = document.getElementById('current-year-rule');
+    if (el) el.textContent = String(today.year);
+  }
+  updateCurrentYear();
+
+  // Keep year updated after langchange (applyLang may replace innerHTML)
+  window.addEventListener('langchange', updateCurrentYear);
 </script>

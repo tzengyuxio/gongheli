@@ -1,4 +1,6 @@
 ---
+import { LANGUAGES, DEFAULT_LANG } from '../lib/i18n.ts';
+
 interface Props {
   title: string;
   description?: string;
@@ -84,6 +86,26 @@ const base = import.meta.env.BASE_URL;
         text-decoration: none;
       }
 
+      .lang-select {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+        font-family: var(--font-sans);
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .lang-select:hover, .lang-select:focus {
+        border-color: var(--color-accent-dim);
+        color: var(--color-text);
+      }
+      .lang-select option {
+        background: var(--color-surface);
+      }
+
       main { min-height: calc(100vh - 120px); }
 
       footer {
@@ -152,12 +174,6 @@ const base = import.meta.env.BASE_URL;
 
     <style is:global>
       /* Shared utility classes used across content pages (must be global to reach slotted content) */
-      .page-sub {
-        color: var(--color-muted);
-        font-style: italic;
-        margin-bottom: 2rem;
-      }
-
       .callout {
         background: rgba(200, 169, 110, 0.08);
         border-left: 3px solid var(--color-accent-dim);
@@ -193,20 +209,60 @@ const base = import.meta.env.BASE_URL;
     <nav>
       <a class="nav-logo" href={`${base}/`}>共和曆</a>
       <ul class="nav-links">
-        <li><a href={`${base}/`}>首頁</a></li>
-        <li><a href={`${base}/calendar`}>日曆工具</a></li>
-        <li><a href={`${base}/rules`}>曆法規則</a></li>
-        <li><a href={`${base}/about`}>關於</a></li>
+        <li><a href={`${base}/`}       data-i18n="nav.home">首頁</a></li>
+        <li><a href={`${base}/calendar`} data-i18n="nav.calendar">日曆工具</a></li>
+        <li><a href={`${base}/rules`}  data-i18n="nav.rules">曆法規則</a></li>
+        <li><a href={`${base}/about`}  data-i18n="nav.about">關於</a></li>
       </ul>
+      <select id="lang-select" class="lang-select" aria-label="Select language">
+        {LANGUAGES.map(l => <option value={l.code}>{l.label}</option>)}
+      </select>
     </nav>
     <main>
       <slot />
     </main>
     <footer>
       <div class="container">
-        <p>共和曆 (Gonghe Calendar) · 以西周共和元年（前 841 年）為紀元 · <a href="https://github.com/tzengyuxio/gongheli">GitHub</a></p>
-        <p style="margin-top:0.5rem; font-size:0.8rem;">聖人慎守日月之數，以察星辰之行，以序四時之順逆，謂之厤 ——《大戴禮記·曾子天圓》</p>
+        <p><span data-i18n="footer.tagline">共和曆 (Gonghe Calendar) · 以西周共和元年（前 841 年）為紀元</span> · <a href="https://github.com/tzengyuxio/gongheli">GitHub</a></p>
+        <p style="margin-top:0.5rem; font-size:0.8rem;" data-i18n="footer.quote">聖人慎守日月之數，以察星辰之行，以序四時之順逆，謂之厤 ——《大戴禮記·曾子天圓》</p>
       </div>
     </footer>
   </body>
 </html>
+
+<script>
+  import { LANGUAGES, DEFAULT_LANG, LANG_KEY, t } from '../lib/i18n.ts';
+  import type { Lang } from '../lib/i18n.ts';
+
+  function applyLang(lang: Lang) {
+    const cfg = LANGUAGES.find(l => l.code === lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', cfg?.dir ?? 'ltr');
+
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n')!;
+      el.textContent = t(key, lang);
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html')!;
+      el.innerHTML = t(key, lang);
+    });
+
+    window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+  }
+
+  // Language switcher
+  const langSelect = document.getElementById('lang-select') as HTMLSelectElement;
+  const initLang = (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
+  if (langSelect) {
+    langSelect.value = initLang;
+    langSelect.addEventListener('change', () => {
+      const newLang = langSelect.value as Lang;
+      localStorage.setItem(LANG_KEY, newLang);
+      applyLang(newLang);
+    });
+  }
+
+  applyLang(initLang);
+</script>
