@@ -25,8 +25,10 @@ import Base from '../layouts/Base.astro';
       <div class="converter-box">
         <div class="converter-input">
           <label for="date-input" data-i18n="index.label_gregorian">格里曆日期</label>
-          <input type="date" id="date-input" value="2000-01-01" />
-          <button id="convert-btn" data-i18n="index.btn_convert">換算 →</button>
+          <div class="converter-row">
+            <input type="date" id="date-input" value="2000-01-01" />
+            <button id="convert-btn" data-i18n="index.btn_convert">換算 →</button>
+          </div>
         </div>
         <div class="converter-result" id="converter-result">
           <div class="result-placeholder" data-i18n="index.result_placeholder">← 輸入日期後查看結果</div>
@@ -73,21 +75,22 @@ import Base from '../layouts/Base.astro';
 <style>
   /* Hero */
   .hero {
-    display: flex;
-    align-items: center;
     background: radial-gradient(ellipse at 50% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
     border-bottom: 1px solid var(--color-border);
     text-align: center;
+    padding: 3rem 1.5rem 2.5rem;
   }
-  .hero .container { padding-top: 4rem; padding-bottom: 3rem; }
+  .hero .container {
+    max-width: 520px;
+  }
 
   .hero-brand {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--color-accent);
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .today-badge {
@@ -95,82 +98,83 @@ import Base from '../layouts/Base.astro';
     background: var(--color-surface);
     border: 1px solid var(--color-accent-dim);
     border-radius: 20px;
-    padding: 0.25rem 1rem;
-    font-size: 0.8rem;
+    padding: 0.15rem 0.75rem;
+    font-size: 0.75rem;
     color: var(--color-accent);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .today-gonghe {
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
     font-weight: 700;
     color: var(--color-highlight);
     letter-spacing: 0.02em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
     line-height: 1.2;
   }
 
   .today-sub {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--color-accent);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.03em;
   }
 
   .hero-tagline {
-    font-size: clamp(0.88rem, 2vw, 1rem);
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     color: var(--color-muted);
-    max-width: 520px;
     margin: 0 auto;
     font-style: italic;
   }
 
-  .today-loading { color: var(--color-muted); font-size: 1.5rem; font-weight: 400; }
+  .today-loading { color: var(--color-muted); font-size: 1.2rem; font-weight: 400; }
   .today-loading-sub { color: var(--color-muted); }
 
   /* Section common */
   .section-title {
     text-align: center;
     color: var(--color-text);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
   }
 
   /* Converter */
   .converter-section { background: var(--color-surface); }
   .converter-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    max-width: 440px;
+    margin: 0 auto;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 2rem;
-  }
-  @media (max-width: 600px) {
-    .converter-box { grid-template-columns: 1fr; }
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
   }
 
   .converter-input label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--color-muted);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
 
+  .converter-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
   .converter-input input[type="date"] {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    padding: 0.45rem 0.75rem;
     color: var(--color-text);
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     font-family: var(--font-mono);
-    margin-bottom: 1rem;
     outline: none;
     transition: border-color 0.2s;
   }
@@ -179,118 +183,121 @@ import Base from '../layouts/Base.astro';
   }
 
   .converter-input button {
-    width: 100%;
+    flex-shrink: 0;
     background: var(--color-accent-dim);
     border: 1px solid var(--color-accent);
-    border-radius: 8px;
-    padding: 0.75rem;
+    border-radius: 6px;
+    padding: 0.45rem 1rem;
     color: var(--color-highlight);
-    font-size: 1rem;
+    font-size: 0.88rem;
     font-family: var(--font-sans);
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s;
+    white-space: nowrap;
   }
   .converter-input button:hover {
     background: var(--color-accent);
     color: #1a1a24;
-    transform: translateY(-1px);
   }
-  .converter-input button:active { transform: translateY(0); }
 
   .converter-result {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 1rem;
+    text-align: center;
   }
   .result-placeholder {
     color: var(--color-muted);
-    font-size: 0.9rem;
-    text-align: center;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
   }
   .result-date { text-align: center; }
   .result-year {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-highlight);
-    line-height: 1;
-  }
-  .result-month-day {
-    font-size: 1.4rem;
-    color: var(--color-accent);
-    margin: 0.3rem 0;
+    line-height: 1.3;
   }
   .result-meta {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     color: var(--color-muted);
-    margin-top: 0.75rem;
+    margin-top: 0.4rem;
   }
   .result-meta span {
     display: inline-block;
-    margin: 0.2rem 0.5rem;
+    margin: 0.15rem 0.25rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 20px;
-    padding: 0.1rem 0.75rem;
+    padding: 0.05rem 0.6rem;
+    font-size: 0.78rem;
   }
   .result-zdn {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--color-muted);
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     font-family: var(--font-mono);
   }
 
   /* Features */
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 700px) {
+    .features-grid { grid-template-columns: 1fr; }
   }
   .feature-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: border-color 0.2s, transform 0.2s;
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.2s;
   }
   .feature-card:hover {
     border-color: var(--color-accent-dim);
-    transform: translateY(-2px);
   }
   .feature-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
     line-height: 1;
   }
   .feature-card h3 {
     color: var(--color-highlight);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
   }
   .feature-card p {
     color: var(--color-text);
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 
   /* Events */
   .events-section { background: var(--color-surface); }
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  @media (max-width: 700px) {
+    .events-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .events-grid { grid-template-columns: 1fr; }
   }
   .event-card {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.25rem;
   }
-  .event-name { font-weight: 600; color: var(--color-text); font-size: 0.95rem; }
-  .event-gregorian { color: var(--color-muted); font-size: 0.82rem; font-family: var(--font-mono); }
-  .event-gonghe { color: var(--color-accent); font-size: 1rem; font-family: var(--font-mono); }
-  .event-meta { color: var(--color-muted); font-size: 0.78rem; }
+  .event-name { font-weight: 600; color: var(--color-text); font-size: 0.88rem; }
+  .event-gregorian { color: var(--color-muted); font-size: 0.78rem; font-family: var(--font-mono); }
+  .event-gonghe { color: var(--color-accent); font-size: 0.9rem; font-family: var(--font-mono); }
+  .event-meta { color: var(--color-muted); font-size: 0.75rem; }
 </style>
 
 <script>

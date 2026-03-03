@@ -132,24 +132,59 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
         text-decoration: none;
       }
 
-      .lang-select {
+      .lang-picker {
+        position: relative;
+      }
+      .lang-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
         background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: 6px;
         color: var(--color-muted);
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         font-family: var(--font-sans);
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.6rem;
         cursor: pointer;
-        outline: none;
         transition: border-color 0.2s, color 0.2s;
       }
-      .lang-select:hover, .lang-select:focus {
+      .lang-btn:hover, .lang-btn:focus {
         border-color: var(--color-accent-dim);
         color: var(--color-text);
+        outline: none;
       }
-      .lang-select option {
+      .lang-btn svg { transition: transform 0.2s; }
+      .lang-picker.open .lang-btn svg { transform: rotate(180deg); }
+
+      .lang-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        right: 0;
+        min-width: 180px;
+        max-height: 320px;
+        overflow-y: auto;
         background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 0.3rem 0;
+        list-style: none;
+        z-index: 200;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      }
+      .lang-picker.open .lang-menu { display: block; }
+      .lang-menu li {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.82rem;
+        color: var(--color-text);
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .lang-menu li:hover { background: rgba(200,169,110,0.1); }
+      .lang-menu li.active {
+        color: var(--color-highlight);
+        font-weight: 600;
       }
 
       main { min-height: calc(100vh - 120px); }
@@ -261,9 +296,15 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
           <li><a href={`${base}/rules`}  data-i18n="nav.rules">曆法規則</a></li>
           <li><a href={`${base}/about`}  data-i18n="nav.about">關於</a></li>
         </ul>
-        <select id="lang-select" class="lang-select" aria-label="Select language">
-          {LANGUAGES.map(l => <option value={l.code}>{l.label}</option>)}
-        </select>
+        <div class="lang-picker" id="lang-picker">
+          <button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span id="lang-btn-label">{DEFAULT_LANG}</span>
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <ul class="lang-menu" id="lang-menu" role="listbox" aria-label="Select language">
+            {LANGUAGES.map(l => <li role="option" data-lang={l.code}>{l.label}</li>)}
+          </ul>
+        </div>
       </div>
     </nav>
     <main>
@@ -307,16 +348,44 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
   const saved = localStorage.getItem(LANG_KEY) as Lang | null;
   const initLang: Lang = saved ?? detectLang() ?? DEFAULT_LANG;
 
-  // Language switcher
-  const langSelect = document.getElementById('lang-select') as HTMLSelectElement;
-  if (langSelect) {
-    langSelect.value = initLang;
-    langSelect.addEventListener('change', () => {
-      const newLang = langSelect.value as Lang;
-      localStorage.setItem(LANG_KEY, newLang);
-      applyLang(newLang);
+  // Custom language dropdown
+  const picker = document.getElementById('lang-picker')!;
+  const btn = document.getElementById('lang-btn')!;
+  const btnLabel = document.getElementById('lang-btn-label')!;
+  const menu = document.getElementById('lang-menu')!;
+
+  function setPickerLabel(lang: Lang) {
+    const cfg = LANGUAGES.find(l => l.code === lang);
+    btnLabel.textContent = cfg?.label ?? lang;
+    menu.querySelectorAll('li').forEach(li => {
+      li.classList.toggle('active', li.dataset.lang === lang);
     });
   }
 
+  btn.addEventListener('click', () => {
+    picker.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(picker.classList.contains('open')));
+  });
+
+  menu.addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest('li');
+    if (!li?.dataset.lang) return;
+    const newLang = li.dataset.lang as Lang;
+    localStorage.setItem(LANG_KEY, newLang);
+    setPickerLabel(newLang);
+    applyLang(newLang);
+    picker.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!picker.contains(e.target as Node)) {
+      picker.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  setPickerLabel(initLang);
   applyLang(initLang);
 </script>
