@@ -42,7 +42,7 @@ For each year count i from 0 to max_year:
 
   4. A row is printed (shown as a candidate) if:
          time_part > running_max   — new record; update running_max
-         OR time_part ≥ 0.916667  — within the last ~2 hours of the day
+         OR time_part ≥ 0.916667  — within the last 一時辰 (2 hours) of the day
      Rows in REFERENCE_YEARS are always printed regardless.
 
   5. A candidate is marked [x] (valid epoch cycle / 一紀) if additionally:
@@ -63,7 +63,7 @@ Usage:
 
 import argparse
 from datetime import timedelta
-from math import modf, floor
+from math import modf
 
 # ---------------------------------------------------------------------------
 # Astronomical constants
@@ -89,11 +89,11 @@ WEEK_CYCLE   = 7    # week length (七曜)
 # 1520   → 後漢書：1紀 = 20蔀 = 1520 years
 # 1539   → 三統曆：1統 = 81章 = 1539 years (朔旦冬至同夜半)
 # 4560   → 後漢書：1元 = 3紀 = 4560 years
-REFERENCE_YEARS = [19, 76, 391, 1520, 1539, 4560]
+REFERENCE_YEARS = {19, 76, 391, 1520, 1539, 4560}  # set for O(1) lookup
 
-# Threshold for "close enough to end of day" (22/24 ≈ 0.9167)
-# A time_part above this means the cycle ends within the last ~2 hours of
-# the final partial day, making one extra day a good approximation.
+# Alignment threshold: the cycle endpoint must fall within the last 一時辰
+# (one Chinese double-hour = 2 hours) of the final partial day.
+# i.e., time_part ≥ 22/24, meaning the residual error is < 2 hours.
 THRESHOLD_TIME_PART = 22 / 24  # ≈ 0.916667
 
 
@@ -118,12 +118,14 @@ def find_cycle(solar_len: float = TROPICAL_YEAR,
 
     Returns
     -------
-    list of dict, each representing a printed row with keys:
+    list of dict, each representing a candidate row with keys:
         n_years, n_months, n_days,
         solar_days, lunar_days,
         time_part_solar, time_part_lunar,
-        div_ganzhi, div_week, is_epoch,
-        is_reference, is_record
+        year_res_min, month_res_min,   -- residual minutes before midnight
+        n_ganzhi, n_weeks,             -- divisibility counts
+        div_ganzhi, div_week,
+        is_epoch, is_reference, is_record
     """
     results = []
     running_max_time_part = 0.5  # track the best (highest) min time_part seen so far
@@ -142,7 +144,7 @@ def find_cycle(solar_len: float = TROPICAL_YEAR,
         time_part_lunar, day_part_lunar = modf(lunar_days)
 
         is_reference = (i in REFERENCE_YEARS)
-        is_record  = False
+        is_record    = False
 
         if not is_reference:
             # Both cycles must land on the same integer day — otherwise the
@@ -159,7 +161,7 @@ def find_cycle(solar_len: float = TROPICAL_YEAR,
                 running_max_time_part = time_part
                 is_record = True
             elif time_part < THRESHOLD_TIME_PART:
-                # Below both the record and the 22-hour threshold — not interesting
+                # Below both the record and the 一時辰 threshold — not interesting
                 continue
 
         # Integer day count for this cycle: floor(solar_days) + 1
@@ -170,22 +172,29 @@ def find_cycle(solar_len: float = TROPICAL_YEAR,
         div_ganzhi = (n_days % GANZHI_CYCLE == 0)
         div_week   = (n_days % WEEK_CYCLE   == 0)
 
-        # A valid epoch cycle (紀) must satisfy all four alignment conditions
+        # A valid epoch cycle (紀) requires all four alignment conditions.
+        # Reference years are excluded from is_epoch: they serve as historical
+        # comparison points, not as new cycle candidates.
         is_epoch = div_ganzhi and div_week and not is_reference
 
         results.append({
-            'n_years':        i,
-            'n_months':       j,
-            'n_days':         n_days,
-            'solar_days':     solar_days,
-            'lunar_days':     lunar_days,
+            'n_years':         i,
+            'n_months':        j,
+            'n_days':          n_days,
+            'solar_days':      solar_days,
+            'lunar_days':      lunar_days,
             'time_part_solar': time_part_solar,
             'time_part_lunar': time_part_lunar,
-            'div_ganzhi':     div_ganzhi,
-            'div_week':       div_week,
-            'is_epoch':       is_epoch,
-            'is_reference':     is_reference,
-            'is_record':      is_record,
+            # Pre-computed derived fields used by all output functions
+            'year_res_min':    (1 - time_part_solar) * 24 * 60,
+            'month_res_min':   (1 - time_part_lunar) * 24 * 60,
+            'n_ganzhi':        n_days // GANZHI_CYCLE,
+            'n_weeks':         n_days // WEEK_CYCLE,
+            'div_ganzhi':      div_ganzhi,
+            'div_week':        div_week,
+            'is_epoch':        is_epoch,
+            'is_reference':    is_reference,
+            'is_record':       is_record,
         })
 
     return results
@@ -195,25 +204,30 @@ def find_cycle(solar_len: float = TROPICAL_YEAR,
 # Output formatting
 # ---------------------------------------------------------------------------
 
+def _fmt_hms(seconds: float) -> str:
+    """Format a duration in seconds as HH:MM:SS."""
+    return str(timedelta(seconds=round(abs(seconds))))
+
+
 def _fmt_timepart(frac: float) -> str:
     """Format a fractional day (0–1) as HH:MM:SS."""
-    return str(timedelta(days=frac))[:-7]  # drop microseconds
+    return _fmt_hms(frac * 86400)
+
+
+def _fmt_residual_hms(minutes: float) -> str:
+    """Format a residual time in minutes as HH:MM:SS."""
+    return _fmt_hms(minutes * 60)
 
 
 def print_results(results: list[dict]) -> None:
     """Print the candidate table in the same format as the original find_period.txt."""
-    header = (
+    print(
         "回歸年數, 朔望月數, 太陽日數, "
         "年循環最後一日餘時, 月循環最後一日餘時, "
         "合甲子, 合七曜, "
         "年循環太陽日數, 月循環太陽日數"
     )
-    print(header)
     for r in results:
-        special_mark = " [歷]" if r['is_reference'] else ""
-        record_mark  = " [最]" if r['is_record']  else ""
-        epoch_mark_g = "x" if r['div_ganzhi'] else " "
-        epoch_mark_w = "x" if r['div_week']   else " "
         print(
             "{0:>5}年 {1:>6}月 {2:>8}日 "
             "{3:>08}時(年) {4:>08}時(月) "
@@ -225,19 +239,18 @@ def print_results(results: list[dict]) -> None:
                 r['n_days'],
                 _fmt_timepart(r['time_part_solar']),
                 _fmt_timepart(r['time_part_lunar']),
-                epoch_mark_g,
-                epoch_mark_w,
+                "x" if r['div_ganzhi'] else " ",
+                "x" if r['div_week']   else " ",
                 r['solar_days'],
                 r['lunar_days'],
-                special_mark,
-                record_mark,
+                " [歷]" if r['is_reference'] else "",
+                " [最]" if r['is_record']    else "",
             )
         )
 
 
-def print_epoch_summary(results: list[dict]) -> None:
-    """Print only the valid epoch cycles (紀) with full statistics."""
-    epochs = [r for r in results if r['is_epoch']]
+def print_epoch_summary(epochs: list[dict]) -> None:
+    """Print the valid epoch cycles (紀) table and a summary of the smallest one."""
     if not epochs:
         print("No valid epoch cycles found.")
         return
@@ -252,47 +265,30 @@ def print_epoch_summary(results: list[dict]) -> None:
           f"{'Year res':>10}  {'Month res':>10}")
     print("-" * 70)
     for r in epochs:
-        year_res_min  = (1 - r['time_part_solar']) * 24 * 60
-        month_res_min = (1 - r['time_part_lunar']) * 24 * 60
-        n_ganzhi = r['n_days'] // GANZHI_CYCLE
-        n_weeks  = r['n_days'] // WEEK_CYCLE
         print(
             f"  {r['n_years']:>8,}  {r['n_months']:>8,}  {r['n_days']:>12,}  "
-            f"{n_ganzhi:>8,}  {n_weeks:>8,}  "
-            f"{_fmt_residual_hms(year_res_min):>10}  "
-            f"{_fmt_residual_hms(month_res_min):>10}"
+            f"{r['n_ganzhi']:>8,}  {r['n_weeks']:>8,}  "
+            f"{_fmt_residual_hms(r['year_res_min']):>10}  "
+            f"{_fmt_residual_hms(r['month_res_min']):>10}"
         )
     print("=" * 70)
 
     first = epochs[0]
-    n_ganzhi = first['n_days'] // GANZHI_CYCLE
-    n_weeks  = first['n_days'] // WEEK_CYCLE
-    year_res_min  = (1 - first['time_part_solar']) * 24 * 60
-    month_res_min = (1 - first['time_part_lunar']) * 24 * 60
     print()
     print("Smallest valid epoch cycle (一紀):")
     print(f"  {first['n_days']:,} days")
     print(f"  = {first['n_years']:,} tropical years")
     print(f"  = {first['n_months']:,} synodic months")
-    print(f"  = {n_ganzhi:,} sexagenary cycles (干支紀日)")
-    print(f"  = {n_weeks:,} weeks (七曜)")
-    print(f"  Year cycle ends {_fmt_residual_hms(year_res_min)} ({year_res_min:.2f} min) before midnight")
-    print(f"  Month cycle ends {_fmt_residual_hms(month_res_min)} ({month_res_min:.2f} min) before midnight")
+    print(f"  = {first['n_ganzhi']:,} sexagenary cycles (干支紀日)")
+    print(f"  = {first['n_weeks']:,} weeks (七曜)")
+    print(f"  Year cycle ends  {_fmt_residual_hms(first['year_res_min'])} "
+          f"({first['year_res_min']:.2f} min) before midnight")
+    print(f"  Month cycle ends {_fmt_residual_hms(first['month_res_min'])} "
+          f"({first['month_res_min']:.2f} min) before midnight")
 
 
-def _fmt_residual_hms(minutes: float) -> str:
-    """Format residual time in minutes as HH:MM:SS."""
-    total_seconds = round(abs(minutes) * 60)
-    h = total_seconds // 3600
-    m = (total_seconds % 3600) // 60
-    s = total_seconds % 60
-    return f"{h:02d}:{m:02d}:{s:02d}"
-
-
-def save_results(results: list[dict], path: str) -> None:
+def save_results(results: list[dict], epochs: list[dict], path: str) -> None:
     """Save full results to a text file."""
-    epochs = [r for r in results if r['is_epoch']]
-
     with open(path, "w", encoding="utf-8") as f:
         f.write("Gonghe Calendar — Epoch Cycle Search Results\n")
         f.write("=" * 78 + "\n\n")
@@ -302,7 +298,7 @@ def save_results(results: list[dict], path: str) -> None:
         f.write(f"  Synodic month  M = {SYNODIC_MONTH} days\n")
         f.write(f"    Source: 臺北市立天文科學教育館《天文年鑑2017》, p.191\n\n")
         f.write(f"Alignment threshold: time_part ≥ {THRESHOLD_TIME_PART:.6f} "
-                f"(= {THRESHOLD_TIME_PART * 24:.0f}/24 hours)\n\n")
+                f"(= {THRESHOLD_TIME_PART * 24:.0f}/24 hours, 一時辰)\n\n")
 
         # Candidate table
         f.write("Candidate Table\n")
@@ -314,8 +310,6 @@ def save_results(results: list[dict], path: str) -> None:
             "年循環太陽日數, 月循環太陽日數\n"
         )
         for r in results:
-            epoch_mark_g = "x" if r['div_ganzhi'] else " "
-            epoch_mark_w = "x" if r['div_week']   else " "
             f.write(
                 "{0:>5}年 {1:>6}月 {2:>8}日 "
                 "{3:>08}時(年) {4:>08}時(月) "
@@ -324,7 +318,8 @@ def save_results(results: list[dict], path: str) -> None:
                     r['n_years'], r['n_months'], r['n_days'],
                     _fmt_timepart(r['time_part_solar']),
                     _fmt_timepart(r['time_part_lunar']),
-                    epoch_mark_g, epoch_mark_w,
+                    "x" if r['div_ganzhi'] else " ",
+                    "x" if r['div_week']   else " ",
                     r['solar_days'], r['lunar_days'],
                 )
             )
@@ -337,25 +332,17 @@ def save_results(results: list[dict], path: str) -> None:
                 f"{'Ganzhi':>8}  {'Weeks':>8}  "
                 f"{'Year res':>10}  {'Month res':>10}\n")
         for r in epochs:
-            n_ganzhi = r['n_days'] // GANZHI_CYCLE
-            n_weeks  = r['n_days'] // WEEK_CYCLE
-            year_res_min  = (1 - r['time_part_solar']) * 24 * 60
-            month_res_min = (1 - r['time_part_lunar']) * 24 * 60
             f.write(
                 f"  {r['n_years']:>8,}  {r['n_months']:>8,}  {r['n_days']:>12,}  "
-                f"{n_ganzhi:>8,}  {n_weeks:>8,}  "
-                f"{_fmt_residual_hms(year_res_min):>10}  "
-                f"{_fmt_residual_hms(month_res_min):>10}\n"
+                f"{r['n_ganzhi']:>8,}  {r['n_weeks']:>8,}  "
+                f"{_fmt_residual_hms(r['year_res_min']):>10}  "
+                f"{_fmt_residual_hms(r['month_res_min']):>10}\n"
             )
         f.write("\n")
 
         # Conclusion
         if epochs:
             first = epochs[0]
-            n_ganzhi = first['n_days'] // GANZHI_CYCLE
-            n_weeks  = first['n_days'] // WEEK_CYCLE
-            year_res_min  = (1 - first['time_part_solar']) * 24 * 60
-            month_res_min = (1 - first['time_part_lunar']) * 24 * 60
             f.write("Conclusion\n")
             f.write("-" * 78 + "\n")
             f.write(
@@ -364,12 +351,12 @@ def save_results(results: list[dict], path: str) -> None:
                 f"{first['n_years']:,}年，"
                 f"合{first['n_months']:,}月，"
                 f"合{first['n_days']:,}日，"
-                f"合{n_ganzhi:,}甲子，"
-                f"合{n_weeks:,}週。\n\n"
-                f"  Year cycle residual:  {_fmt_residual_hms(year_res_min)} "
-                f"({year_res_min:.4f} min) before midnight\n"
-                f"  Month cycle residual: {_fmt_residual_hms(month_res_min)} "
-                f"({month_res_min:.4f} min) before midnight\n"
+                f"合{first['n_ganzhi']:,}甲子，"
+                f"合{first['n_weeks']:,}週。\n\n"
+                f"  Year cycle residual:  {_fmt_residual_hms(first['year_res_min'])} "
+                f"({first['year_res_min']:.4f} min) before midnight\n"
+                f"  Month cycle residual: {_fmt_residual_hms(first['month_res_min'])} "
+                f"({first['month_res_min']:.4f} min) before midnight\n"
             )
 
     print(f"\nResults saved to: {path}")
@@ -400,18 +387,19 @@ def main() -> None:
     print(f"Searching up to {args.max_years:,} years...")
     print(f"  Tropical year  Y = {TROPICAL_YEAR} days")
     print(f"  Synodic month  M = {SYNODIC_MONTH} days")
-    print(f"  Threshold: time_part ≥ {THRESHOLD_TIME_PART:.6f} ({THRESHOLD_TIME_PART*24:.0f}/24 h)")
+    print(f"  Threshold: time_part ≥ {THRESHOLD_TIME_PART:.6f} ({THRESHOLD_TIME_PART*24:.0f}/24 h = 一時辰)")
     print()
 
     results = find_cycle(max_year=args.max_years)
+    epochs  = [r for r in results if r['is_epoch']]
 
     if args.full_table:
         print_results(results)
 
-    print_epoch_summary(results)
+    print_epoch_summary(epochs)
 
     if args.save_results:
-        save_results(results, "tools/cycle_results.txt")
+        save_results(results, epochs, "tools/cycle_results.txt")
 
 
 if __name__ == "__main__":
