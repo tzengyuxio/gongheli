@@ -59,34 +59,6 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
       "description": description,
     })} />
     <style>
-      :root {
-        --color-bg: #0f0f13;
-        --color-surface: #1a1a24;
-        --color-border: #2a2a38;
-        --color-text: #e8e4d9;
-        --color-muted: #8a8070;
-        --color-accent: #c8a96e;
-        --color-accent-dim: #8a7040;
-        --color-highlight: #e8c87a;
-        --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
-        --font-mono: 'Noto Sans Mono', 'Courier New', monospace;
-      }
-
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-      html { scroll-behavior: smooth; }
-
-      body {
-        background: var(--color-bg);
-        color: var(--color-text);
-        font-family: var(--font-sans);
-        line-height: 1.7;
-        min-height: 100vh;
-      }
-
-      a { color: var(--color-accent); text-decoration: none; }
-      a:hover { color: var(--color-highlight); text-decoration: underline; }
-
       nav {
         position: sticky;
         top: 0;
@@ -201,6 +173,34 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
     </style>
 
     <style is:global>
+      :root {
+        --color-bg: #0f0f13;
+        --color-surface: #1a1a24;
+        --color-border: #2a2a38;
+        --color-text: #e8e4d9;
+        --color-muted: #8a8070;
+        --color-accent: #c8a96e;
+        --color-accent-dim: #8a7040;
+        --color-highlight: #e8c87a;
+        --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+        --font-mono: 'Noto Sans Mono', 'Courier New', monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-sans);
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+
+      a { color: var(--color-accent); text-decoration: none; }
+      a:hover { color: var(--color-highlight); text-decoration: underline; }
+
       /* Global styles that must reach slotted page content */
       .container {
         max-width: 800px;
@@ -210,6 +210,10 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 
       .section {
         padding: 3rem 0;
+      }
+
+      .container.section {
+        max-width: 620px;
       }
 
       h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
@@ -320,23 +324,24 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 </html>
 
 <script>
-  import { LANGUAGES, DEFAULT_LANG, LANG_KEY, detectLang, t } from '../lib/i18n';
+  import { LANGUAGES, DEFAULT_LANG, LANG_KEY, detectLang, isLang, t } from '../lib/i18n';
   import type { Lang } from '../lib/i18n';
+
+  // Cache i18n node lists once at startup
+  const i18nNodes = Array.from(document.querySelectorAll<HTMLElement>('[data-i18n]'));
+  const i18nHtmlNodes = Array.from(document.querySelectorAll<HTMLElement>('[data-i18n-html]'));
 
   function applyLang(lang: Lang) {
     const cfg = LANGUAGES.find(l => l.code === lang);
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', cfg?.dir ?? 'ltr');
 
-    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n')!;
-      el.textContent = t(key, lang);
-    });
-
-    document.querySelectorAll<HTMLElement>('[data-i18n-html]').forEach(el => {
-      const key = el.getAttribute('data-i18n-html')!;
-      el.innerHTML = t(key, lang);
-    });
+    for (const el of i18nNodes) {
+      el.textContent = t(el.getAttribute('data-i18n')!, lang);
+    }
+    for (const el of i18nHtmlNodes) {
+      el.innerHTML = t(el.getAttribute('data-i18n-html')!, lang);
+    }
 
     window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
   }
@@ -354,6 +359,11 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
   const btnLabel = document.getElementById('lang-btn-label')!;
   const menu = document.getElementById('lang-menu')!;
 
+  function setPickerOpen(open: boolean) {
+    picker.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  }
+
   function setPickerLabel(lang: Lang) {
     const cfg = LANGUAGES.find(l => l.code === lang);
     btnLabel.textContent = cfg?.label ?? lang;
@@ -363,26 +373,23 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
   }
 
   btn.addEventListener('click', () => {
-    picker.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(picker.classList.contains('open')));
+    setPickerOpen(!picker.classList.contains('open'));
   });
 
   menu.addEventListener('click', (e) => {
     const li = (e.target as HTMLElement).closest('li');
-    if (!li?.dataset.lang) return;
-    const newLang = li.dataset.lang as Lang;
+    if (!li?.dataset.lang || !isLang(li.dataset.lang)) return;
+    const newLang = li.dataset.lang;
     localStorage.setItem(LANG_KEY, newLang);
     setPickerLabel(newLang);
     applyLang(newLang);
-    picker.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
+    setPickerOpen(false);
   });
 
   // Close on outside click
   document.addEventListener('click', (e) => {
     if (!picker.contains(e.target as Node)) {
-      picker.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+      setPickerOpen(false);
     }
   });
 

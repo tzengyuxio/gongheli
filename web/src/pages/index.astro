@@ -309,10 +309,7 @@ import Base from '../layouts/Base.astro';
 
 <script>
   import { getTodayGonghe, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
-  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n';
-  import type { Lang } from '../lib/i18n';
-
-  const getLang = (): Lang => (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
+  import { t, fmt, getLang } from '../lib/i18n';
 
   const today = getTodayGonghe();
 

@@ -69,6 +69,16 @@ export function detectLang(): Lang | undefined {
   return undefined;
 }
 
+/** Get current language from localStorage, falling back to default. */
+export function getLang(): Lang {
+  return (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
+}
+
+/** Check if a string is a valid Lang code. */
+export function isLang(code: string): code is Lang {
+  return SUPPORTED_CODES.has(code);
+}
+
 /** Look up a translation key for the given language, falling back to en. */
 export function t(key: string, lang: Lang): string {
   const dict = translations[lang];

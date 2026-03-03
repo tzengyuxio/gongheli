@@ -46,10 +46,6 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .container.section {
-    max-width: 620px;
-  }
-
   .converter-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -186,10 +182,18 @@ import Base from '../layouts/Base.astro';
     weekdayName,
     isLeapYear,
   } from '../lib/gonghe.ts';
-  import { t, fmt, DEFAULT_LANG, LANG_KEY } from '../lib/i18n';
-  import type { Lang } from '../lib/i18n';
+  import { t, fmt, getLang } from '../lib/i18n';
 
-  const getLang = (): Lang => (localStorage.getItem(LANG_KEY) as Lang) ?? DEFAULT_LANG;
+  // Shared result card renderer
+  function renderResultCard(title: string, details: string[], zdn: number): string {
+    const sep = '<span class="sep">·</span>';
+    return `
+      <div class="result-card">
+        <div class="result-date">${title}</div>
+        <div class="result-details">${details.join(sep)}</div>
+        <div class="result-zdn">ZDN ${zdn.toLocaleString()}</div>
+      </div>`;
+  }
 
   // --- G2GH ---
   const g2ghInput = document.getElementById('g2gh-input') as HTMLInputElement;
@@ -203,19 +207,11 @@ import Base from '../layouts/Base.astro';
     const [y, m, d] = val.split('-').map(Number);
     const r = getGongheDateFromGregorian(y, m, d);
     const leapMark = isLeapYear(r.year) ? t('result.leap', lang) : t('result.common', lang);
-    g2ghResult.innerHTML = `
-      <div class="result-card">
-        <div class="result-date">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
-        <div class="result-details">
-          <span>${r.year} ${leapMark}</span>
-          <span class="sep">·</span>
-          <span>${fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 })}</span>
-          <span class="sep">·</span>
-          <span>${r.weekdayStr}</span>
-        </div>
-        <div class="result-zdn">ZDN ${r.zdn.toLocaleString()}</div>
-      </div>
-    `;
+    g2ghResult.innerHTML = renderResultCard(
+      fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day }),
+      [`${r.year} ${leapMark}`, fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 }), r.weekdayStr],
+      r.zdn,
+    );
   }
 
   g2ghBtn.addEventListener('click', doG2GH);
@@ -239,21 +235,14 @@ import Base from '../layouts/Base.astro';
     const zdn = gongheToZiyu(y, m, d);
     const gzIdx = ganzhiIndex(zdn);
     const wd = weekdayName(zdn);
-    const gStr = formatGregorianDate(gy, gm, gd);
     const gregFmt = gy >= 1
       ? fmt('fmt.gregorian_ce', lang, { year: gy, month: gm, day: gd })
       : fmt('fmt.gregorian_bce', lang, { year: -gy, month: gm, day: gd });
-    gh2gResult.innerHTML = `
-      <div class="result-card">
-        <div class="result-date">${gregFmt}</div>
-        <div class="result-details">
-          <span>${fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 })}</span>
-          <span class="sep">·</span>
-          <span>${wd}</span>
-        </div>
-        <div class="result-zdn">ZDN ${zdn.toLocaleString()}</div>
-      </div>
-    `;
+    gh2gResult.innerHTML = renderResultCard(
+      gregFmt,
+      [fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 }), wd],
+      zdn,
+    );
   }
 
   gh2gBtn.addEventListener('click', doGH2G);
@@ -267,19 +256,12 @@ import Base from '../layouts/Base.astro';
   function renderTodayRef() {
     const lang = getLang();
     todayRef.innerHTML = `
-      <div class="today-ref-label">${t('calendar.today_title', lang)}</div>
-      <div class="result-card">
-        <div class="result-date">${fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day })}</div>
-        <div class="result-details">
-          <span>${gregStr}</span>
-          <span class="sep">·</span>
-          <span>${today.ganzhiStr}日</span>
-          <span class="sep">·</span>
-          <span>${today.weekdayStr}</span>
-        </div>
-        <div class="result-zdn">ZDN ${today.zdn.toLocaleString()}</div>
-      </div>
-    `;
+      <div class="today-ref-label">${t('calendar.today_title', lang)}</div>` +
+      renderResultCard(
+        fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day }),
+        [gregStr, `${today.ganzhiStr}日`, today.weekdayStr],
+        today.zdn,
+      );
   }
   renderTodayRef();
 
