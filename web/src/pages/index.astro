@@ -31,25 +31,40 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
-  <!-- Three Features -->
+  <!-- Six Features -->
   <section class="section features-section">
     <div class="container">
       <h2 class="section-title" data-i18n="index.why_title">為何選擇共和曆？</h2>
       <div class="features-grid">
         <div class="feature-card">
+          <div class="feature-icon">🏛</div>
+          <h3><span id="current-year-feature">2866</span><span data-i18n="index.feature_epoch_title_suffix"> 年紀年</span></h3>
+          <p id="feature-epoch-desc">以西周共和元年（西元前 841 年）為紀元——人類歷史上最早有連續年份記載的紀年。今年是共和 <span id="current-year-feature2">2866</span> 年。</p>
+        </div>
+        <div class="feature-card">
           <div class="feature-icon">⚡</div>
-          <h3 data-i18n="index.feature1_title">精確 150 倍</h3>
-          <p data-i18n="index.feature1_desc">31/128 閏法，每年誤差僅 0.2 秒，比格里曆（97/400 規則，26 秒/年）精確 150 倍。約 400,000 年才累積一天的偏差。</p>
+          <h3 data-i18n="index.feature_accuracy_title">精確 150 倍</h3>
+          <p data-i18n="index.feature_accuracy_desc">128 年 31 閏，每年誤差僅 0.2 秒，比格里曆（400 年 97 閏，26 秒/年）精確 150 倍。約 400,000 年才累積一天的偏差。</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">∅</div>
-          <h3 data-i18n="index.feature2_title">零年設計</h3>
-          <p data-i18n="index.feature2_desc">共和 0 年存在，數學上完整無缺。消除了公元紀年「西元 1 年之前是西元前 1 年，沒有西元 0 年」的計算陷阱。</p>
+          <h3 data-i18n="index.feature_zero_title">零年設計</h3>
+          <p data-i18n="index.feature_zero_desc">共和 0 年存在，數學上完整無缺。消除了公元紀年「西元 1 年之前是西元前 1 年，沒有西元 0 年」的計算陷阱。</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🏛</div>
-          <h3><span id="current-year-feature">2866</span><span data-i18n="index.feature3_title_suffix"> 年紀年</span></h3>
-          <p id="feature3-desc">以西周共和元年（西元前 841 年）為紀元——人類歷史上最早有連續年份記載的紀年。今年是共和 <span id="current-year-feature2">2866</span> 年。</p>
+          <div class="feature-icon">📅</div>
+          <h3 data-i18n="index.feature_months_title">簡明月制</h3>
+          <p data-i18n="index.feature_months_desc">單數月 30 天、偶數月 31 天，規律易記。不像格里曆月長忽大忽小（28/30/31），需要口訣才能記住。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📌</div>
+          <h3 data-i18n="index.feature_leapend_title">閏日置年末</h3>
+          <p data-i18n="index.feature_leapend_desc">閏日放在 12 月末，1 至 11 月的日期與星期對應每年固定。格里曆閏日在 2 月，導致 3 月之後的日期在閏年與平年之間錯位一天。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3 data-i18n="index.feature_ji_title">一紀 4418 年</h3>
+          <p data-i18n="index.feature_ji_desc">回歸年、朔望月、干支甲子、七曜週的近似最小公倍數週期。以天文實測的「朔旦冬至甲子日」為錨點，曆法與天文精確對齊。</p>
         </div>
       </div>
     </div>
@@ -236,7 +251,10 @@ import Base from '../layouts/Base.astro';
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
     .features-grid { grid-template-columns: 1fr; }
   }
   .feature-card {
@@ -392,17 +410,17 @@ import Base from '../layouts/Base.astro';
   inputEl.addEventListener('input', convertDate);
   convertDate();
 
-  // --- Feature 3 dynamic year ---
-  function renderFeature3() {
+  // --- Feature: epoch dynamic year ---
+  function renderFeatureEpoch() {
     const lang = getLang();
     const yearEl = document.getElementById('current-year-feature');
     const yearEl2 = document.getElementById('current-year-feature2');
-    const descEl = document.getElementById('feature3-desc');
+    const descEl = document.getElementById('feature-epoch-desc');
     if (yearEl) yearEl.textContent = String(today.year);
     if (yearEl2) yearEl2.textContent = String(today.year);
-    if (descEl) descEl.textContent = fmt('index.feature3_desc', lang, { year: today.year });
+    if (descEl) descEl.textContent = fmt('index.feature_epoch_desc', lang, { year: today.year });
   }
-  renderFeature3();
+  renderFeatureEpoch();
 
   // --- Historical events ---
   const eventsEl = document.getElementById('events-grid')!;
@@ -423,7 +441,7 @@ import Base from '../layouts/Base.astro';
   window.addEventListener('langchange', () => {
     renderToday();
     convertDate();
-    renderFeature3();
+    renderFeatureEpoch();
     renderEvents();
   });
 </script>
