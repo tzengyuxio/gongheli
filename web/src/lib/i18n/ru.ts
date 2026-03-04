@@ -58,6 +58,8 @@ const ru: Record<string, string> = {
   'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': 'Сегодня по григорианскому: {date}',
   'fmt.event_gregorian': 'Григ. {date}',
+  'weekday.0': 'пн', 'weekday.1': 'вт', 'weekday.2': 'ср', 'weekday.3': 'чт',
+  'weekday.4': 'пт', 'weekday.5': 'сб', 'weekday.6': 'вс',
   'fmt.year_leap': '{year} (високосный год)',
   'fmt.year_common': '{year} (обычный год)',
 

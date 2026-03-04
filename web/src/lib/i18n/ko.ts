@@ -58,6 +58,8 @@ const ko: Record<string, string> = {
   'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; 공화 {year}년 {month}월 {day}일',
   'fmt.today_gregorian': '그레고리력 오늘: {date}',
   'fmt.event_gregorian': '그레고리력 {date}',
+  'weekday.0': '월', 'weekday.1': '화', 'weekday.2': '수', 'weekday.3': '목',
+  'weekday.4': '금', 'weekday.5': '토', 'weekday.6': '일',
   'fmt.year_leap': '{year}년 (윤년)',
   'fmt.year_common': '{year}년 (평년)',
 

@@ -98,3 +98,8 @@ export function fmt(
   }
   return str;
 }
+
+/** Localized weekday name by index (0=Mon, 6=Sun). */
+export function weekdayI18n(idx: number, lang: Lang): string {
+  return t(`weekday.${idx}`, lang);
+}

@@ -58,6 +58,8 @@ const fr: Record<string, string> = {
   'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': "Aujourd'hui en grégorien : {date}",
   'fmt.event_gregorian': 'Grég. {date}',
+  'weekday.0': 'lun', 'weekday.1': 'mar', 'weekday.2': 'mer', 'weekday.3': 'jeu',
+  'weekday.4': 'ven', 'weekday.5': 'sam', 'weekday.6': 'dim',
   'fmt.year_leap': '{year} (année bissextile)',
   'fmt.year_common': '{year} (année commune)',
 

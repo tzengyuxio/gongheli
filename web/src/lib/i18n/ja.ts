@@ -47,6 +47,8 @@ const ja: Record<string, string> = {
   'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': '今日のグレゴリオ暦：{date}',
   'fmt.event_gregorian': 'グレゴリオ {date}',
+  'weekday.0': '月曜', 'weekday.1': '火曜', 'weekday.2': '水曜', 'weekday.3': '木曜',
+  'weekday.4': '金曜', 'weekday.5': '土曜', 'weekday.6': '日曜',
   'fmt.year_leap': '{year} （閏年）',
   'fmt.year_common': '{year} （平年）',
   'rules.title': '暦法ルール',

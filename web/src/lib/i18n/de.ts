@@ -58,6 +58,8 @@ const de: Record<string, string> = {
   'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': 'Heute gregorianisch: {date}',
   'fmt.event_gregorian': 'Greg. {date}',
+  'weekday.0': 'Mo', 'weekday.1': 'Di', 'weekday.2': 'Mi', 'weekday.3': 'Do',
+  'weekday.4': 'Fr', 'weekday.5': 'Sa', 'weekday.6': 'So',
   'fmt.year_leap': '{year} (Schaltjahr)',
   'fmt.year_common': '{year} (Gemeinjahr)',
 

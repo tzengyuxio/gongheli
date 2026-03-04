@@ -58,6 +58,8 @@ const ar: Record<string, string> = {
   'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; قونغ خه {day}/{month}/{year}',
   'fmt.today_gregorian': 'اليوم بالميلادي: {date}',
   'fmt.event_gregorian': 'ميلادي {date}',
+  'weekday.0': 'اثنين', 'weekday.1': 'ثلاثاء', 'weekday.2': 'أربعاء', 'weekday.3': 'خميس',
+  'weekday.4': 'جمعة', 'weekday.5': 'سبت', 'weekday.6': 'أحد',
   'fmt.year_leap': '{year} (سنة كبيسة)',
   'fmt.year_common': '{year} (سنة بسيطة)',
 

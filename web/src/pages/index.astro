@@ -289,14 +289,14 @@ import Base from '../layouts/Base.astro';
     gap: 0.25rem;
   }
   :global(.event-name) { font-weight: 700; color: var(--color-highlight); font-size: 0.92rem; letter-spacing: 0.02em; text-decoration: underline; text-decoration-color: var(--color-accent-dim); text-underline-offset: 0.25em; }
-  :global(.event-gregorian) { color: var(--color-muted); font-size: 0.78rem; font-family: var(--font-mono); }
-  :global(.event-gonghe) { color: var(--color-accent); font-size: 0.9rem; font-family: var(--font-mono); }
+  :global(.event-gregorian) { color: var(--color-muted); font-size: 0.85rem; font-family: var(--font-mono); }
+  :global(.event-gonghe) { color: var(--color-accent); font-size: 0.85rem; font-family: var(--font-mono); }
   :global(.event-meta) { color: var(--color-muted); font-size: 0.75rem; }
 </style>
 
 <script>
   import { getTodayGonghe, getGongheDateFromGregorian, formatGregorianDate } from '../lib/gonghe.ts';
-  import { t, fmt, getLang } from '../lib/i18n';
+  import { t, fmt, getLang, weekdayI18n } from '../lib/i18n';
 
   const today = getTodayGonghe();
 
@@ -325,7 +325,7 @@ import Base from '../layouts/Base.astro';
     yearEl.textContent = fmt('fmt.gonghe_year', lang, { year: today.year });
     dateEl.textContent = fmt('fmt.gonghe_md', lang, { month: today.month, day: today.day });
     subEl.innerHTML = fmt('fmt.today_sub', lang, {
-      ganzhi: today.ganzhiStr, weekday: today.weekdayStr,
+      ganzhi: today.ganzhiStr, weekday: weekdayI18n(today.weekdayIdx, lang),
       year: today.year, month: today.month, day: today.day,
     });
   }
@@ -346,7 +346,7 @@ import Base from '../layouts/Base.astro';
         <div class="result-year">${fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day })}</div>
         <div class="result-meta">
           <span>${r.ganzhiStr}日</span>
-          <span>${r.weekdayStr}</span>
+          <span>${weekdayI18n(r.weekdayIdx, lang)}</span>
         </div>
         <div class="result-zdn">子輿日 ZDN ${r.zdn.toLocaleString()}</div>
       </div>
@@ -378,7 +378,7 @@ import Base from '../layouts/Base.astro';
         <div class="event-name">${t(ev.key, lang)}</div>
         <div class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</div>
         <div class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</div>
-        <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${ev.gonghe.weekdayStr}</div>
+        <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${weekdayI18n(ev.gonghe.weekdayIdx, lang)}</div>
       </div>
     `).join('');
   }

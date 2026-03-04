@@ -179,10 +179,10 @@ import Base from '../layouts/Base.astro';
     gongheToZiyu,
     ganzhiIndex,
     ganzhiName,
-    weekdayName,
+    weekday,
     isLeapYear,
   } from '../lib/gonghe.ts';
-  import { t, fmt, getLang } from '../lib/i18n';
+  import { t, fmt, getLang, weekdayI18n } from '../lib/i18n';
 
   // Shared result card renderer
   function renderResultCard(title: string, details: string[], zdn: number): string {
@@ -209,7 +209,7 @@ import Base from '../layouts/Base.astro';
     const leapMark = isLeapYear(r.year) ? t('result.leap', lang) : t('result.common', lang);
     g2ghResult.innerHTML = renderResultCard(
       fmt('fmt.gonghe_date', lang, { year: r.year, month: r.month, day: r.day }),
-      [`${r.year} ${leapMark}`, fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 }), r.weekdayStr],
+      [`${r.year} ${leapMark}`, fmt('fmt.ganzhi_idx', lang, { ganzhi: r.ganzhiStr, idx: r.ganzhiIdx + 1 }), weekdayI18n(r.weekdayIdx, lang)],
       r.zdn,
     );
   }
@@ -234,13 +234,13 @@ import Base from '../layouts/Base.astro';
     const [gy, gm, gd] = gongheToGregorian(y, m, d);
     const zdn = gongheToZiyu(y, m, d);
     const gzIdx = ganzhiIndex(zdn);
-    const wd = weekdayName(zdn);
+    const wdIdx = weekday(zdn);
     const gregFmt = gy >= 1
       ? fmt('fmt.gregorian_ce', lang, { year: gy, month: gm, day: gd })
       : fmt('fmt.gregorian_bce', lang, { year: -gy, month: gm, day: gd });
     gh2gResult.innerHTML = renderResultCard(
       gregFmt,
-      [fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 }), wd],
+      [fmt('fmt.ganzhi_idx', lang, { ganzhi: ganzhiName(gzIdx), idx: gzIdx + 1 }), weekdayI18n(wdIdx, lang)],
       zdn,
     );
   }
@@ -259,7 +259,7 @@ import Base from '../layouts/Base.astro';
       <div class="today-ref-label">${t('calendar.today_title', lang)}</div>` +
       renderResultCard(
         fmt('fmt.gonghe_date', lang, { year: today.year, month: today.month, day: today.day }),
-        [gregStr, `${today.ganzhiStr}日`, today.weekdayStr],
+        [gregStr, `${today.ganzhiStr}日`, weekdayI18n(today.weekdayIdx, lang)],
         today.zdn,
       );
   }

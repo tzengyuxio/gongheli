@@ -58,6 +58,8 @@ const zhHant: Record<string, string> = {
   'fmt.today_sub':     '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': '今日格里曆：{date}',
   'fmt.event_gregorian': '格里 {date}',
+  'weekday.0': '週一', 'weekday.1': '週二', 'weekday.2': '週三', 'weekday.3': '週四',
+  'weekday.4': '週五', 'weekday.5': '週六', 'weekday.6': '週日',
   'fmt.year_leap':     '{year} （閏年）',
   'fmt.year_common':   '{year} （平年）',
 

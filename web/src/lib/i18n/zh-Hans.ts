@@ -47,6 +47,8 @@ const zhHans: Record<string, string> = {
   'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
   'fmt.today_gregorian': '今日格里历：{date}',
   'fmt.event_gregorian': '格里 {date}',
+  'weekday.0': '周一', 'weekday.1': '周二', 'weekday.2': '周三', 'weekday.3': '周四',
+  'weekday.4': '周五', 'weekday.5': '周六', 'weekday.6': '周日',
   'fmt.year_leap': '{year} （闰年）',
   'fmt.year_common': '{year} （平年）',
   'rules.title': '历法规则',
