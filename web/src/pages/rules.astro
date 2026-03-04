@@ -125,7 +125,20 @@ import Base from '../layouts/Base.astro';
     <section id="ziyu" class="rule-section">
       <h2 data-i18n="rules.h_ziyu">子輿日（ZDN）</h2>
       <p data-i18n-html="rules.ziyu_p1">子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<a href="https://zh.wikipedia.org/wiki/%E6%9B%BE%E5%AD%90" target="_blank"><strong>曾子</strong></a>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
-      <p data-i18n-html="rules.ziyu_p2">與<a href="https://zh.wikipedia.org/wiki/%E5%84%92%E7%95%A5%E6%97%A5" target="_blank">儒略日</a>（JDN）的主要差異：子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；儒略日以正午為起點。</p>
+
+      <h3 data-i18n="rules.ziyu_h_origin">原點的訂定</h3>
+      <p data-i18n-html="rules.ziyu_origin_p1">子輿日的原點由<strong>第 1 紀錨點</strong>反推而來。第 1 紀首日為西元 1384 年 12 月 13 日（朔旦冬至甲子日），對應儒略日 2,226,911。從該日往前推一個完整紀週期（1,613,640 日），即為<strong>第 0 紀首日</strong>，也就是<strong>子輿日 0</strong>。</p>
+      <p data-i18n-html="rules.ziyu_origin_p2">換言之：子輿日 0 = 第 0 紀首日 = 儒略日 613,270.5 ≈ 西元前 3034 年 4 月 24 日。這個日期本身沒有特殊的天文意義，它是「第 1 紀首日減去一紀（4418 年）」的算術結果。</p>
+
+      <h3 data-i18n="rules.ziyu_h_convert">與儒略日的換算</h3>
+      <p data-i18n-html="rules.ziyu_convert_p1">子輿日以<strong>午夜（00:00）</strong>為日的起始，符合現代日常習慣；<a href="https://zh.wikipedia.org/wiki/%E5%84%92%E7%95%A5%E6%97%A5" target="_blank">儒略日</a>（JDN）以正午為起點。兩者的換算公式：</p>
+      <pre><code>ZDN = JDN − 613,271
+JDN = ZDN + 613,271</code></pre>
+      <div class="callout" data-i18n-html="rules.ziyu_convert_note">
+        <strong>注意：</strong>此處 JDN 指取整後的儒略日號（Julian Day Number），從正午起算的整數編號。由於子輿日從午夜起算，嚴格來說子輿日 0 的起始時刻對應儒略日 613,270.5（即 JDN 613,270 的正午之後 12 小時）。在日期換算中使用整數 613,271 即可。
+      </div>
+
+      <h3 data-i18n="rules.ziyu_h_table">對應數值一覽</h3>
       <table>
         <thead>
           <tr>
@@ -134,10 +147,10 @@ import Base from '../layouts/Base.astro';
           </tr>
         </thead>
         <tbody>
-          <tr><td data-i18n="rules.ziyu_row1_label">子輿日 0 = 儒略日</td><td>613,270.5</td></tr>
+          <tr><td data-i18n="rules.ziyu_row1_label">第 0 紀首日（子輿日 0）= 儒略日</td><td>613,270.5</td></tr>
           <tr><td data-i18n="rules.ziyu_row2_label">共和 0 年 1 月 1 日</td><td>子輿日 800,609</td></tr>
           <tr><td data-i18n="rules.ziyu_row3_label">共和 1 年 1 月 1 日</td><td>子輿日 800,974</td></tr>
-          <tr><td data-i18n="rules.ziyu_row4_label">第一紀首日（西元 1384/12/13）</td><td>子輿日 1,613,640</td></tr>
+          <tr><td data-i18n="rules.ziyu_row4_label">第 1 紀首日（西元 1384/12/13）</td><td>子輿日 1,613,640</td></tr>
         </tbody>
       </table>
     </section>
