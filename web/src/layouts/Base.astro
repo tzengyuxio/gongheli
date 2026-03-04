@@ -50,6 +50,15 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
 
     <title>{pageTitle}</title>
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0771FG8TKM"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0771FG8TKM');
+    </script>
+
     <!-- JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
