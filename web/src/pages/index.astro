@@ -301,19 +301,55 @@ import Base from '../layouts/Base.astro';
   const today = getTodayGonghe();
 
   // Pre-compute Gonghe dates for events (pure math, values never change)
-  const EVENTS = [
-    { key: 'event.apollo',     year: 1969, month: 7,  day: 20 },
-    { key: 'event.french_rev', year: 1789, month: 7,  day: 14 },
-    { key: 'event.newton',     year: 1643, month: 1,  day: 4  },
-    { key: 'event.ww1_end',    year: 1918, month: 11, day: 11 },
-    { key: 'event.un',         year: 1945, month: 10, day: 24 },
-    { key: 'event.genome',     year: 2003, month: 4,  day: 14 },
+  const ALL_EVENTS = [
+    { key: 'event.apollo',          year: 1969, month: 7,  day: 20 },
+    { key: 'event.french_rev',      year: 1789, month: 7,  day: 14 },
+    { key: 'event.newton',          year: 1643, month: 1,  day: 4  },
+    { key: 'event.ww1_end',         year: 1918, month: 11, day: 11 },
+    { key: 'event.un',              year: 1945, month: 10, day: 24 },
+    { key: 'event.genome',          year: 2003, month: 4,  day: 14 },
+    { key: 'event.berlin_wall',     year: 1989, month: 11, day: 9  },
+    { key: 'event.columbus',        year: 1492, month: 10, day: 12 },
+    { key: 'event.magna_carta',     year: 1215, month: 6,  day: 15 },
+    { key: 'event.declaration',     year: 1776, month: 7,  day: 4  },
+    { key: 'event.wright',          year: 1903, month: 12, day: 17 },
+    { key: 'event.constantinople',  year: 1453, month: 5,  day: 29 },
+    { key: 'event.luther',          year: 1517, month: 10, day: 31 },
+    { key: 'event.gagarin',         year: 1961, month: 4,  day: 12 },
+    { key: 'event.telephone',       year: 1876, month: 3,  day: 7  },
+    { key: 'event.versailles',      year: 1919, month: 6,  day: 28 },
+    { key: 'event.copernicus',      year: 1543, month: 5,  day: 24 },
+    { key: 'event.vaccine',         year: 1796, month: 5,  day: 14 },
+    { key: 'event.eniac',           year: 1946, month: 2,  day: 14 },
+    { key: 'event.www',             year: 1991, month: 8,  day: 6  },
+    { key: 'event.sputnik',         year: 1957, month: 10, day: 4  },
+    { key: 'event.waterloo',        year: 1815, month: 6,  day: 18 },
+    { key: 'event.darwin',          year: 1859, month: 11, day: 24 },
+    { key: 'event.galileo',         year: 1610, month: 1,  day: 7  },
+    { key: 'event.magellan',        year: 1522, month: 9,  day: 6  },
+    { key: 'event.ww2_end',         year: 1945, month: 9,  day: 2  },
+    { key: 'event.penicillin',      year: 1928, month: 9,  day: 28 },
+    { key: 'event.gutenberg',       year: 1455, month: 2,  day: 23 },
+    { key: 'event.zheng_he',        year: 1405, month: 7,  day: 11 },
+    { key: 'event.meiji',           year: 1868, month: 1,  day: 3  },
   ] as const;
-  const EVENTS_COMPUTED = EVENTS.map(ev => ({
+  const ALL_EVENTS_COMPUTED = ALL_EVENTS.map(ev => ({
     ...ev,
     gonghe:    getGongheDateFromGregorian(ev.year, ev.month, ev.day),
     gregorian: formatGregorianDate(ev.year, ev.month, ev.day),
   }));
+
+  // Fisher-Yates shuffle, then pick first N
+  function pickRandom<T>(arr: T[], n: number): T[] {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, n);
+  }
+
+  let displayedEvents = pickRandom(ALL_EVENTS_COMPUTED, 6);
 
   // --- Today widget ---
   const yearEl = document.getElementById('today-year')!;
@@ -373,7 +409,7 @@ import Base from '../layouts/Base.astro';
 
   function renderEvents() {
     const lang = getLang();
-    eventsEl.innerHTML = EVENTS_COMPUTED.map(ev => `
+    eventsEl.innerHTML = displayedEvents.map(ev => `
       <div class="event-card">
         <div class="event-name">${t(ev.key, lang)}</div>
         <div class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</div>
