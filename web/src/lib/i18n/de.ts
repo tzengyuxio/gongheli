@@ -61,7 +61,7 @@ const de: Record<string, string> = {
   'fmt.gregorian_ce': 'n. Chr. {day}.{month}.{year}',
   'fmt.gregorian_bce': 'v. Chr. {day}.{month}.{year}',
   'fmt.ganzhi_idx': '{ganzhi} (Nr. {idx}/60)',
-  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
+  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': 'Heute gregorianisch: {date}',
   'fmt.event_gregorian': 'Greg. {date}',
   'weekday.0': 'Mo', 'weekday.1': 'Di', 'weekday.2': 'Mi', 'weekday.3': 'Do',

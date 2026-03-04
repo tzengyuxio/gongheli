@@ -61,7 +61,7 @@ const ru: Record<string, string> = {
   'fmt.gregorian_ce': '{day}.{month}.{year} н.э.',
   'fmt.gregorian_bce': '{day}.{month}.{year} до н.э.',
   'fmt.ganzhi_idx': '{ganzhi} (№ {idx}/60)',
-  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
+  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': 'Сегодня по григорианскому: {date}',
   'fmt.event_gregorian': 'Григ. {date}',
   'weekday.0': 'пн', 'weekday.1': 'вт', 'weekday.2': 'ср', 'weekday.3': 'чт',

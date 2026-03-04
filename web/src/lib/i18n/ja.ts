@@ -50,7 +50,7 @@ const ja: Record<string, string> = {
   'fmt.gregorian_ce': 'AD {year} 年 {month} 月 {day} 日',
   'fmt.gregorian_bce': 'BC {year} 年 {month} 月 {day} 日',
   'fmt.ganzhi_idx': '{ganzhi}（第 {idx} / 60）',
-  'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
+  'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': '今日のグレゴリオ暦：{date}',
   'fmt.event_gregorian': 'グレゴリオ {date}',
   'weekday.0': '月曜', 'weekday.1': '火曜', 'weekday.2': '水曜', 'weekday.3': '木曜',

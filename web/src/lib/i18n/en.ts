@@ -50,7 +50,7 @@ const en: Record<string, string> = {
   'fmt.gregorian_ce': 'AD {year}-{month}-{day}',
   'fmt.gregorian_bce': 'BC {year}-{month}-{day}',
   'fmt.ganzhi_idx': '{ganzhi} (No. {idx}/60)',
-  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
+  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': 'Today in Gregorian: {date}',
   'fmt.event_gregorian': 'Greg. {date}',
   'weekday.0': 'Mon', 'weekday.1': 'Tue', 'weekday.2': 'Wed', 'weekday.3': 'Thu',

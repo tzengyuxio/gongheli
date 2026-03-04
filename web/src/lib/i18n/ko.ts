@@ -61,7 +61,7 @@ const ko: Record<string, string> = {
   'fmt.gregorian_ce': '서기 {year}년 {month}월 {day}일',
   'fmt.gregorian_bce': '기원전 {year}년 {month}월 {day}일',
   'fmt.ganzhi_idx': '{ganzhi} (제 {idx}/60)',
-  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; 공화 {year}년 {month}월 {day}일',
+  'fmt.today_sub': '{ganzhi} &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': '그레고리력 오늘: {date}',
   'fmt.event_gregorian': '그레고리력 {date}',
   'weekday.0': '월', 'weekday.1': '화', 'weekday.2': '수', 'weekday.3': '목',

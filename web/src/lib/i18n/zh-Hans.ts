@@ -50,7 +50,7 @@ const zhHans: Record<string, string> = {
   'fmt.gregorian_ce': '西元 {year} 年 {month} 月 {day} 日',
   'fmt.gregorian_bce': '西元前 {year} 年 {month} 月 {day} 日',
   'fmt.ganzhi_idx': '{ganzhi}（第 {idx} / 60）',
-  'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {year}/{month}/{day}',
+  'fmt.today_sub': '{ganzhi}日 &nbsp;·&nbsp; {weekday} &nbsp;·&nbsp; Gonghe {date}',
   'fmt.today_gregorian': '今日格里历：{date}',
   'fmt.event_gregorian': '格里 {date}',
   'weekday.0': '周一', 'weekday.1': '周二', 'weekday.2': '周三', 'weekday.3': '周四',

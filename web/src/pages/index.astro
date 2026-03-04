@@ -378,9 +378,10 @@ import Base from '../layouts/Base.astro';
     const lang = getLang();
     yearEl.textContent = fmt('fmt.gonghe_year', lang, { year: today.year });
     dateEl.textContent = fmt('fmt.gonghe_md', lang, { month: today.month, day: today.day });
+    const isoDate = `${today.year}-${String(today.month).padStart(2, '0')}-${String(today.day).padStart(2, '0')}`;
     subEl.innerHTML = fmt('fmt.today_sub', lang, {
       ganzhi: today.ganzhiStr, weekday: weekdayI18n(today.weekdayIdx, lang),
-      year: today.year, month: today.month, day: today.day,
+      date: isoDate,
     });
   }
   renderToday();
