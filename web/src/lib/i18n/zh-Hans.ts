@@ -34,7 +34,7 @@ const zhHans: Record<string, string> = {
   'calendar.label_year': '年',
   'calendar.label_month': '月',
   'calendar.label_day': '日',
-  'calendar.btn_convert': '转换 →',
+  'calendar.btn_convert': '转换 ↓',
   'calendar.today_title': '今日',
   'result.year': '年份',
   'result.ganzhi': '干支日',

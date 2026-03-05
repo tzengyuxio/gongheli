@@ -42,7 +42,7 @@ const zhHant: Record<string, string> = {
   'calendar.label_year':     '年',
   'calendar.label_month':    '月',
   'calendar.label_day':      '日',
-  'calendar.btn_convert':    '轉換 →',
+  'calendar.btn_convert':    '轉換 ↓',
   'calendar.today_title':    '今日',
 
   // result labels (shared)

@@ -41,7 +41,7 @@ const ko: Record<string, string> = {
   'calendar.label_year': '연',
   'calendar.label_month': '월',
   'calendar.label_day': '일',
-  'calendar.btn_convert': '변환 →',
+  'calendar.btn_convert': '변환 ↓',
   'calendar.today_title': '오늘',
 
   // result

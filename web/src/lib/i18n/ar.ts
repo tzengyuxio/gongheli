@@ -41,7 +41,7 @@ const ar: Record<string, string> = {
   'calendar.label_year': 'السنة',
   'calendar.label_month': 'الشهر',
   'calendar.label_day': 'اليوم',
-  'calendar.btn_convert': '← تحويل',
+  'calendar.btn_convert': 'تحويل ↓',
   'calendar.today_title': 'اليوم',
 
   // result

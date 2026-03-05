@@ -35,7 +35,7 @@ const en: Record<string, string> = {
   'calendar.label_year': 'Year',
   'calendar.label_month': 'Month',
   'calendar.label_day': 'Day',
-  'calendar.btn_convert': 'Convert →',
+  'calendar.btn_convert': 'Convert ↓',
   'calendar.today_title': 'Today',
   'result.year': 'Year',
   'result.ganzhi': 'Ganzhi day',

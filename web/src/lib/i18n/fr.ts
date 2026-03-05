@@ -41,7 +41,7 @@ const fr: Record<string, string> = {
   'calendar.label_year': 'Année',
   'calendar.label_month': 'Mois',
   'calendar.label_day': 'Jour',
-  'calendar.btn_convert': 'Convertir →',
+  'calendar.btn_convert': 'Convertir ↓',
   'calendar.today_title': "Aujourd'hui",
 
   // result labels
