@@ -1,0 +1,652 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL;
+const siteOrigin = 'https://tzengyuxio.github.io';
+const icsBase = `${siteOrigin}${base}ics`;
+---
+
+<Base title="行事曆訂閱" description="訂閱共和曆行事曆，在 Google Calendar、Apple Calendar 等應用中每天顯示共和曆日期">
+  <div class="container section">
+    <h1 data-i18n="subscribe.title">行事曆訂閱</h1>
+    <p class="page-intro" data-i18n="subscribe.intro">訂閱共和曆行事曆，每天在你的行事曆應用中看到今天的共和曆日期。內容會自動更新，取消訂閱即可一次移除。</p>
+
+    <!-- Section 1: Subscribe (primary) -->
+    <section class="sub-section">
+      <h2 data-i18n="subscribe.h_subscribe">訂閱日曆</h2>
+      <p data-i18n="subscribe.subscribe_desc">選擇版本，複製網址後在行事曆應用中「透過網址新增」即可。日曆內容會定期自動同步。</p>
+      <div class="subscribe-grid">
+        <div class="subscribe-card">
+          <div class="subscribe-header">
+            <div class="subscribe-name" data-i18n="subscribe.dl_zh">中文版</div>
+            <div class="subscribe-example">共和 2867 年 3 月 26 日</div>
+          </div>
+          <div class="subscribe-url-row">
+            <input type="text" class="subscribe-url" readonly value={`${icsBase}/gonghe_zh.ics`} />
+            <button class="copy-btn" data-url={`${icsBase}/gonghe_zh.ics`} data-i18n="subscribe.btn_copy">複製</button>
+          </div>
+        </div>
+        <div class="subscribe-card">
+          <div class="subscribe-header">
+            <div class="subscribe-name" data-i18n="subscribe.dl_zh_gz">中文干支版</div>
+            <div class="subscribe-example">共和 2867 年 3 月 26 日 丙寅</div>
+          </div>
+          <div class="subscribe-url-row">
+            <input type="text" class="subscribe-url" readonly value={`${icsBase}/gonghe_zh_ganzhi.ics`} />
+            <button class="copy-btn" data-url={`${icsBase}/gonghe_zh_ganzhi.ics`} data-i18n="subscribe.btn_copy">複製</button>
+          </div>
+        </div>
+        <div class="subscribe-card">
+          <div class="subscribe-header">
+            <div class="subscribe-name" data-i18n="subscribe.dl_en">English</div>
+            <div class="subscribe-example">Gonghe 2867-03-26</div>
+          </div>
+          <div class="subscribe-url-row">
+            <input type="text" class="subscribe-url" readonly value={`${icsBase}/gonghe_en.ics`} />
+            <button class="copy-btn" data-url={`${icsBase}/gonghe_en.ics`} data-i18n="subscribe.btn_copy">複製</button>
+          </div>
+        </div>
+        <div class="subscribe-card">
+          <div class="subscribe-header">
+            <div class="subscribe-name" data-i18n="subscribe.dl_en_gz">English + 干支</div>
+            <div class="subscribe-example">Gonghe 2867-03-26 丙寅</div>
+          </div>
+          <div class="subscribe-url-row">
+            <input type="text" class="subscribe-url" readonly value={`${icsBase}/gonghe_en_ganzhi.ics`} />
+            <button class="copy-btn" data-url={`${icsBase}/gonghe_en_ganzhi.ics`} data-i18n="subscribe.btn_copy">複製</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: How to subscribe -->
+    <section class="sub-section">
+      <h2 data-i18n="subscribe.h_howto">如何訂閱</h2>
+      <div class="howto-grid">
+        <div class="howto-card">
+          <h3>Google Calendar</h3>
+          <ol>
+            <li data-i18n="subscribe.howto_google_1">複製上方網址</li>
+            <li data-i18n-html="subscribe.howto_google_2">在左側「其他日曆」旁點 <strong>+</strong> →「透過網址新增」</li>
+            <li data-i18n="subscribe.howto_google_3">貼上網址，按「新增日曆」</li>
+          </ol>
+        </div>
+        <div class="howto-card">
+          <h3>Apple Calendar</h3>
+          <ol>
+            <li data-i18n="subscribe.howto_apple_1">複製上方網址</li>
+            <li data-i18n="subscribe.howto_apple_2">檔案 → 新增訂閱行事曆…</li>
+            <li data-i18n="subscribe.howto_apple_3">貼上網址，按「訂閱」</li>
+          </ol>
+        </div>
+        <div class="howto-card">
+          <h3>Outlook</h3>
+          <ol>
+            <li data-i18n="subscribe.howto_outlook_1">複製上方網址</li>
+            <li data-i18n="subscribe.howto_outlook_2">新增行事曆 → 從網際網路訂閱</li>
+            <li data-i18n="subscribe.howto_outlook_3">貼上網址，按「確定」</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout" data-i18n-html="subscribe.howto_tip">
+        <strong>訂閱 vs 匯入：</strong>訂閱的日曆會自動同步更新，且取消訂閱即可一次移除所有事件。匯入則是一次性複製，無法自動更新，也無法批次刪除。
+      </div>
+    </section>
+
+    <!-- Section 3: Download (secondary) -->
+    <section class="sub-section">
+      <details class="collapsible">
+        <summary data-i18n="subscribe.h_download">下載 .ics 檔案（離線使用）</summary>
+        <p class="details-desc" data-i18n="subscribe.download_desc">如果你無法使用網址訂閱，也可以下載 .ics 檔案手動匯入。目前涵蓋 2025–2027 年。</p>
+        <div class="callout callout-warning" data-i18n-html="subscribe.warning_separate_cal">
+          <strong>注意：</strong>匯入前請先<strong>新建獨立行事曆</strong>（如命名為「共和曆」），再將 .ics 匯入到該行事曆。這樣日後要移除，只需刪除該行事曆即可。匯入到預設行事曆將無法批次刪除。
+        </div>
+        <div class="download-grid">
+          <a class="download-card" href={`${base}ics/gonghe_zh.ics`} download="gonghe_zh.ics">
+            <div class="download-icon">📥</div>
+            <div class="download-info">
+              <div class="download-name" data-i18n="subscribe.dl_zh">中文版</div>
+            </div>
+          </a>
+          <a class="download-card" href={`${base}ics/gonghe_zh_ganzhi.ics`} download="gonghe_zh_ganzhi.ics">
+            <div class="download-icon">📥</div>
+            <div class="download-info">
+              <div class="download-name" data-i18n="subscribe.dl_zh_gz">中文干支版</div>
+            </div>
+          </a>
+          <a class="download-card" href={`${base}ics/gonghe_en.ics`} download="gonghe_en.ics">
+            <div class="download-icon">📥</div>
+            <div class="download-info">
+              <div class="download-name" data-i18n="subscribe.dl_en">English</div>
+            </div>
+          </a>
+          <a class="download-card" href={`${base}ics/gonghe_en_ganzhi.ics`} download="gonghe_en_ganzhi.ics">
+            <div class="download-icon">📥</div>
+            <div class="download-info">
+              <div class="download-name" data-i18n="subscribe.dl_en_gz">English + 干支</div>
+            </div>
+          </a>
+        </div>
+      </details>
+    </section>
+
+    <!-- Section 4: Generator -->
+    <section class="sub-section">
+      <details class="collapsible">
+        <summary data-i18n="subscribe.h_generator">自訂產生器（進階）</summary>
+        <p class="details-desc" data-i18n="subscribe.generator_desc">自訂年份範圍、語言和干支選項，直接在瀏覽器中產生 .ics 檔案下載。所有計算在瀏覽器端完成，不上傳任何資料。</p>
+
+        <div class="generator-panel">
+          <div class="gen-row">
+            <div class="gen-field">
+              <label data-i18n="subscribe.gen_mode">年份模式</label>
+              <select id="gen-mode">
+                <option value="ce" data-i18n="subscribe.gen_mode_ce">西曆</option>
+                <option value="gh" data-i18n="subscribe.gen_mode_gh">共和年</option>
+              </select>
+            </div>
+            <div class="gen-field">
+              <label data-i18n="subscribe.gen_start">起始年</label>
+              <input type="number" id="gen-start" value="2026" min="-9999" max="9999" />
+            </div>
+            <div class="gen-field">
+              <label data-i18n="subscribe.gen_end">結束年</label>
+              <input type="number" id="gen-end" value="2028" min="-9999" max="9999" />
+            </div>
+          </div>
+          <div class="gen-row">
+            <div class="gen-field">
+              <label data-i18n="subscribe.gen_lang">語言</label>
+              <select id="gen-lang">
+                <option value="zh" data-i18n="subscribe.gen_lang_zh">中文</option>
+                <option value="en" data-i18n="subscribe.gen_lang_en">English</option>
+              </select>
+            </div>
+            <div class="gen-field gen-checkbox">
+              <label>
+                <input type="checkbox" id="gen-ganzhi" />
+                <span data-i18n="subscribe.gen_ganzhi">包含干支</span>
+              </label>
+            </div>
+          </div>
+          <div class="gen-info" id="gen-info"></div>
+          <button id="gen-btn" data-i18n="subscribe.gen_btn">產生並下載 .ics</button>
+        </div>
+      </details>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-intro {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    margin-bottom: 2rem;
+  }
+
+  .sub-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .sub-section:last-child { border-bottom: none; }
+  .sub-section h2 {
+    color: var(--color-highlight);
+    margin-bottom: 0.75rem;
+    font-size: 1.15rem;
+  }
+  .sub-section > p {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Collapsible details for secondary sections */
+  .collapsible summary {
+    color: var(--color-highlight);
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    list-style: none;
+  }
+  .collapsible summary::before {
+    content: '▸ ';
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    transition: transform 0.2s;
+  }
+  .collapsible[open] summary::before {
+    content: '▾ ';
+  }
+  .collapsible summary::-webkit-details-marker { display: none; }
+  .details-desc {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .callout-warning {
+    border-left-color: #c87a3e;
+    background: rgba(200, 122, 62, 0.08);
+  }
+
+  /* Subscribe cards */
+  .subscribe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 600px) {
+    .subscribe-grid { grid-template-columns: 1fr; }
+  }
+  .subscribe-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .subscribe-name {
+    font-weight: 600;
+    color: var(--color-highlight);
+    font-size: 0.95rem;
+  }
+  .subscribe-example {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+  .subscribe-url-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .subscribe-url {
+    flex: 1;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.35rem 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    outline: none;
+    min-width: 0;
+  }
+  .subscribe-url:focus { border-color: var(--color-accent-dim); color: var(--color-text); }
+  .copy-btn {
+    background: var(--color-accent-dim);
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    color: var(--color-highlight);
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: var(--color-accent); color: #1a1a24; }
+  .copy-btn.copied {
+    background: #2a5a3a;
+    border-color: #3a8a5a;
+    color: #8adc8a;
+  }
+
+  /* Download grid */
+  .download-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 600px) {
+    .download-grid { grid-template-columns: 1fr; }
+  }
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent-dim);
+    text-decoration: none;
+  }
+  .download-icon { font-size: 1.2rem; }
+  .download-name {
+    font-weight: 600;
+    color: var(--color-highlight);
+    font-size: 0.9rem;
+  }
+
+  /* How-to grid */
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 700px) {
+    .howto-grid { grid-template-columns: 1fr; }
+  }
+  .howto-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .howto-card h3 {
+    color: var(--color-accent);
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+  }
+  .howto-card ol {
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  /* Generator panel */
+  .generator-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+  }
+  .gen-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .gen-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .gen-field label {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .gen-field input[type="number"],
+  .gen-field select {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.45rem 0.75rem;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .gen-field input:focus,
+  .gen-field select:focus { border-color: var(--color-accent-dim); }
+  .gen-field input[type="number"] { width: 6rem; }
+
+  .gen-checkbox {
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+  }
+  .gen-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .gen-checkbox input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .gen-info {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    margin-bottom: 0.75rem;
+    min-height: 1.2rem;
+  }
+
+  .generator-panel button {
+    width: 100%;
+    background: var(--color-accent-dim);
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    padding: 0.55rem;
+    color: var(--color-highlight);
+    font-size: 0.92rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .generator-panel button:hover { background: var(--color-accent); color: #1a1a24; }
+</style>
+
+<script>
+  import {
+    gregorianToGonghe,
+    gregorianToJdn,
+    jdnToZiyu,
+    gongheToGregorian,
+    ganzhiIndex,
+    ganzhiName,
+    isLeapYear,
+  } from '../lib/gonghe.ts';
+
+  // --- Copy URL buttons ---
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const url = btn.dataset.url!;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '複製';
+          btn.classList.remove('copied');
+        }, 2000);
+      } catch {
+        // Fallback: select the input text
+        const input = btn.parentElement!.querySelector<HTMLInputElement>('.subscribe-url');
+        if (input) { input.select(); }
+      }
+    });
+  });
+
+  // --- ICS generation (mirrors tools/generate_ics.py logic) ---
+
+  const UID_DOMAIN = 'gongheli.calendar';
+
+  function formatSummary(
+    ghYear: number, ghMonth: number, ghDay: number,
+    zdn: number, lang: string, withGanzhi: boolean,
+  ): string {
+    let base: string;
+    if (lang === 'zh') {
+      base = `共和 ${ghYear} 年 ${ghMonth} 月 ${ghDay} 日`;
+    } else {
+      base = `Gonghe ${ghYear}-${String(ghMonth).padStart(2, '0')}-${String(ghDay).padStart(2, '0')}`;
+    }
+    if (withGanzhi) {
+      const gz = ganzhiName(ganzhiIndex(zdn));
+      base += ` ${gz}`;
+    }
+    return base;
+  }
+
+  function icsEscape(text: string): string {
+    return text.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,');
+  }
+
+  function dateToStr(y: number, m: number, d: number): string {
+    return `${y}${String(m).padStart(2, '0')}${String(d).padStart(2, '0')}`;
+  }
+
+  function addDays(y: number, m: number, d: number): [number, number, number] {
+    const dt = new Date(y, m - 1, d + 1);
+    return [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()];
+  }
+
+  function ghYearStartCE(ghYear: number): [number, number, number] {
+    return gongheToGregorian(ghYear, 1, 1);
+  }
+
+  function generateIcs(
+    startCE: [number, number, number],
+    endCE: [number, number, number],
+    lang: string,
+    withGanzhi: boolean,
+  ): string {
+    const now = new Date();
+    const dtstamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+
+    const lines: string[] = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Gonghe Calendar//Web Generator//EN',
+      'CALSCALE:GREGORIAN',
+      'X-WR-CALNAME:Gonghe Calendar',
+      'METHOD:PUBLISH',
+    ];
+
+    let [cy, cm, cd] = startCE;
+    const [ey, em, ed] = endCE;
+    const gzSuffix = withGanzhi ? 'gz' : 'nogz';
+
+    while (cy < ey || (cy === ey && cm < em) || (cy === ey && cm === em && cd < ed)) {
+      const [ghY, ghM, ghD] = gregorianToGonghe(cy, cm, cd);
+      const jdn = gregorianToJdn(cy, cm, cd);
+      const zdn = jdnToZiyu(jdn);
+      const summary = formatSummary(ghY, ghM, ghD, zdn, lang, withGanzhi);
+      const dtStr = dateToStr(cy, cm, cd);
+      const uid = `${dtStr}-${lang}-${gzSuffix}@${UID_DOMAIN}`;
+
+      const [ny, nm, nd] = addDays(cy, cm, cd);
+      const dtEndStr = dateToStr(ny, nm, nd);
+
+      lines.push(
+        'BEGIN:VEVENT',
+        `DTSTAMP:${dtstamp}`,
+        `DTSTART;VALUE=DATE:${dtStr}`,
+        `DTEND;VALUE=DATE:${dtEndStr}`,
+        `SUMMARY:${icsEscape(summary)}`,
+        `UID:${uid}`,
+        'TRANSP:TRANSPARENT',
+        'END:VEVENT',
+      );
+
+      [cy, cm, cd] = [ny, nm, nd];
+    }
+
+    lines.push('END:VCALENDAR');
+    return lines.join('\r\n') + '\r\n';
+  }
+
+  // --- Generator UI ---
+
+  const modeEl = document.getElementById('gen-mode') as HTMLSelectElement;
+  const startEl = document.getElementById('gen-start') as HTMLInputElement;
+  const endEl = document.getElementById('gen-end') as HTMLInputElement;
+  const langEl = document.getElementById('gen-lang') as HTMLSelectElement;
+  const ganzhiEl = document.getElementById('gen-ganzhi') as HTMLInputElement;
+  const infoEl = document.getElementById('gen-info')!;
+  const btnEl = document.getElementById('gen-btn')!;
+
+  function updateInfo() {
+    const mode = modeEl.value;
+    const start = parseInt(startEl.value);
+    const end = parseInt(endEl.value);
+    if (isNaN(start) || isNaN(end) || start > end) {
+      infoEl.textContent = '';
+      return;
+    }
+
+    let days: number;
+    if (mode === 'gh') {
+      const [sy, sm, sd] = ghYearStartCE(start);
+      const [eey, eem, eed] = ghYearStartCE(end + 1);
+      const d1 = new Date(sy, sm - 1, sd);
+      const d2 = new Date(eey, eem - 1, eed);
+      days = Math.round((d2.getTime() - d1.getTime()) / 86400000);
+    } else {
+      const d1 = new Date(start, 0, 1);
+      const d2 = new Date(end + 1, 0, 1);
+      days = Math.round((d2.getTime() - d1.getTime()) / 86400000);
+    }
+
+    const sizeKB = (days * 180 / 1024).toFixed(0);
+    infoEl.textContent = `≈ ${days.toLocaleString()} events, ~${sizeKB} KB`;
+  }
+
+  modeEl.addEventListener('change', () => {
+    if (modeEl.value === 'gh') {
+      startEl.value = '2867';
+      endEl.value = '2869';
+    } else {
+      startEl.value = '2026';
+      endEl.value = '2028';
+    }
+    updateInfo();
+  });
+
+  startEl.addEventListener('input', updateInfo);
+  endEl.addEventListener('input', updateInfo);
+  updateInfo();
+
+  btnEl.addEventListener('click', () => {
+    const mode = modeEl.value;
+    const start = parseInt(startEl.value);
+    const end = parseInt(endEl.value);
+    const lang = langEl.value;
+    const withGanzhi = ganzhiEl.checked;
+
+    if (isNaN(start) || isNaN(end) || start > end) return;
+
+    let startCE: [number, number, number];
+    let endCE: [number, number, number];
+    let yearLabel: string;
+
+    if (mode === 'gh') {
+      startCE = ghYearStartCE(start);
+      endCE = ghYearStartCE(end + 1);
+      yearLabel = `gh${start}-gh${end}`;
+    } else {
+      startCE = [start, 1, 1];
+      endCE = [end + 1, 1, 1];
+      yearLabel = `${start}-${end}`;
+    }
+
+    const icsContent = generateIcs(startCE, endCE, lang, withGanzhi);
+    const gzSuffix = withGanzhi ? '_ganzhi' : '';
+    const filename = `gonghe_${lang}${gzSuffix}_${yearLabel}.ics`;
+
+    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const blob = new Blob([bom, icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
