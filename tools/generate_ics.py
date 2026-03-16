@@ -135,6 +135,8 @@ def main():
                         help='Include ganzhi (干支) in event titles')
     parser.add_argument('-o', '--output',
                         help='Output file path. Default: auto-generated name')
+    parser.add_argument('--no-bom', action='store_true',
+                        help='Omit UTF-8 BOM (for subscription files; BOM may break Google Calendar subscription)')
     args = parser.parse_args()
 
     start_kind, start_year = _parse_year(args.start)
@@ -168,7 +170,8 @@ def main():
         out_path = f'gonghe_{args.lang}{ganzhi_suffix}_{year_label}.ics'
 
     with open(out_path, 'wb') as f:
-        f.write(b'\xef\xbb\xbf')  # UTF-8 BOM (required by Google Calendar for CJK)
+        if not args.no_bom:
+            f.write(b'\xef\xbb\xbf')  # UTF-8 BOM (helps Google Calendar import for CJK)
         f.write(ics_content.encode('utf-8'))
 
     # Count events for summary
