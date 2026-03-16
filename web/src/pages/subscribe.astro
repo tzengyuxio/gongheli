@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 const base = import.meta.env.BASE_URL;
 const siteOrigin = 'https://tzengyuxio.github.io';
-const icsBase = `${siteOrigin}${base}ics`;
+const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
 ---
 
 <Base title="行事曆訂閱" description="訂閱共和曆行事曆，在 Google Calendar、Apple Calendar 等應用中每天顯示共和曆日期">
