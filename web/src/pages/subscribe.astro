@@ -518,12 +518,21 @@ const icsBase = `${siteOrigin}${base}ics`;
     const now = new Date();
     const dtstamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 
+    const calNames: Record<string, string> = {
+      'zh-false': '共和曆',
+      'zh-true':  '共和曆（干支）',
+      'en-false': 'Gonghe Calendar',
+      'en-true':  'Gonghe Calendar (Ganzhi)',
+    };
+    const calName = calNames[`${lang}-${withGanzhi}`] ?? 'Gonghe Calendar';
+
     const lines: string[] = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//Gonghe Calendar//Web Generator//EN',
       'CALSCALE:GREGORIAN',
-      'X-WR-CALNAME:Gonghe Calendar',
+      `X-WR-CALNAME:${calName}`,
+      `NAME:${calName}`,
       'METHOD:PUBLISH',
     ];
 

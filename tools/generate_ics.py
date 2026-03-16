@@ -64,18 +64,30 @@ def _ics_escape(text: str) -> str:
     return text.replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,')
 
 
+_CAL_NAMES = {
+    ('zh', False): '共和曆',
+    ('zh', True):  '共和曆（干支）',
+    ('en', False): 'Gonghe Calendar',
+    ('en', True):  'Gonghe Calendar (Ganzhi)',
+}
+
+
 def generate_ics(start_date: date, end_date: date,
-                 lang: str, with_ganzhi: bool) -> str:
+                 lang: str, with_ganzhi: bool,
+                 cal_name: str | None = None) -> str:
     """Generate iCalendar content for the given CE date range [start, end)."""
     # DTSTAMP: RFC 5545 required field; use file generation time
     dtstamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+
+    name = cal_name or _CAL_NAMES.get((lang, with_ganzhi), 'Gonghe Calendar')
 
     lines = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
         'PRODID:-//Gonghe Calendar//generate_ics//EN',
         'CALSCALE:GREGORIAN',
-        'X-WR-CALNAME:Gonghe Calendar',
+        f'X-WR-CALNAME:{name}',
+        f'NAME:{name}',
         'METHOD:PUBLISH',
     ]
 
