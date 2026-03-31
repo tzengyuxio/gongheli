@@ -18,16 +18,16 @@ export interface LangConfig {
 }
 
 export const LANGUAGES: LangConfig[] = [
-  { code: 'ar',      label: 'العربية (ar)',      dir: 'rtl' },
-  { code: 'de',      label: 'Deutsch (de)',       dir: 'ltr' },
-  { code: 'en',      label: 'English (en)',       dir: 'ltr' },
-  { code: 'es',      label: 'Español (es)',       dir: 'ltr' },
-  { code: 'fr',      label: 'Français (fr)',      dir: 'ltr' },
-  { code: 'ja',      label: '日本語 (ja)',         dir: 'ltr' },
-  { code: 'ko',      label: '한국어 (ko)',         dir: 'ltr' },
-  { code: 'ru',      label: 'Русский (ru)',       dir: 'ltr' },
-  { code: 'zh-Hans', label: '简体中文 (zh-Hans)',  dir: 'ltr' },
-  { code: 'zh-Hant', label: '繁體中文 (zh-Hant)',  dir: 'ltr' },
+  { code: 'ar',      label: 'العربية',    dir: 'rtl' },
+  { code: 'de',      label: 'Deutsch',     dir: 'ltr' },
+  { code: 'en',      label: 'English',     dir: 'ltr' },
+  { code: 'es',      label: 'Español',     dir: 'ltr' },
+  { code: 'fr',      label: 'Français',    dir: 'ltr' },
+  { code: 'ja',      label: '日本語',      dir: 'ltr' },
+  { code: 'ko',      label: '한국어',      dir: 'ltr' },
+  { code: 'ru',      label: 'Русский',     dir: 'ltr' },
+  { code: 'zh-Hans', label: '简体中文',    dir: 'ltr' },
+  { code: 'zh-Hant', label: '繁體中文',    dir: 'ltr' },
 ];
 
 export const DEFAULT_LANG: Lang = 'zh-Hant';
