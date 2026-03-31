@@ -34,7 +34,7 @@ const ja: Record<string, string> = {
   'calendar.label_year': '年',
   'calendar.label_month': '月',
   'calendar.label_day': '日',
-  'calendar.btn_convert': '変換 →',
+  'calendar.btn_convert': '変換 ↓',
   'calendar.today_title': '今日',
   'result.year': '年',
   'result.ganzhi': '干支（えと）日',

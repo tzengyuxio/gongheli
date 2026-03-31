@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="6" fill="#12131a"/>
-  <text x="16" y="23" font-family="serif" font-size="20" fill="#bfa87a" text-anchor="middle">曆</text>
+  <text x="16" y="24" font-family="serif" font-size="22" font-weight="bold" fill="#bfa87a" text-anchor="middle">共</text>
+  <line x1="4" y1="28" x2="28" y2="28" stroke="#1e2030" stroke-width="2" stroke-linecap="round"/>
 </svg>

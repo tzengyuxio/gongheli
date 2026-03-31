@@ -41,7 +41,7 @@ const ru: Record<string, string> = {
   'calendar.label_year': 'Год',
   'calendar.label_month': 'Месяц',
   'calendar.label_day': 'День',
-  'calendar.btn_convert': 'Конвертировать →',
+  'calendar.btn_convert': 'Конвертировать ↓',
   'calendar.today_title': 'Сегодня',
 
   // result labels

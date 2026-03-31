@@ -41,7 +41,7 @@ const de: Record<string, string> = {
   'calendar.label_year': 'Jahr',
   'calendar.label_month': 'Monat',
   'calendar.label_day': 'Tag',
-  'calendar.btn_convert': 'Umrechnen →',
+  'calendar.btn_convert': 'Umrechnen ↓',
   'calendar.today_title': 'Heute',
 
   // result
