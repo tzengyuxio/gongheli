@@ -170,7 +170,3 @@ pre code {
 .stagger > :nth-child(5) { transition-delay: 0.32s; }
 .stagger > :nth-child(6) { transition-delay: 0.40s; }
 
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}

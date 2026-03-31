@@ -386,7 +386,7 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
   const currentPath = window.location.pathname.replace(/\/$/, '');
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = (link as HTMLAnchorElement).getAttribute('href')?.replace(/\/$/, '') ?? '';
-    if (currentPath === href || (href !== '' && currentPath.endsWith(href))) {
+    if (href !== '' && currentPath === href) {
       link.classList.add('active');
     }
   });

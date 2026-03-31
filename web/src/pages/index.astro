@@ -504,14 +504,15 @@ import Base from '../layouts/Base.astro';
   convertDate();
 
   // --- Feature: epoch dynamic year ---
+  const epochYearEl = document.getElementById('current-year-feature');
+  const epochYearEl2 = document.getElementById('current-year-feature2');
+  const epochDescEl = document.getElementById('feature-epoch-desc');
+
   function renderFeatureEpoch() {
     const lang = getLang();
-    const yearEl = document.getElementById('current-year-feature');
-    const yearEl2 = document.getElementById('current-year-feature2');
-    const descEl = document.getElementById('feature-epoch-desc');
-    if (yearEl) yearEl.textContent = String(today.year);
-    if (yearEl2) yearEl2.textContent = String(today.year);
-    if (descEl) descEl.textContent = fmt('index.feature_epoch_desc', lang, { year: today.year });
+    if (epochYearEl) epochYearEl.textContent = String(today.year);
+    if (epochYearEl2) epochYearEl2.textContent = String(today.year);
+    if (epochDescEl) epochDescEl.textContent = fmt('index.feature_epoch_desc', lang, { year: today.year });
   }
   renderFeatureEpoch();
 
