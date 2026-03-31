@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="關於共和曆" description="共和曆的設計理念、歷史背景與天文錨點說明">
-  <div class="container section">
+  <div class="container narrow section">
     <h1 data-i18n="about.title">關於共和曆</h1>
 
     <blockquote>
@@ -11,13 +11,13 @@ import Base from '../layouts/Base.astro';
       <cite>——《大戴禮記·曾子天圓》</cite>
     </blockquote>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_design">設計理念</h2>
       <p data-i18n-html="about.design_p1">共和曆的目標是一套<strong>跨越空間與時間的通用曆法</strong>——不偏向任何單一文化或歷史起點，為所有人建立一套公平、精確的時間座標系。</p>
       <p data-i18n-html="about.design_p2">此理念類似世界語（Esperanto）的精神：以人工設計消弭隔閡。本專案曾以世界語 <code>kalendaro</code>（曆法）為名，延續此精神。</p>
     </section>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_epoch">為什麼選擇共和紀年？</h2>
       <p data-i18n="about.epoch_p1">制定一套「通用曆法」的首要問題是：以什麼為紀元？理想的紀元應該是人類歷史上有據可查、時間最早的連續紀年起點。</p>
       <table>
@@ -53,7 +53,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_astro">天文錨點</h2>
       <p data-i18n-html="about.astro_p1">共和曆的起算點（共和 1 年 1 月 1 日）對應天文事件：<strong>西元前 842 年 12 月 21 日冬至</strong>（天文年 −841）。</p>
       <div class="highlight-box">
@@ -77,7 +77,7 @@ import Base from '../layouts/Base.astro';
       <p data-i18n="about.astro_p2">由於冬至是純天文定義的時間點，全球統一、精確可計算，且與曆法的週期計算（第一紀錨點為冬至朔旦甲子日）完全一致。</p>
     </section>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_newyear">歲首：為何是冬至？</h2>
       <p data-i18n="about.newyear_p1">共和曆以冬至對齊為算術歲首：創曆時以天文冬至定位 1 月 1 日，之後嚴格依閏法推算，不再每年重新觀測。</p>
       <table>
@@ -108,13 +108,13 @@ import Base from '../layouts/Base.astro';
       </table>
     </section>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_ziyu">子輿日的命名</h2>
       <p data-i18n-html="about.ziyu_p1">連續紀日系統以<strong>曾子</strong>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》——子輿日的思想脈絡正源於此。</p>
       <p data-i18n-html="about.ziyu_p2">子輿日以午夜起算（有別於<a href="https://zh.wikipedia.org/wiki/%E5%84%92%E7%95%A5%E6%97%A5" target="_blank">儒略日</a>以正午起算），與現代日常習慣一致。</p>
     </section>
 
-    <section class="about-section">
+    <section class="about-section fade-in">
       <h2 data-i18n="about.h_project">專案資訊</h2>
       <p data-i18n="about.project_p1">共和曆是一個開源專案，核心轉換庫以 Python 與 TypeScript 實作。</p>
       <ul>
@@ -134,6 +134,7 @@ import Base from '../layouts/Base.astro';
     color: var(--color-muted);
     font-size: 0.92rem;
     line-height: 1.8;
+    font-family: var(--font-display);
   }
   blockquote cite {
     display: block;
@@ -151,6 +152,7 @@ import Base from '../layouts/Base.astro';
     color: var(--color-highlight);
     margin-bottom: 0.75rem;
     font-size: 1.2rem;
+    font-family: var(--font-display);
   }
   .about-section p {
     margin-bottom: 0.75rem;
