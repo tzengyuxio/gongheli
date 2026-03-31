@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="曆法規則" description="共和曆完整曆法規則說明：月制、閏法、一紀、子輿日">
-  <div class="container section">
+  <div class="container narrow section">
     <h1 data-i18n="rules.title">曆法規則</h1>
 
     <nav class="toc">
@@ -16,7 +16,7 @@ import Base from '../layouts/Base.astro';
       <a href="#accuracy" data-i18n="rules.toc_accuracy">精確度對比</a>
     </nav>
 
-    <section id="epoch" class="rule-section">
+    <section id="epoch" class="rule-section fade-in">
       <h2 data-i18n="rules.h_epoch">紀元</h2>
       <p data-i18n-html="rules.epoch_p1">以<strong>西周共和元年</strong>（西元前 841 年）為共和 <strong>1 年</strong>——曆年始於西元前 842 年 12 月 21 日冬至，大致涵蓋歷史上的共和元年。出自《史記·十二諸侯年表》，是人類已知最早的連續紀年起點。</p>
       <p data-i18n-html="rules.epoch_p2">曆法採<strong>零年設計</strong>——共和 0 年（約西元前 843 年）存在，消除了公元紀年「1 BC → 1 AD 跨越零」的問題。</p>
@@ -32,7 +32,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section id="months" class="rule-section">
+    <section id="months" class="rule-section fade-in">
       <h2 data-i18n="rules.h_months">月制</h2>
       <p data-i18n="rules.months_p1">共和曆一年 12 個月，月長分配如下：</p>
       <table>
@@ -67,7 +67,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section id="leap" class="rule-section">
+    <section id="leap" class="rule-section fade-in">
       <h2 data-i18n="rules.h_leap">閏法（31/128 規則）</h2>
       <p data-i18n="rules.leap_p1">閏年規則：</p>
       <pre><code>Y % 4 === 0  AND  Y % 128 !== 0</code></pre>
@@ -95,7 +95,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section id="weekday" class="rule-section">
+    <section id="weekday" class="rule-section fade-in">
       <h2 data-i18n="rules.h_weekday">曜日與週首</h2>
       <p data-i18n="rules.weekday_p1">共和曆沿用現行七曜名稱（週一至週日），不另創新詞。</p>
       <table>
@@ -116,7 +116,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section id="ji" class="rule-section">
+    <section id="ji" class="rule-section fade-in">
       <h2 data-i18n="rules.h_ji">一紀（4418 年）</h2>
       <p data-i18n="rules.ji_p1">4418 年為「一紀」，是回歸年、朔望月、干支甲子（60 日）、七曜週（7 日）的近似最小公倍數週期。</p>
       <table>
@@ -144,7 +144,7 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section id="ziyu" class="rule-section">
+    <section id="ziyu" class="rule-section fade-in">
       <h2 data-i18n="rules.h_ziyu">子輿日（ZDN）</h2>
       <p data-i18n-html="rules.ziyu_p1">子輿日（Ziyu Day Number，ZDN）是共和曆的連續紀日系統，以<a href="https://zh.wikipedia.org/wiki/%E6%9B%BE%E5%AD%90" target="_blank"><strong>曾子</strong></a>（名參，字子輿）命名，典故出自《大戴禮記·曾子天圓》。</p>
 
@@ -177,7 +177,7 @@ JDN = ZDN + 613,271</code></pre>
       </table>
     </section>
 
-    <section id="accuracy" class="rule-section">
+    <section id="accuracy" class="rule-section fade-in">
       <h2 data-i18n="rules.h_accuracy">精確度對比</h2>
       <p data-i18n="rules.accuracy_p1">以天文回歸年（365.24219 天）為基準：</p>
       <table>
@@ -221,6 +221,7 @@ JDN = ZDN + 613,271</code></pre>
   }
   .rule-section:last-child { border-bottom: none; }
   .rule-section h2 {
+    font-family: var(--font-display);
     color: var(--color-highlight);
     margin-bottom: 0.75rem;
     padding-top: 0.75rem;
@@ -267,7 +268,7 @@ JDN = ZDN + 613,271</code></pre>
   .muted { color: var(--color-muted); }
 
   .highlight-cell {
-    color: var(--color-highlight);
+    color: var(--color-accent-bright);
     font-weight: 600;
   }
 </style>
