@@ -6,12 +6,12 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
 ---
 
 <Base title="行事曆訂閱" description="訂閱共和曆行事曆，在 Google Calendar、Apple Calendar 等應用中每天顯示共和曆日期">
-  <div class="container section">
+  <div class="container narrow section">
     <h1 data-i18n="subscribe.title">行事曆訂閱</h1>
     <p class="page-intro" data-i18n="subscribe.intro">訂閱共和曆行事曆，每天在你的行事曆應用中看到今天的共和曆日期。內容會自動更新，取消訂閱即可一次移除。</p>
 
     <!-- Section 1: Subscribe (primary) -->
-    <section class="sub-section">
+    <section class="sub-section fade-in">
       <h2 data-i18n="subscribe.h_subscribe">訂閱日曆</h2>
       <p data-i18n="subscribe.subscribe_desc">選擇版本，複製網址後在行事曆應用中「透過網址新增」即可。日曆內容會定期自動同步。</p>
       <div class="subscribe-grid">
@@ -59,7 +59,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     </section>
 
     <!-- Section 2: How to subscribe -->
-    <section class="sub-section">
+    <section class="sub-section fade-in">
       <h2 data-i18n="subscribe.h_howto">如何訂閱</h2>
       <div class="howto-grid">
         <div class="howto-card">
@@ -93,7 +93,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     </section>
 
     <!-- Section 3: Download (secondary) -->
-    <section class="sub-section">
+    <section class="sub-section fade-in">
       <details class="collapsible">
         <summary data-i18n="subscribe.h_download">下載 .ics 檔案（離線使用）</summary>
         <p class="details-desc" data-i18n="subscribe.download_desc">如果你無法使用網址訂閱，也可以下載 .ics 檔案手動匯入。目前涵蓋 2025–2027 年。</p>
@@ -130,7 +130,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     </section>
 
     <!-- Section 4: Generator -->
-    <section class="sub-section">
+    <section class="sub-section fade-in">
       <details class="collapsible">
         <summary data-i18n="subscribe.h_generator">自訂產生器（進階）</summary>
         <p class="details-desc" data-i18n="subscribe.generator_desc">自訂年份範圍、語言和干支選項，直接在瀏覽器中產生 .ics 檔案下載。所有計算在瀏覽器端完成，不上傳任何資料。</p>
@@ -193,6 +193,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     color: var(--color-highlight);
     margin-bottom: 0.75rem;
     font-size: 1.15rem;
+    font-family: var(--font-display);
   }
   .sub-section > p {
     color: var(--color-text);
@@ -208,6 +209,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     cursor: pointer;
     padding: 0.25rem 0;
     list-style: none;
+    font-family: var(--font-display);
   }
   .collapsible summary::before {
     content: '▸ ';
@@ -248,6 +250,10 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    transition: border-color 0.2s;
+  }
+  .subscribe-card:hover {
+    border-color: var(--color-accent-dim);
   }
   .subscribe-name {
     font-weight: 600;
@@ -288,7 +294,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     white-space: nowrap;
     transition: background 0.2s;
   }
-  .copy-btn:hover { background: var(--color-accent); color: #1a1a24; }
+  .copy-btn:hover { background: var(--color-accent); color: var(--color-bg); }
   .copy-btn.copied {
     background: #2a5a3a;
     border-color: #3a8a5a;
@@ -437,7 +443,7 @@ const icsBase = `${siteOrigin}${base.endsWith('/') ? base : base + '/'}ics`;
     cursor: pointer;
     transition: background 0.2s;
   }
-  .generator-panel button:hover { background: var(--color-accent); color: #1a1a24; }
+  .generator-panel button:hover { background: var(--color-accent); color: var(--color-bg); }
 </style>
 
 <script>

@@ -3,23 +3,29 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="共和曆 — 以共和元年為起點的現代太陽曆" description="共和曆以西周共和元年（前 841 年）為紀元，採用 31/128 閏法精確追蹤回歸年，包含零年設計消除紀年斷層，是一套融合歷史錨點與現代精度的通用太陽曆。">
-  <!-- Hero + Converter -->
+  <!-- Hero: Today's Date -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-left">
-        <h1 class="hero-brand" data-i18n="index.hero_brand">共和曆</h1>
-        <div class="today-badge" data-i18n="index.today_badge">今日</div>
-        <div class="today-gonghe">
-          <div class="today-year" id="today-year"><span class="today-loading">計算中…</span></div>
-          <div class="today-date" id="today-date"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge" data-i18n="index.today_badge">今日</div>
+      <div class="hero-date">
+        <div class="hero-year" id="today-year">
+          <span class="hero-loading">...</span>
         </div>
-        <div class="today-sub" id="today-sub">
-          <span class="today-loading-sub">—</span>
-        </div>
-        <p class="hero-tagline" data-i18n="index.hero_tagline">一套以人類最古老連續紀年為錨點的通用曆法</p>
+        <div class="hero-monthday" id="today-date"></div>
       </div>
-      <div class="hero-right">
-        <h2 class="converter-title" data-i18n="index.birthday_title">看看我的共和曆生日</h2>
+      <div class="hero-meta" id="today-sub">—</div>
+      <p class="hero-tagline" data-i18n="index.hero_tagline">
+        一套以人類最古老連續紀年為錨點的通用曆法
+      </p>
+    </div>
+  </section>
+
+  <!-- Birthday Converter (moved from hero) -->
+  <section class="section converter-section">
+    <div class="container narrow">
+      <h2 class="converter-title" data-i18n="index.birthday_title">看看我的共和曆生日</h2>
+      <div class="converter-box">
         <div class="converter-input">
           <label for="date-input" data-i18n="index.label_gregorian">格里曆日期</label>
           <input type="date" id="date-input" value="2000-01-01" />
@@ -32,10 +38,10 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <!-- Six Features -->
-  <section class="section features-section">
+  <section class="section features-section fade-in">
     <div class="container">
       <h2 class="section-title" data-i18n="index.why_title">為何選擇共和曆？</h2>
-      <div class="features-grid">
+      <div class="features-grid stagger">
         <div class="feature-card">
           <div class="feature-icon">🏛</div>
           <h3><span id="current-year-feature">2866</span><span data-i18n="index.feature_epoch_title_suffix"> 年紀年</span></h3>
@@ -71,10 +77,10 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <!-- Historical Events -->
-  <section class="section events-section">
-    <div class="container">
+  <section class="section events-section fade-in">
+    <div class="container narrow">
       <h2 class="section-title" data-i18n="index.events_title">歷史在共和曆中</h2>
-      <div class="events-grid" id="events-grid">
+      <div class="timeline" id="events-grid">
         <!-- filled by JS -->
       </div>
     </div>
@@ -82,93 +88,117 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  /* Hero + Converter side by side */
+  /* Hero */
   .hero {
-    background: radial-gradient(ellipse at 30% 40%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
-    border-bottom: 1px solid var(--color-border);
-    padding: 3rem 1.5rem 2.5rem;
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
+    position: relative;
+    min-height: 70vh;
+    display: flex;
     align-items: center;
-  }
-  @media (max-width: 700px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-left { text-align: center; }
-  }
-
-  .hero-left { text-align: left; }
-
-  .hero-brand {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
   }
 
-  .today-badge {
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 40%, rgba(180, 160, 120, 0.06) 0%, transparent 70%),
+      radial-gradient(circle at 30% 70%, rgba(100, 90, 70, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    animation: heroFadeIn 1.2s var(--ease-out) both;
+  }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-badge {
     display: inline-block;
-    background: var(--color-surface);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
     border: 1px solid var(--color-accent-dim);
     border-radius: 20px;
-    padding: 0.15rem 0.75rem;
-    font-size: 0.75rem;
-    color: var(--color-accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
+    padding: 0.2rem 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .today-gonghe {
-    margin-bottom: 0.35rem;
+  .hero-date {
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-year {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 400;
+    color: var(--color-highlight);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-monthday {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--color-accent-bright);
     line-height: 1.2;
-  }
-  .today-year {
-    font-size: clamp(1.4rem, 3.5vw, 2rem);
-    font-weight: 700;
-    color: var(--color-highlight);
-    letter-spacing: 0.02em;
-  }
-  .today-date {
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    font-weight: 700;
-    color: var(--color-highlight);
-    letter-spacing: 0.02em;
+    margin-top: 0.25rem;
   }
 
-  .today-sub {
+  .hero-meta {
+    font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: var(--color-accent);
-    margin-bottom: 1rem;
-    letter-spacing: 0.03em;
+    color: var(--color-text-secondary);
+    margin-top: 1rem;
+    letter-spacing: 0.05em;
   }
 
   .hero-tagline {
-    font-size: 0.88rem;
-    color: var(--color-muted);
+    font-size: 0.95rem;
+    color: var(--color-text-dim);
+    margin-top: 2rem;
     font-style: italic;
+    font-family: var(--font-display);
   }
 
-  .today-loading { color: var(--color-muted); font-size: 1.2rem; font-weight: 400; }
-  .today-loading-sub { color: var(--color-muted); }
+  .hero-loading {
+    color: var(--color-text-dim);
+    font-size: 2rem;
+    font-weight: 400;
+  }
 
-  /* Converter (right side of hero) */
-  .hero-right {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 1.25rem 1.5rem;
+  @media (max-width: 700px) {
+    .hero { min-height: 50vh; padding: 3rem 1.5rem; }
+  }
+
+  /* Converter Section */
+  .converter-section {
+    border-bottom: 1px solid var(--color-border);
   }
 
   .converter-title {
-    font-size: 1rem;
-    color: var(--color-text);
-    margin-bottom: 1rem;
-    font-weight: 600;
+    text-align: center;
+    font-family: var(--font-display);
+    color: var(--color-highlight);
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .converter-box {
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
   }
 
   .converter-input label {
@@ -185,7 +215,7 @@ import Base from '../layouts/Base.astro';
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    padding: 0.45rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     color: var(--color-text);
     font-size: 0.9rem;
     font-family: var(--font-mono);
@@ -197,19 +227,22 @@ import Base from '../layouts/Base.astro';
   }
 
   .converter-result {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     text-align: center;
   }
+
   .result-placeholder {
     color: var(--color-muted);
     font-size: 0.85rem;
     padding: 0.5rem 0;
   }
+
   /* Converter results are JS-generated; use :global() */
   :global(.result-date) { text-align: center; }
   :global(.result-year) {
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
     color: var(--color-highlight);
     line-height: 1.3;
   }
@@ -237,19 +270,19 @@ import Base from '../layouts/Base.astro';
   /* Section common */
   .section-title {
     text-align: center;
+    font-family: var(--font-display);
     color: var(--color-highlight);
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
   }
 
   /* Features */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
   }
   @media (max-width: 900px) {
     .features-grid { grid-template-columns: repeat(2, 1fr); }
@@ -262,13 +295,14 @@ import Base from '../layouts/Base.astro';
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 1.25rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   .feature-card:hover {
     border-color: var(--color-accent-dim);
+    box-shadow: 0 0 24px rgba(180, 160, 120, 0.08);
   }
   .feature-icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 0.6rem;
     line-height: 1;
   }
@@ -283,33 +317,91 @@ import Base from '../layouts/Base.astro';
     line-height: 1.6;
   }
 
-  /* Events */
-  .events-section { background: var(--color-surface); }
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+  /* Events Timeline */
+  .events-section {
+    background: var(--color-surface);
   }
-  @media (max-width: 700px) {
-    .events-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
   }
-  @media (max-width: 480px) {
-    .events-grid { grid-template-columns: 1fr; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--color-accent-dim), transparent);
   }
-  /* Event cards are JS-generated; use :global() to reach dynamic DOM */
-  :global(.event-card) {
+
+  :global(.timeline-item) {
+    position: relative;
+    padding: 0 0 1.25rem 1.5rem;
+  }
+
+  :global(.timeline-dot) {
+    position: absolute;
+    left: -2rem;
+    top: 0.55rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateX(calc(-50% + 0.5px));
+  }
+
+  :global(.timeline-content) {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    padding: 0.9rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    padding: 0.9rem 1.2rem;
+    transition: border-color 0.2s;
   }
-  :global(.event-name) { font-weight: 700; color: var(--color-highlight); font-size: 0.92rem; letter-spacing: 0.02em; text-decoration: underline; text-decoration-color: var(--color-accent-dim); text-underline-offset: 0.25em; }
-  :global(.event-gregorian) { color: var(--color-muted); font-size: 0.85rem; font-family: var(--font-mono); }
-  :global(.event-gonghe) { color: var(--color-accent); font-size: 0.85rem; font-family: var(--font-mono); }
-  :global(.event-meta) { color: var(--color-muted); font-size: 0.75rem; }
+  :global(.timeline-content:hover) {
+    border-color: var(--color-accent-dim);
+  }
+
+  :global(.event-name) {
+    font-weight: 600;
+    color: var(--color-highlight);
+    font-size: 0.92rem;
+    margin-bottom: 0.25rem;
+  }
+
+  :global(.event-dates) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+  }
+
+  :global(.event-gregorian) {
+    color: var(--color-muted);
+  }
+
+  :global(.event-arrow) {
+    color: var(--color-accent-dim);
+    font-size: 0.75rem;
+  }
+
+  :global(.event-gonghe) {
+    color: var(--color-accent);
+  }
+
+  :global(.event-meta) {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 500px) {
+    .timeline { padding-left: 1.5rem; }
+    :global(.timeline-item) { padding-left: 1rem; }
+  }
 </style>
 
 <script>
@@ -412,14 +504,15 @@ import Base from '../layouts/Base.astro';
   convertDate();
 
   // --- Feature: epoch dynamic year ---
+  const epochYearEl = document.getElementById('current-year-feature');
+  const epochYearEl2 = document.getElementById('current-year-feature2');
+  const epochDescEl = document.getElementById('feature-epoch-desc');
+
   function renderFeatureEpoch() {
     const lang = getLang();
-    const yearEl = document.getElementById('current-year-feature');
-    const yearEl2 = document.getElementById('current-year-feature2');
-    const descEl = document.getElementById('feature-epoch-desc');
-    if (yearEl) yearEl.textContent = String(today.year);
-    if (yearEl2) yearEl2.textContent = String(today.year);
-    if (descEl) descEl.textContent = fmt('index.feature_epoch_desc', lang, { year: today.year });
+    if (epochYearEl) epochYearEl.textContent = String(today.year);
+    if (epochYearEl2) epochYearEl2.textContent = String(today.year);
+    if (epochDescEl) epochDescEl.textContent = fmt('index.feature_epoch_desc', lang, { year: today.year });
   }
   renderFeatureEpoch();
 
@@ -429,11 +522,17 @@ import Base from '../layouts/Base.astro';
   function renderEvents() {
     const lang = getLang();
     eventsEl.innerHTML = displayedEvents.map(ev => `
-      <div class="event-card">
-        <div class="event-name">${t(ev.key, lang)}</div>
-        <div class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</div>
-        <div class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</div>
-        <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${weekdayI18n(ev.gonghe.weekdayIdx, lang)}</div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="event-name">${t(ev.key, lang)}</div>
+          <div class="event-dates">
+            <span class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</span>
+            <span class="event-arrow">&rarr;</span>
+            <span class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</span>
+          </div>
+          <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${weekdayI18n(ev.gonghe.weekdayIdx, lang)}</div>
+        </div>
       </div>
     `).join('');
   }

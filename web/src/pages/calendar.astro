@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="日曆工具" description="共和曆與格里曆雙向轉換工具">
-  <div class="container section">
+  <div class="container narrow section fade-in">
     <h1 data-i18n="calendar.title">日曆工具</h1>
 
     <div class="converter-grid">
@@ -64,6 +64,7 @@ import Base from '../layouts/Base.astro';
   }
   .conv-panel h2 {
     font-size: 1rem;
+    font-family: var(--font-display);
     color: var(--color-highlight);
     margin-bottom: 1rem;
   }
@@ -112,7 +113,7 @@ import Base from '../layouts/Base.astro';
     transition: background 0.2s;
     margin-bottom: 1rem;
   }
-  button:hover { background: var(--color-accent); color: #1a1a24; }
+  button:hover { background: var(--color-accent); color: var(--color-bg); }
 
   .result-panel {
     background: var(--color-bg);
@@ -131,8 +132,9 @@ import Base from '../layouts/Base.astro';
     width: 100%;
   }
   .result-date {
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-family: var(--font-display);
     color: var(--color-highlight);
     margin-bottom: 0.3rem;
   }
@@ -155,7 +157,7 @@ import Base from '../layouts/Base.astro';
 
   .today-ref {
     background: var(--color-surface);
-    border: 1px solid var(--color-accent-dim);
+    border: 1px solid var(--color-border-accent);
     border-radius: 10px;
     padding: 1rem 1.25rem;
     text-align: center;
