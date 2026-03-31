@@ -38,10 +38,10 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <!-- Six Features -->
-  <section class="section features-section">
+  <section class="section features-section fade-in">
     <div class="container">
       <h2 class="section-title" data-i18n="index.why_title">為何選擇共和曆？</h2>
-      <div class="features-grid">
+      <div class="features-grid stagger">
         <div class="feature-card">
           <div class="feature-icon">🏛</div>
           <h3><span id="current-year-feature">2866</span><span data-i18n="index.feature_epoch_title_suffix"> 年紀年</span></h3>
@@ -77,10 +77,10 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <!-- Historical Events -->
-  <section class="section events-section">
-    <div class="container">
+  <section class="section events-section fade-in">
+    <div class="container narrow">
       <h2 class="section-title" data-i18n="index.events_title">歷史在共和曆中</h2>
-      <div class="events-grid" id="events-grid">
+      <div class="timeline" id="events-grid">
         <!-- filled by JS -->
       </div>
     </div>
@@ -270,19 +270,19 @@ import Base from '../layouts/Base.astro';
   /* Section common */
   .section-title {
     text-align: center;
+    font-family: var(--font-display);
     color: var(--color-highlight);
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
   }
 
   /* Features */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
   }
   @media (max-width: 900px) {
     .features-grid { grid-template-columns: repeat(2, 1fr); }
@@ -295,13 +295,14 @@ import Base from '../layouts/Base.astro';
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 1.25rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   .feature-card:hover {
     border-color: var(--color-accent-dim);
+    box-shadow: 0 0 24px rgba(180, 160, 120, 0.08);
   }
   .feature-icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 0.6rem;
     line-height: 1;
   }
@@ -316,33 +317,91 @@ import Base from '../layouts/Base.astro';
     line-height: 1.6;
   }
 
-  /* Events */
-  .events-section { background: var(--color-surface); }
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+  /* Events Timeline */
+  .events-section {
+    background: var(--color-surface);
   }
-  @media (max-width: 700px) {
-    .events-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
   }
-  @media (max-width: 480px) {
-    .events-grid { grid-template-columns: 1fr; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--color-accent-dim), transparent);
   }
-  /* Event cards are JS-generated; use :global() to reach dynamic DOM */
-  :global(.event-card) {
+
+  :global(.timeline-item) {
+    position: relative;
+    padding: 0 0 1.25rem 1.5rem;
+  }
+
+  :global(.timeline-dot) {
+    position: absolute;
+    left: -2rem;
+    top: 0.55rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateX(calc(-50% + 0.5px));
+  }
+
+  :global(.timeline-content) {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    padding: 0.9rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    padding: 0.9rem 1.2rem;
+    transition: border-color 0.2s;
   }
-  :global(.event-name) { font-weight: 700; color: var(--color-highlight); font-size: 0.92rem; letter-spacing: 0.02em; text-decoration: underline; text-decoration-color: var(--color-accent-dim); text-underline-offset: 0.25em; }
-  :global(.event-gregorian) { color: var(--color-muted); font-size: 0.85rem; font-family: var(--font-mono); }
-  :global(.event-gonghe) { color: var(--color-accent); font-size: 0.85rem; font-family: var(--font-mono); }
-  :global(.event-meta) { color: var(--color-muted); font-size: 0.75rem; }
+  :global(.timeline-content:hover) {
+    border-color: var(--color-accent-dim);
+  }
+
+  :global(.event-name) {
+    font-weight: 600;
+    color: var(--color-highlight);
+    font-size: 0.92rem;
+    margin-bottom: 0.25rem;
+  }
+
+  :global(.event-dates) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+  }
+
+  :global(.event-gregorian) {
+    color: var(--color-muted);
+  }
+
+  :global(.event-arrow) {
+    color: var(--color-accent-dim);
+    font-size: 0.75rem;
+  }
+
+  :global(.event-gonghe) {
+    color: var(--color-accent);
+  }
+
+  :global(.event-meta) {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 500px) {
+    .timeline { padding-left: 1.5rem; }
+    :global(.timeline-item) { padding-left: 1rem; }
+  }
 </style>
 
 <script>
@@ -462,11 +521,17 @@ import Base from '../layouts/Base.astro';
   function renderEvents() {
     const lang = getLang();
     eventsEl.innerHTML = displayedEvents.map(ev => `
-      <div class="event-card">
-        <div class="event-name">${t(ev.key, lang)}</div>
-        <div class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</div>
-        <div class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</div>
-        <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${weekdayI18n(ev.gonghe.weekdayIdx, lang)}</div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="event-name">${t(ev.key, lang)}</div>
+          <div class="event-dates">
+            <span class="event-gregorian">${fmt('fmt.event_gregorian', lang, { date: ev.gregorian })}</span>
+            <span class="event-arrow">&rarr;</span>
+            <span class="event-gonghe">${fmt('fmt.gonghe_date', lang, { year: ev.gonghe.year, month: ev.gonghe.month, day: ev.gonghe.day })}</span>
+          </div>
+          <div class="event-meta">${ev.gonghe.ganzhiStr}日 · ${weekdayI18n(ev.gonghe.weekdayIdx, lang)}</div>
+        </div>
       </div>
     `).join('');
   }
