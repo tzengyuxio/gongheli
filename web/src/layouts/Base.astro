@@ -229,7 +229,7 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
           right: 0;
           flex-direction: column;
           gap: 0;
-          background: rgba(10, 11, 16, 0.97);
+          background: var(--color-bg);
           border-bottom: 1px solid var(--color-border);
           padding: 0.5rem 0;
           z-index: 150;
@@ -248,16 +248,6 @@ const pageTitle = title.includes('共和曆') ? title : `${title} | 共和曆`;
         }
       }
 
-      /* Scroll-triggered fade-in */
-      .fade-in {
-        opacity: 0;
-        transform: translateY(16px);
-        transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-      }
-      .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
     </style>
 
   </head>
